@@ -17,7 +17,10 @@ const PORT = process.env.PORT || 3001;
 
 // Demo database: Connect to a actual database before deployment
 mongoose
-  .connect(process.env.DATABASE_URL, { useNewUrlParser: true })
+  .connect(process.env.DATABASE_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     app.listen(PORT, () => {
       console.log(`Listening at PORT: ${PORT}`);
