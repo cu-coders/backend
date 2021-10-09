@@ -28,7 +28,7 @@ mongoose
 app.use(
   cors({
     // The following address is for testing only, change it accordingly in production
-    origin: "http://localhost:3000",
+    origin: "https://cuchapter.herokuapp.com/",
     optionsSuccessStatus: 200,
     credentials: true,
   })
