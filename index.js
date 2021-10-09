@@ -28,7 +28,7 @@ mongoose
 app.use(
   cors({
     // The following address is for testing only, change it accordingly in production
-    origin: "http://localhost:3000",
+    origin: "0.0.0.0",
     optionsSuccessStatus: 200,
     credentials: true,
   })
