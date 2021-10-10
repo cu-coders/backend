@@ -1,8 +1,7 @@
 const express = require("express");
 const user_apis = require("../controllers/user_db_apis");
 const passport = require("passport");
-const passportConfig = require("../configs/passport_config");
-const user = require("../models/users");
+const passportConfig = require("../configs/passport_config"); // do not remove this import
 const router = express.Router();
 
 //----------------------------------------END OF IMPORT--------------------------------------------//
@@ -67,7 +66,7 @@ router.get("/user", (req, res) => {
 
 //--------------------------------------EMAIL LOGIN AND LOGOUT ROUTES---------------------------------//
 
-router.post("/login", passport.authenticate("local"), (req, res, next) => {
+router.post("/login", passport.authenticate("local"), (req, res) => {
   //console.log(req.session.user)
   if (req.user.isactive) {
     console.log(req.user);
