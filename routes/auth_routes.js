@@ -62,7 +62,7 @@ router.get("/user", (req, res) => {
 //--------------------------------------EMAIL LOGIN AND LOGOUT ROUTES---------------------------------//
 
 router.post("/login", (req, res, next) => {
-  passport.authenticate("local", function (err, user, info) {
+  passport.authenticate("local", function (err, user) {
     if (err) {
       return next(err);
     }

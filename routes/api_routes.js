@@ -3,7 +3,6 @@ const db_apis = require("../controllers/event_db_apis");
 const path = require("path");
 const router = express.Router();
 
-
 //Public API routes
 
 router.get("/upcomming-events", async (req, res) => {

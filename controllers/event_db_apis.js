@@ -60,4 +60,3 @@ exports.read_past_events = async () => {
   }
 };
 //----------------------------------END OF EVENT DATABASE APIs----------------------------------------//
-
