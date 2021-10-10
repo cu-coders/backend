@@ -9,29 +9,29 @@ const auth_routes = require("./routes/auth_routes");
 const admin_routes = require("./routes/admin_routes");
 const cors = require("cors");
 const passport = require("passport");
-//const hbs = require("hbs");
-//-----------------------------------------------END OF IMPORTS---------------------------------------//
+// const hbs = require("hbs");
+//-----------------------------------------------END OF
+//IMPORTS---------------------------------------//
 
-//-------------------------------------------DATABASE CONNECTION SETUP----------------------------------------//
+//-------------------------------------------DATABASE CONNECTION
+//SETUP----------------------------------------//
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Demo database: Connect to a actual database before deployment
 mongoose
-  .connect(process.env.DATABASE_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    app.listen(PORT, () => {
-      console.log(`Listening at PORT: ${PORT}`);
+    .connect(process.env.DATABASE_URL, {
+      useNewUrlParser : true,
+      useUnifiedTopology : true,
+    })
+    .then(() => {
+      app.listen(PORT, () => { console.log(`Listening at PORT: ${PORT}`); });
     });
-  });
 
 // Whitelisting requests
-var whitelist = ["http://localhost:3000", "https://main.cuchapter.tech/"];
+var whitelist = [ "http://localhost:3000", "https://main.cuchapter.tech/" ];
 var corsOptions = {
-  origin: function (origin, callback) {
+  origin : function(origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
@@ -39,16 +39,16 @@ var corsOptions = {
     }
   },
 };
-app.use(
-  cors({
-    // The following address is for testing only, change it accordingly in production
-    origin: corsOptions,
-    optionsSuccessStatus: 200,
-    credentials: true,
-  })
-);
+app.use(cors({
+  // The following address is for testing only, change it accordingly in
+  // production
+  origin : corsOptions,
+  optionsSuccessStatus : 200,
+  credentials : true,
+}));
 
-//----------------------------------------END OF DATABASE CONNECTION SETUP----------------------------------------//
+//----------------------------------------END OF DATABASE CONNECTION
+//SETUP----------------------------------------//
 
 //---------------------------------------------------MIDDLEWARES-------------------------------------------------//
 // app.use(function (req, res, next) {
@@ -60,24 +60,24 @@ app.use(
 //   );
 //   next();
 // });
-app.use(
-  cookieSession({
-    maxAge: 24 * 60 * 60 * 1000,
-    keys: [process.env.COOKIE_SESSION_KEY],
-  })
-);
+app.use(cookieSession({
+  maxAge : 24 * 60 * 60 * 1000,
+  keys : [ process.env.COOKIE_SESSION_KEY ],
+}));
 app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended : true}));
 app.use(express.static(path.join(__dirname, "public")));
 app.set("views", path.join(__dirname, "./templates/pages"));
 app.set("view engine", "hbs");
-//------------------------------------------------END OF MIDDLEWARES--------------------------------------------//
+//------------------------------------------------END OF
+//MIDDLEWARES--------------------------------------------//
 
 //-----------------------------------------------------ROUTINGS-------------------------------------------------//
 app.use("/api/", api_routes);
 app.use("/auth/", auth_routes);
 app.use("/admin/", admin_routes);
-//---------------------------------------------------END OF ROUTINGS--------------------------------------------//
+//---------------------------------------------------END OF
+//ROUTINGS--------------------------------------------//
