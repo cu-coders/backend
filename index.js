@@ -9,10 +9,12 @@ const auth_routes = require("./routes/auth_routes");
 const admin_routes = require("./routes/admin_routes");
 const cors = require("cors");
 const passport = require("passport");
-//const hbs = require("hbs");
-//-----------------------------------------------END OF IMPORTS---------------------------------------//
+// const hbs = require("hbs");
+//-----------------------------------------------END OF
+//IMPORTS---------------------------------------//
 
-//-------------------------------------------DATABASE CONNECTION SETUP----------------------------------------//
+//-------------------------------------------DATABASE CONNECTION
+//SETUP----------------------------------------//
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -41,14 +43,16 @@ var corsOptions = {
 };
 app.use(
   cors({
-    // The following address is for testing only, change it accordingly in production
+    // The following address is for testing only, change it accordingly in
+    // production
     origin: corsOptions,
     optionsSuccessStatus: 200,
     credentials: true,
   })
 );
 
-//----------------------------------------END OF DATABASE CONNECTION SETUP----------------------------------------//
+//----------------------------------------END OF DATABASE CONNECTION
+//SETUP----------------------------------------//
 
 //---------------------------------------------------MIDDLEWARES-------------------------------------------------//
 // app.use(function (req, res, next) {
@@ -74,10 +78,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.set("views", path.join(__dirname, "./templates/pages"));
 app.set("view engine", "hbs");
-//------------------------------------------------END OF MIDDLEWARES--------------------------------------------//
+//------------------------------------------------END OF
+//MIDDLEWARES--------------------------------------------//
 
 //-----------------------------------------------------ROUTINGS-------------------------------------------------//
 app.use("/api/", api_routes);
 app.use("/auth/", auth_routes);
 app.use("/admin/", admin_routes);
-//---------------------------------------------------END OF ROUTINGS--------------------------------------------//
+//---------------------------------------------------END OF
+//ROUTINGS--------------------------------------------//

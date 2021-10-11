@@ -4,21 +4,24 @@ const passport = require("passport");
 const passportConfig = require("../configs/passport_config"); // do not remove this import
 const router = express.Router();
 
-//----------------------------------------END OF IMPORT--------------------------------------------//
+//----------------------------------------END OF
+//IMPORT--------------------------------------------//
 
 //------------------------------------------MIDDLEWARES--------------------------------------------//
 
 router.use(express.urlencoded({ extended: false }));
 router.use(express.json());
 
-//---------------------------------------END OF MIDDLEWARES----------------------------------------//
+//---------------------------------------END OF
+//MIDDLEWARES----------------------------------------//
 
 // to register new users
 router.post("/signup", (req, res) => {
   user_apis.register(req, res);
 });
 
-//-----------------------------------GOOGLE AUTHENTICATION ROUTES--------------------------------//
+//-----------------------------------GOOGLE AUTHENTICATION
+//ROUTES--------------------------------//
 router.get(
   "/google",
   passport.authenticate("google", {
@@ -28,18 +31,21 @@ router.get(
 
 router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
   console.log(req.user);
-  //res.json({username:req.user.firstname,email:req.user.email})
+  // res.json({username:req.user.firstname,email:req.user.email})
   res.redirect(process.env.HOME_PAGE);
 });
-//-----------------------------------END OF GOOGLE AUTHENTICATION ROUTES-------------------------//
+//-----------------------------------END OF GOOGLE AUTHENTICATION
+//ROUTES-------------------------//
 
-//--------------------------------------- GITHUB AUTHENTICATION ROUTES---------------------------//
+//--------------------------------------- GITHUB AUTHENTICATION
+//ROUTES---------------------------//
 
 router.get("/github", passport.authenticate("github"));
 router.get("/github/redirect/", passport.authenticate("github"), (req, res) => {
   res.redirect(process.env.HOME_PAGE);
 });
-//----------------------------------- END OF GITHUB AUTHENTICATION ROUTES------------------------//
+//----------------------------------- END OF GITHUB AUTHENTICATION
+//ROUTES------------------------//
 
 // to verify emails of new users
 router.get("/verify", (req, res) => {
@@ -59,7 +65,8 @@ router.get("/user", (req, res) => {
   }
 });
 
-//--------------------------------------EMAIL LOGIN AND LOGOUT ROUTES---------------------------------//
+//--------------------------------------EMAIL LOGIN AND LOGOUT
+//ROUTES---------------------------------//
 
 router.post("/login", (req, res, next) => {
   passport.authenticate("local", function (err, user) {
@@ -83,6 +90,7 @@ router.get("/logout", (req, res) => {
   res.redirect(process.env.LOGIN_PAGE);
 });
 
-//------------------------------------END OF EMAIL LOGIN AND LOGOUT ROUTES----------------------------------------//
+//------------------------------------END OF EMAIL LOGIN AND LOGOUT
+//ROUTES----------------------------------------//
 
 module.exports = router;
