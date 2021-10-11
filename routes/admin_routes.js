@@ -5,7 +5,8 @@ const auth_admin = require("../controllers/auth_admin");
 const db_apis = require("../controllers/event_db_apis");
 const jwt = require("jsonwebtoken");
 const path = require("path");
-//----------------------------------END of IMPORTS------------------------------------//
+//----------------------------------END of
+//IMPORTS------------------------------------//
 const router = express.Router();
 //----------------------------------  MULTER ---------------------------------//
 // defining images for images
@@ -44,8 +45,10 @@ const upload = multer({
     callback(null, true);
   },
 }).single("cover");
-//------------------------------------END OF MULTER ---------------------------------//
-//-------------------------------------ADMIN ROUTES----------------------------------//
+//------------------------------------END OF MULTER
+//---------------------------------//
+//-------------------------------------ADMIN
+//ROUTES----------------------------------//
 // sends form to add event
 router.get("/add-events", (req, res) => {
   if (req.cookies.auth) {
@@ -65,7 +68,7 @@ router.get("/add-events", (req, res) => {
 // saves form to the database
 router.post("/add-events", upload, async (req, res) => {
   if (req.cookies.auth) {
-    jwt.verify(req.cookies.auth, process.env.SECRET,async (err, decoded) => {
+    jwt.verify(req.cookies.auth, process.env.SECRET, async (err, decoded) => {
       if (err) {
         res.status(500).json({ message: "Opps! Something went wrong" });
       } else if (decoded === process.env.ADMIN_NAME) {
@@ -104,10 +107,11 @@ router.post("/login", (req, res) => {
   auth_admin.auth(req, res);
 });
 
-router.get('/logout',(req,res)=>{
-    res.clearCookie('auth')
-    res.redirect('./login')
-})
-//---------------------------------------------END OF ROUTES------------------------------------//
+router.get("/logout", (req, res) => {
+  res.clearCookie("auth");
+  res.redirect("./login");
+});
+//---------------------------------------------END OF
+//ROUTES------------------------------------//
 
 module.exports = router;
