@@ -13,7 +13,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "/auth/google/redirect",
+      callbackURL: "https://cu-coders.herokuapp.com/auth/google/redirect",
     },
     (accessToken, refreshToken, profile, done) => {
       console.log(profile);
