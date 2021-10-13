@@ -65,7 +65,7 @@ passport.use(
         if (oldUser) {
           // User with the same email already exists
           console.log("Old User ID: " + oldUser._id);
-          done(null, oldUser);
+          done(null, oldUser._id);
         } else {
           // New User
           new User({
