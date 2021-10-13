@@ -44,25 +44,25 @@ app.use(function (req, res, next) {
   }
 });
 // Whitelisting requests
-//var whitelist = ["https://cuchapter.tech/", "https://main.cuchapter.tech/"];
-// var corsOptions = {
-//   origin: function (origin, callback) {
-//     if (whitelist.indexOf(origin) !== -1) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error("Not allowed by CORS"));
-//     }
-//   },
-// };
-// app.use(
-//   cors({
-//     // The following address is for testing only, change it accordingly in
-//     // production
-//     origin: corsOptions,
-//     optionsSuccessStatus: 200,
-//     credentials: true,
-//   })
-// );
+var whitelist = ["https://cuchapter.tech/", "https://main.cuchapter.tech/"];
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+};
+app.use(
+  cors({
+    // The following address is for testing only, change it accordingly in
+    // production
+    origin: corsOptions,
+    optionsSuccessStatus: 200,
+    credentials: true,
+  })
+);
 
 //----------------------------------------END OF DATABASE CONNECTION
 //SETUP----------------------------------------//
