@@ -68,22 +68,20 @@ router.get("/user", (req, res) => {
 //--------------------------------------EMAIL LOGIN AND LOGOUT
 //ROUTES---------------------------------//
 
-router.post("/login", (req, res, next) => {
-  passport.authenticate("local", function (err, user) {
-    console.log(user); //testing
-    if (err) {
-      return next(err);
-    }
-    if (!user) {
-      return res.json({ error: "Invalid credentials", code: 401 });
-    }
-    req.logIn(user, function (err) {
+router.post("/login", passport.authenticate("local"), (req, res) => {
+  //console.log(req.session.user)
+  if (req.user.isactive) {
+    console.log(req.user);
+    req.login(req.user, (err) => {
       if (err) {
-        return res.redirect({ error: "Something went wrong", code: 500 });
+        console.log(err);
       }
-      return res.json({ success: true });
+      console.log("logged in");
+      res.redirect(process.env.HOME_PAGE); // redirection not working need to fix it
     });
-  })(req, res, next);
+  } else {
+    res.json({messahe:"Please verify your email"});
+  }
 });
 
 router.get("/logout", (req, res) => {
