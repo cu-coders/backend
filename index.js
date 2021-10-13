@@ -75,7 +75,8 @@ app.use(
     keys: [process.env.COOKIE_SESSION_KEY],
     httpOnly:true,
     secure:true,
-    secureProxy:true
+    secureProxy:true,
+    sameSite:'none'
   })
 );
 app.use(cookieParser());
