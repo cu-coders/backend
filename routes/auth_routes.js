@@ -70,6 +70,7 @@ router.get("/user", (req, res) => {
 
 router.post("/login", (req, res, next) => {
   passport.authenticate("local", function (err, user) {
+    console.log(user); //testing
     if (err) {
       return next(err);
     }
