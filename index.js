@@ -44,7 +44,7 @@ app.use(function (req, res, next) {
   }
 });
 // Whitelisting requests
-var whitelist = ["http://localhost:3000", "https://main.cuchapter.tech/"];
+var whitelist = ["https://cuchapter.tech/", "https://main.cuchapter.tech/"];
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
