@@ -74,9 +74,6 @@ app.use(
     maxAge: 24 * 60 * 60 * 1000,
     keys: [process.env.COOKIE_SESSION_KEY],
     httpOnly:true,
-    secure:true,
-    secureProxy:true,
-    sameSite:'none'
   })
 );
 app.use(cookieParser());
