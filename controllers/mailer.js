@@ -20,7 +20,7 @@ exports.send_verification = async (user_email, username, domain, token) => {
     const info = await transporter.sendMail(message);
     console.log(info);
   } catch (err) {
-    throw err;
+    console.log(err);
   }
 };
 //--------------------------------------------END OF MAILER METHOD---------------------------------------------//
