@@ -5,9 +5,9 @@ const bcrypt = require("bcrypt");
 //--------------------------------USER REGISTRATION VIA EMAIL------------------------------//
 // to add new user data to DB(registration)
 exports.register = async (req, res) => {
-  const temp_data = req.body;
+  const tempData = req.body;
   try {
-    const e_user = await User.findOne({ email: temp_data.email });
+    const e_user = await User.findOne({ email: tempData.email });
 
     if (e_user) {
       // Email is already registered
@@ -15,12 +15,12 @@ exports.register = async (req, res) => {
     } else {
       // Registering new user
       const user = await new User({
-        firstname: temp_data.firstname,
-        lastname: temp_data.lastname,
-        email: temp_data.email,
-        password: temp_data.password,
+        firstname: tempData.firstname,
+        lastname: tempData.lastname,
+        email: tempData.email,
+        password: tempData.password,
         mailtoken: await bcrypt.hash(
-          temp_data.email +
+          tempData.email +
             Date.now().toString() +
             Math.floor(1000 + Math.random() * 9000).toString(),
           5

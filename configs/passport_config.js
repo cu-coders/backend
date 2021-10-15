@@ -18,10 +18,10 @@ passport.use(
       callbackURL: "https://main-cu-coders.herokuapp.com/auth/google/redirect",
     },
     (accessToken, refreshToken, profile, done) => {
-      console.log(profile);
+      //console.log(profile);
       User.findOne({ email: profile.emails[0].value }).then((oldUser) => {
         if (oldUser) {
-          console.log("Old User", oldUser._id);
+          //console.log("Old User", oldUser._id);
           done(null, oldUser._id);
         } else {
           new User({
@@ -36,7 +36,7 @@ passport.use(
           })
             .save()
             .then((newUser) => {
-              console.log("New User", newUser);
+              //console.log("New User", newUser);
 
               done(null, newUser._id);
             });
@@ -60,7 +60,7 @@ passport.use(
       scope: ["user:email"],
     },
     (accessToken, refreshToken, profile, done) => {
-      console.log(profile);
+      //console.log(profile);
       User.findOne({ email: profile.emails[0].value }).then((oldUser) => {
         if (oldUser) {
           // User with the same email already exists
@@ -80,7 +80,7 @@ passport.use(
           })
             .save()
             .then((newUser) => {
-              console.log("New User ID: " + newUser._id);
+              //console.log("New User ID: " +newUser._id);
               done(null, newUser._id);
             });
         }
@@ -106,21 +106,27 @@ passport.use(
           return done(err);
         }
         if (!user) {
-          console.log("Invalid credentials");
+          //console.log("Invalid credentials");
           return done(null, false);
         } else {
           if (!user.password) {
-            console.log("Authentication failed");
-            return done(null, false, { message: "Invalid credentials" });
+            //console.log("Authentication failed");
+            return done(null, false, {
+              message: "Invalid credentials",
+              success: false,
+            });
           }
           bcrypt.compare(password, user.password).then((isValid) => {
-            console.log(isValid);
+            //console.log(isValid);
             if (isValid) {
-              console.log("authorized");
+              //console.log("authorized");
               return done(null, user._id);
             } else {
-              console.log("Authentication Failed");
-              return done(null, false, { message: "Invalid Credentials" });
+              //console.log("Authentication Failed");
+              return done(null, false, {
+                message: "Invalid Credentials",
+                success: false,
+              });
             }
           });
         }

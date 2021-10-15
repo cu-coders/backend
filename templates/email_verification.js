@@ -1,7 +1,7 @@
-exports.get_template = (user_email,username, domain, token) => {
+exports.getTemplate = (userEmail, username, domain, token) => {
   const message = {
     from: process.env.EMAIL_SENDER,
-    to: user_email,
+    to: userEmail,
     subject: "Cucoders-Verify your email",
     text: `
     Welcome to cucoders!
@@ -543,4 +543,4 @@ exports.get_template = (user_email,username, domain, token) => {
 </html>`,
   };
   return message;
-}; 
+};

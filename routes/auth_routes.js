@@ -30,7 +30,7 @@ router.get(
 );
 
 router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
-  console.log(req.user);
+  //console.log(req.user);
   // res.json({username:req.user.firstname,email:req.user.email})
   res.redirect(process.env.HOME_PAGE);
 });
@@ -60,7 +60,7 @@ router.get("/user", (req, res) => {
     if (req.user.isactive) {
       res.json({ username: req.user.firstname });
     } else {
-      res.json({ mail_err: "Please confirm you mail first" });
+      res.json({ mailErr: "Please confirm you mail first",username:null });
     }
   }
 });
@@ -71,22 +71,22 @@ router.get("/user", (req, res) => {
 router.post("/login", passport.authenticate("local"), (req, res) => {
   //console.log(req.session.user)
   if (req.user.isactive) {
-    console.log(req.user);
+    //console.log(req.user);
     req.login(req.user, (err) => {
       if (err) {
-        console.log(err);
+        res.status(406).json({ success: false });
+      } else {
+        res.status(200).json({ success: true });
       }
-      console.log("logged in");
-      res.redirect(process.env.HOME_PAGE); // redirection not working need to fix it
     });
   } else {
-    res.json({messahe:"Please verify your email"});
+    res.json({ success: false, message: "Please verify your email" });
   }
 });
 
 router.get("/logout", (req, res) => {
   req.logout();
-  res.status(200).json({logout:true})
+  res.status(200).json({ logout: true });
 });
 
 //------------------------------------END OF EMAIL LOGIN AND LOGOUT

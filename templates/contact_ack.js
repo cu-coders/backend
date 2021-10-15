@@ -1,7 +1,7 @@
-exports.get_template = (user_email,subject) => {
+exports.getTemplate = (userEmail, subject) => {
   const message = {
     from: process.env.EMAIL_SENDER,
-    to: user_email,
+    to: userEmail,
     subject: "Cucoders-Acknowledgement mail",
     text: `
     Thank you for writing to us. We have received your message about ${subject} and will get back to you within 2-3 working days.`,
