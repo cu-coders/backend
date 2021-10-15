@@ -1,8 +1,6 @@
 const Event = require("../models/events");
 //------------------------------------------------END OF
 //IMPORTS----------------------------//
-// This Route must be protected
-// Auth pending
 
 //-----------------------------------------------EVENT DATABASE
 //APIs--------------------------//

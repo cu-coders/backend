@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const api_routes = require("./routes/api_routes");
 const auth_routes = require("./routes/auth_routes");
 const admin_routes = require("./routes/admin_routes");
+const contactUs_routes = require("./routes/contactForm_routes")
 const cors = require("cors");
 const passport = require("passport");
 // const hbs = require("hbs");
@@ -94,5 +95,6 @@ app.set("view engine", "hbs");
 app.use("/api/", api_routes);
 app.use("/auth/", auth_routes);
 app.use("/admin/", admin_routes);
+app.use("/contact-us",contactUs_routes);
 //---------------------------------------------------END OF
 //ROUTINGS--------------------------------------------//

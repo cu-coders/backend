@@ -19,7 +19,12 @@ exports.register = async (req, res) => {
         lastname: temp_data.lastname,
         email: temp_data.email,
         password: temp_data.password,
-        mailtoken: await bcrypt.hash(temp_data.email, 5),
+        mailtoken: await bcrypt.hash(
+          temp_data.email +
+            Date.now().toString() +
+            Math.floor(1000 + Math.random() * 9000).toString(),
+          5
+        ),
         isactive: false,
         auth_type: "email",
         third_partyID: null,
