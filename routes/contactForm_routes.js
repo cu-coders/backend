@@ -1,7 +1,7 @@
 const express = require("express");
 const { validationResult } = require("express-validator");
 const rules = require("../middlewares/validation-rules");
-const contactUs_db_apis = require('../controllers/contactUs_db_apis');
+const contactUs_db_apis = require("../controllers/contactUs_db_apis");
 const router = express.Router();
 
 router.post("/", rules.contactForms, async(req, res) => {
