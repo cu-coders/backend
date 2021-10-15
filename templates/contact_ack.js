@@ -1,12 +1,11 @@
 exports.getTemplate = (userEmail, subject) => {
   const message = {
-    from : process.env.EMAIL_SENDER,
-    to : userEmail,
-    subject : "Cucoders-Acknowledgement mail",
-    text : `
-    Thank you for writing to us. We have received your message about ${
-        subject} and will get back to you within 2-3 working days.`,
-    html : `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><!--[if IE]><html xmlns="http://www.w3.org/1999/xhtml" class="ie"><![endif]--><!--[if !IE]><!--><html style="margin: 0;padding: 0;" xmlns="http://www.w3.org/1999/xhtml"><!--<![endif]--><head>
+    from: process.env.EMAIL_SENDER,
+    to: userEmail,
+    subject: "Cucoders-Acknowledgement mail",
+    text: `
+    Thank you for writing to us. We have received your message about ${subject} and will get back to you within 2-3 working days.`,
+    html: `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><!--[if IE]><html xmlns="http://www.w3.org/1999/xhtml" class="ie"><![endif]--><!--[if !IE]><!--><html style="margin: 0;padding: 0;" xmlns="http://www.w3.org/1999/xhtml"><!--<![endif]--><head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
     <!--[if !mso]><!--><meta http-equiv="X-UA-Compatible" content="IE=edge" /><!--<![endif]-->
@@ -523,8 +522,7 @@ div.preheader {
             <div style="Margin-left: 20px;Margin-right: 20px;">
       <div style="mso-line-height-rule: exactly;mso-text-raise: 11px;vertical-align: middle;">
         <h1 style="Margin-top: 0;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #565656;font-size: 30px;line-height: 38px;text-align: center;"><strong>We value your feedback!</strong></h1><p style="Margin-top: 20px;Margin-bottom: 0;">&nbsp;<br />
-Hi there, thank you very much for writing to us. We have recived your message on the subject <b>${
-        subject}</b>.<br/> We will get back to you in 2-3 working days.</p><p style="Margin-top: 20px;Margin-bottom: 20px;">The information you provide will help us to improve our customer experience for you and the entire cucoders community.<br/><br>cucoders</p>
+Hi there, thank you very much for writing to us. We have recived your message on the subject <b>${subject}</b>.<br/> We will get back to you in 2-3 working days.</p><p style="Margin-top: 20px;Margin-bottom: 20px;">The information you provide will help us to improve our customer experience for you and the entire cucoders community.<br/><br>cucoders</p>
       </div>
     </div>
         

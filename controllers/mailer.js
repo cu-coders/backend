@@ -6,10 +6,10 @@ const ackMessage = require("../templates/contact_ack.js");
 //-------------------------------------------CONFIG.
 //TRANSPORTER-------------------------------------------//
 const transporter = nodemailer.createTransport({
-  service : process.env.EMAIL_SERVICE_NAME,
-  auth : {
-    user : process.env.EMAIL_SENDER,
-    pass : process.env.EMAIL_PASSWORD,
+  service: process.env.EMAIL_SERVICE_NAME,
+  auth: {
+    user: process.env.EMAIL_SENDER,
+    pass: process.env.EMAIL_PASSWORD,
   },
 });
 //-----------------------------------------END CONFIG.
