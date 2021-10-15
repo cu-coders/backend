@@ -1,4 +1,4 @@
-const { check, sanitizeBody } = require("express-validator");
+const { check } = require("express-validator");
 //--------------------------------END OF
 //IMPORTS---------------------------------------//
 
