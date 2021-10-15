@@ -16,7 +16,7 @@ const transporter = nodemailer.createTransport({
 exports.send_verification = async (userEmail, username, domain, token) => {
   const message = gen_message.getTemplate(userEmail, username, domain, token);
   try {
-    const info = await transporter.sendMail(message);
+    await transporter.sendMail(message);
     //console.log(info);
   } catch (err) {
     console.log(err);
