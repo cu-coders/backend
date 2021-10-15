@@ -28,7 +28,7 @@ exports.send_ack = async (user_email, subject) => {
     const info = await transporter.sendMail(message);
     console.log(info);
   } catch (err) {
-    throw err;
+    console.log(err);
   }
 };
 //--------------------------------------------END OF MAILER METHOD---------------------------------------------//
