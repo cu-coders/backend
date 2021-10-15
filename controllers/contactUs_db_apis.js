@@ -1,5 +1,5 @@
 const Message = require("../models/message");
-const mailer = require("../controllers/mailer")
+const mailer = require("../controllers/mailer");
 //--------------------------------END OF
 //IMPORTS---------------------------------------//
 exports.insertMessage = async (req, res) => {
