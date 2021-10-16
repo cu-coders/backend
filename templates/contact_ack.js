@@ -1,13 +1,11 @@
 exports.getTemplate = (userEmail, subject) => {
   const message = {
-    from : process.env.EMAIL_SENDER,
-    to : userEmail,
-    subject : "Cucoders-Acknowledgement mail",
-    text : `
-    Thank you for writing to us. We have received your message about ${
-        subject} and will get back to you within 2-3 working days.`,
-    html :
-        `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    from: process.env.EMAIL_SENDER,
+    to: userEmail,
+    subject: "Cucoders-Acknowledgement mail",
+    text: `
+    Thank you for writing to us. We have received your message about ${subject} and will get back to you within 2-3 working days.`,
+    html: `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 
 <head>
@@ -308,8 +306,7 @@ exports.getTemplate = (userEmail, subject) => {
 												<div class="txtTinyMce-wrapper" style="line-height: 1.5; font-size: 12px; color: #393d47; font-family: Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; mso-line-height-alt: 18px;">
 													<p style="margin: 0; font-size: 14px; line-height: 1.5; word-break: break-word; mso-line-height-alt: 21px; margin-top: 0; margin-bottom: 0;">Hi there, We hope you are safe during these uncertain and challenging times.</p>
 													<p style="margin: 0; font-size: 14px; line-height: 1.5; word-break: break-word; mso-line-height-alt: 21px; margin-top: 0; margin-bottom: 0;">&nbsp;</p>
-													<p style="margin: 0; font-size: 14px; line-height: 1.5; word-break: break-word; mso-line-height-alt: 21px; margin-top: 0; margin-bottom: 0;">Thank you very much for writing to us. We have received your message on the subject of ${
-            subject}.&nbsp;</p>
+													<p style="margin: 0; font-size: 14px; line-height: 1.5; word-break: break-word; mso-line-height-alt: 21px; margin-top: 0; margin-bottom: 0;">Thank you very much for writing to us. We have received your message on the subject of ${subject}.&nbsp;</p>
 													<p style="margin: 0; font-size: 14px; line-height: 1.5; word-break: break-word; mso-line-height-alt: 21px; margin-top: 0; margin-bottom: 0;">&nbsp;</p>
 												</div>
 											</div>
