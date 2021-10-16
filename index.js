@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const api_routes = require("./routes/api_routes");
 const auth_routes = require("./routes/auth_routes");
 const admin_routes = require("./routes/admin_routes");
+const contactUsRoutes = require("./routes/contactForm_routes");
 const cors = require("cors");
 const passport = require("passport");
 // const hbs = require("hbs");
@@ -29,9 +30,23 @@ mongoose
       console.log(`Listening at PORT: ${PORT}`);
     });
   });
-
+app.set("trust proxy", 1);
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header("Access-Control-Allow-Origin", req.headers.origin);
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept"
+  );
+  if ("OPTIONS" === req.method) {
+    res.send(200);
+  } else {
+    next();
+  }
+});
 // Whitelisting requests
-var whitelist = ["http://localhost:3000", "https://main.cuchapter.tech/"];
+var whitelist = ["https://cuchapter.tech/", "https://main.cuchapter.tech/"];
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
@@ -55,19 +70,14 @@ app.use(
 //SETUP----------------------------------------//
 
 //---------------------------------------------------MIDDLEWARES-------------------------------------------------//
-// app.use(function (req, res, next) {
-//   res.header("Content-Type", "application/json;charset=UTF-8");
-//   res.header("Access-Control-Allow-Credentials", true);
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept"
-//   );
-//   next();
-// });
+
 app.use(
   cookieSession({
     maxAge: 24 * 60 * 60 * 1000,
     keys: [process.env.COOKIE_SESSION_KEY],
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
   })
 );
 app.use(cookieParser());
@@ -85,5 +95,6 @@ app.set("view engine", "hbs");
 app.use("/api/", api_routes);
 app.use("/auth/", auth_routes);
 app.use("/admin/", admin_routes);
+app.use("/contact-us", contactUsRoutes);
 //---------------------------------------------------END OF
 //ROUTINGS--------------------------------------------//
