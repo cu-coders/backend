@@ -30,7 +30,7 @@ router.get(
 );
 
 router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
-  console.log(req.user);
+  //console.log(req.user);
   // res.json({username:req.user.firstname,email:req.user.email})
   res.redirect(process.env.HOME_PAGE);
 });
@@ -60,7 +60,7 @@ router.get("/user", (req, res) => {
     if (req.user.isactive) {
       res.json({ username: req.user.firstname });
     } else {
-      res.json({ mail_err: "Please confirm you mail first" });
+      res.json({ mailErr: "Please confirm you mail first",username:null });
     }
   }
 });
@@ -68,26 +68,25 @@ router.get("/user", (req, res) => {
 //--------------------------------------EMAIL LOGIN AND LOGOUT
 //ROUTES---------------------------------//
 
-router.post("/login", (req, res, next) => {
-  passport.authenticate("local", function (err, user) {
-    if (err) {
-      return next(err);
-    }
-    if (!user) {
-      return res.json({ error: "Invalid credentials", code: 401 });
-    }
-    req.logIn(user, function (err) {
+router.post("/login", passport.authenticate("local"), (req, res) => {
+  //console.log(req.session.user)
+  if (req.user.isactive) {
+    //console.log(req.user);
+    req.login(req.user, (err) => {
       if (err) {
-        return res.redirect({ error: "Something went wrong", code: 500 });
+        res.status(406).json({ success: false });
+      } else {
+        res.status(200).json({ success: true });
       }
-      return res.json({ success: true });
     });
-  })(req, res, next);
+  } else {
+    res.json({ success: false, message: "Please verify your email" });
+  }
 });
 
 router.get("/logout", (req, res) => {
   req.logout();
-  res.redirect(process.env.LOGIN_PAGE);
+  res.status(200).json({ logout: true });
 });
 
 //------------------------------------END OF EMAIL LOGIN AND LOGOUT
