@@ -2,9 +2,9 @@ exports.getTemplate = (userEmail, username, domain, token) => {
   const message = {
     from: process.env.EMAIL_SENDER,
     to: userEmail,
-    subject: "Cucoders-Verify your email",
+    subject: "CU-Chapter - Verify your email",
     text: `
-    Welcome to cucoders!
+    Welcome to CU-Chapter!
     Hello, ${username} please visit to the following link to verify you email.
     http://${domain}/auth/verify?token=${token}`,
     html: `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
