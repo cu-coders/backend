@@ -88,7 +88,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.set("views", path.join(__dirname, "./templates/pages"));
 app.set("view engine", "hbs");
-app.disable("X-powered-by");
+app.disable("x-powered-by");
 //------------------------------------------------END OF
 //MIDDLEWARES--------------------------------------------//
 
