@@ -17,7 +17,6 @@ const passport = require("passport");
 //-------------------------------------------DATABASE CONNECTION
 //SETUP----------------------------------------//
 const app = express();
-app.disable("X-powered-by");
 const PORT = process.env.PORT || 3001;
 
 // Demo database: Connect to a actual database before deployment
@@ -89,6 +88,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.set("views", path.join(__dirname, "./templates/pages"));
 app.set("view engine", "hbs");
+app.disable("X-powered-by");
 //------------------------------------------------END OF
 //MIDDLEWARES--------------------------------------------//
 
