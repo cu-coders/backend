@@ -17,7 +17,7 @@ const passport = require("passport");
 //-------------------------------------------DATABASE CONNECTION
 //SETUP----------------------------------------//
 const app = express();
-app.set("x-powered-by","cu-coders");
+app.set("X-Powered-By", "cu-coders");
 const PORT = process.env.PORT || 3001;
 
 // Demo database: Connect to a actual database before deployment
