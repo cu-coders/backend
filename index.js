@@ -33,8 +33,8 @@ mongoose
   });
 app.set("trust proxy", 1);
 // Whitelisting requests
-var whitelist = ["https://cuchapter.tech", "https://main.cuchapter.tech"];
-var corsOptions = {
+const whitelist = ["https://cuchapter.tech", "https://main.cuchapter.tech"];
+const corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
       callback(null, true);
