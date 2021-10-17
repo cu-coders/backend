@@ -17,7 +17,7 @@ router.use(express.json());
 //MIDDLEWARES----------------------------------------//
 
 // to register new users
-router.post("/signup", csrfProtection, (req, res) => {
+router.post("/signup", (req, res) => {
   user_apis.register(req, res);
 });
 
@@ -71,7 +71,6 @@ router.get("/user", (req, res) => {
 
 router.post(
   "/login",
-  csrfProtection,
   passport.authenticate("local"),
   (req, res) => {
     //console.log(req.session.user)
