@@ -11,7 +11,7 @@ exports.insertMessage = async (req, res) => {
       subject: tempData.subject,
       message: tempData.message,
     });
-    await mailer.sendAck(message.email, message.subject,message.fullname);
+    await mailer.sendAck(message.email, message.subject, message.fullname);
     await message.save();
     res.status(200).json({ success: true });
   } catch (err) {

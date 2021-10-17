@@ -3,12 +3,13 @@ const user_apis = require("../controllers/user_db_apis");
 const passport = require("passport");
 const passportConfig = require("../configs/passport_config"); // do not remove this import
 const router = express.Router();
-
+const csrf = require("csurf");
 //----------------------------------------END OF
 //IMPORT--------------------------------------------//
 
 //------------------------------------------MIDDLEWARES--------------------------------------------//
 
+const csrfProtection = csrf({ cookie: true });
 router.use(express.urlencoded({ extended: false }));
 router.use(express.json());
 
@@ -16,7 +17,7 @@ router.use(express.json());
 //MIDDLEWARES----------------------------------------//
 
 // to register new users
-router.post("/signup", (req, res) => {
+router.post("/signup", csrfProtection, (req, res) => {
   user_apis.register(req, res);
 });
 
@@ -60,7 +61,7 @@ router.get("/user", (req, res) => {
     if (req.user.isactive) {
       res.json({ username: req.user.firstname });
     } else {
-      res.json({ mailErr: "Please confirm you mail first",username:null });
+      res.json({ mailErr: "Please confirm you mail first", username: null });
     }
   }
 });
@@ -68,21 +69,26 @@ router.get("/user", (req, res) => {
 //--------------------------------------EMAIL LOGIN AND LOGOUT
 //ROUTES---------------------------------//
 
-router.post("/login", passport.authenticate("local"), (req, res) => {
-  //console.log(req.session.user)
-  if (req.user.isactive) {
-    //console.log(req.user);
-    req.login(req.user, (err) => {
-      if (err) {
-        res.status(406).json({ success: false });
-      } else {
-        res.status(200).json({ success: true });
-      }
-    });
-  } else {
-    res.json({ success: false, message: "Please verify your email" });
+router.post(
+  "/login",
+  csrfProtection,
+  passport.authenticate("local"),
+  (req, res) => {
+    //console.log(req.session.user)
+    if (req.user.isactive) {
+      //console.log(req.user);
+      req.login(req.user, (err) => {
+        if (err) {
+          res.status(406).json({ success: false });
+        } else {
+          res.status(200).json({ success: true });
+        }
+      });
+    } else {
+      res.json({ success: false, message: "Please verify your email" });
+    }
   }
-});
+);
 
 router.get("/logout", (req, res) => {
   req.logout();

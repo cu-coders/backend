@@ -1,4 +1,4 @@
-exports.getTemplate = (userEmail, subject,name) => {
+exports.getTemplate = (userEmail, subject, name) => {
   const message = {
     from: process.env.EMAIL_SENDER,
     to: userEmail,

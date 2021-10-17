@@ -10,15 +10,16 @@ const admin_routes = require("./routes/admin_routes");
 const contactUsRoutes = require("./routes/contactForm_routes");
 const cors = require("cors");
 const passport = require("passport");
+const csrf = require("csurf");
 // const hbs = require("hbs");
 //-----------------------------------------------END OF
 //IMPORTS---------------------------------------//
 
 //-------------------------------------------DATABASE CONNECTION
 //SETUP----------------------------------------//
+const csrfProtection = csrf({ cookie: true });
 const app = express();
 const PORT = process.env.PORT || 3001;
-
 // Demo database: Connect to a actual database before deployment
 mongoose
   .connect(process.env.DATABASE_URL, {
@@ -97,5 +98,8 @@ app.use("/api/", api_routes);
 app.use("/auth/", auth_routes);
 app.use("/admin/", admin_routes);
 app.use("/contact-us", contactUsRoutes);
+app.get("/form-token", csrfProtection, (req, res) => {
+  res.json({ formToken: req.csrfToken() });
+});
 //---------------------------------------------------END OF
 //ROUTINGS--------------------------------------------//
