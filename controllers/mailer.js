@@ -7,8 +7,8 @@ const ackMessage = require("../templates/contact_ack.js");
 //TRANSPORTER-------------------------------------------//
 const transporter = nodemailer.createTransport({
   service: process.env.EMAIL_SERVICE_NAME,
-  host: 'smtppro.zoho.in',
-  secure: true, // use SSL
+  host: 'smtp.zoho.com',
+  secure: true,
   port: 465,
   auth: {
     user: process.env.EMAIL_SENDER,
