@@ -56,7 +56,7 @@ router.get("/verify", (req, res) => {
 // to get user corresponding to client session data
 router.get("/user", (req, res) => {
   if (!req.user) {
-    res.json({ username: null });
+    res.json({ success:false,username: null });
   } else {
     res.json({
       success: true,
