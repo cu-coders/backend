@@ -149,8 +149,8 @@ passport.serializeUser((id, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-  // console.log(id)
-  // console.log("Deserializing the session data");
+  console.log(id)
+  console.log("Deserializing the session data");
   User.findById(id).then((user) => {
     if (user) {
       done(null, user);
