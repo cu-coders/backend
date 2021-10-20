@@ -77,6 +77,8 @@ router.post("/login", passport.authenticate("local"), (req, res) => {
         res.status(200).json({ success: true,username:req.user.firstname,isactive: req.user.isactive });
       }
     });
+  }else{
+    res.json({success:false});
   }
 });
 
