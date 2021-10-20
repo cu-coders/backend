@@ -67,19 +67,16 @@ router.get("/user", (req, res) => {
 });
 //--------------------------------------EMAIL LOGIN AND LOGOUT
 //ROUTES---------------------------------//
-router.post("/login", passport.authenticate("local"), (req, res) => {
-  //console.log(req.session.user)
-  if (req.user) {
-    req.login(req.user, (err) => {
-      if (err) {
-        res.status(406).json({ success: false });
-      } else {
-        res.status(200).json({ success: true,username:req.user.firstname,isactive: req.user.isactive });
-      }
-    });
-  }else{
-    res.json({success:false});
-  }
+router.post("/login", function (req, res, next) {
+  passport.authenticate("local", function (err, user, info) {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return res.json({ success:false,isactive:false,message: info.message });
+    }
+    res.json({ success: true, isactive: true, username: user.firstname });
+  })(req, res, next);
 });
 
 router.get("/logout", (req, res) => {
@@ -88,7 +85,6 @@ router.get("/logout", (req, res) => {
   //res.redirect("https://main.cuchapter.tech/login");
   res.status(200).json({ logout: true });
 });
-
 //------------------------------------END OF EMAIL LOGIN AND LOGOUT
 //ROUTES----------------------------------------//
 

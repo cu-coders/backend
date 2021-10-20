@@ -98,31 +98,36 @@ passport.use(
   new LocalStrategy(
     { usernameField: "email", passwordField: "password", session: true },
     (email, password, done) => {
-      // console.log("At login middleware");
       User.findOne({ email: email }, (err, user) => {
-        // console.log(user)
         if (err) {
-          // console.log(err)
           return done(err);
         }
+        // If the user is invalid
         if (!user) {
-          //console.log("Invalid credentials");
-          return done(null, false);
+          return done(null, false, {
+            success: false,
+            message: "Invalid credentials",
+          });
         } else {
+          // Password is null i.e registered using google or github
           if (!user.password) {
-            //console.log("Authentication failed");
             return done(null, false, {
               message: "Invalid credentials",
               success: false,
             });
           }
           bcrypt.compare(password, user.password).then((isValid) => {
-            //console.log(isValid);
             if (isValid) {
-              //console.log("authorized");
-              return done(null, user._id);
+              // Checking if email is verified by the user
+              if (user.isactive === true) {
+                return done(null, user._id);
+              } else {
+                return done(null, false, {
+                  message: "Please verify your email first",
+                });
+              }
             } else {
-              //console.log("Authentication Failed");
+              // incorrect password
               return done(null, false, {
                 message: "Invalid Credentials",
                 success: false,
