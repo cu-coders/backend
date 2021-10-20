@@ -31,9 +31,14 @@ router.get(
 );
 
 router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
+  if (req.user) {
+    res.json({ success: true, isactive: true });
+  } else {
+    res.json({ success: false });
+  }
   //console.log(req.user);
   // res.json({username:req.user.firstname,email:req.user.email})
-  res.redirect(process.env.HOME_PAGE);
+  //res.redirect(process.env.HOME_PAGE);
 });
 //-----------------------------------END OF GOOGLE AUTHENTICATION
 //ROUTES-------------------------//
@@ -43,7 +48,12 @@ router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
 
 router.get("/github", passport.authenticate("github"));
 router.get("/github/redirect/", passport.authenticate("github"), (req, res) => {
-  res.redirect(process.env.HOME_PAGE);
+  if (req.user) {
+    res.json({ success: true, isactive: true });
+  } else {
+    res.json({ success: false });
+  }
+  //res.redirect(process.env.HOME_PAGE);
 });
 //----------------------------------- END OF GITHUB AUTHENTICATION
 //ROUTES------------------------//
@@ -77,7 +87,7 @@ router.post("/login", function (req, res, next) {
         success: false,
         isactive: false,
         message: info.message,
-        username:null
+        username: null,
       });
     }
     req.login(user, (err) => {
