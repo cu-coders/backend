@@ -77,6 +77,7 @@ router.post("/login", function (req, res, next) {
         success: false,
         isactive: false,
         message: info.message,
+        username:null
       });
     }
     req.login(user, (err) => {
