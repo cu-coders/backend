@@ -83,11 +83,9 @@ router.post("/login", passport.authenticate("local"), (req, res) => {
 });
 
 router.get("/logout", (req, res) => {
-  req.session.destroy(function (err) {
-    res.redirect('/'); //Inside a callback… bulletproof!
-  });
-  //req.logout();
-  //res.redirect("https://main.cuchapter.tech/login");
+  req.logout();
+  res.session = null;
+  res.redirect("https://main.cuchapter.tech/login");
   //res.status(200).json({ logout: true });
 });
 
