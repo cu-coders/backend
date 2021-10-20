@@ -58,36 +58,27 @@ router.get("/user", (req, res) => {
   if (!req.user) {
     res.json({ username: null });
   } else {
-    if (req.user.isactive) {
-      res.json({ username: req.user.firstname });
-    } else {
-      res.json({ mailErr: "Please confirm you mail first", username: null });
-    }
+    res.json({
+      success: true,
+      username: req.user.firstname,
+      isactive: req.user.isactive,
+    });
   }
 });
-
 //--------------------------------------EMAIL LOGIN AND LOGOUT
 //ROUTES---------------------------------//
-
-router.post(
-  "/login",
-  passport.authenticate("local"),
-  (req, res) => {
-    //console.log(req.session.user)
-    if (req.user.isactive) {
-      //console.log(req.user);
-      req.login(req.user, (err) => {
-        if (err) {
-          res.status(406).json({ success: false });
-        } else {
-          res.status(200).json({ success: true });
-        }
-      });
-    } else {
-      res.json({ success: false, message: "Please verify your email" });
-    }
+router.post("/login", passport.authenticate("local"), (req, res) => {
+  //console.log(req.session.user)
+  if (req.user) {
+    req.login(req.user, (err) => {
+      if (err) {
+        res.status(406).json({ success: false });
+      } else {
+        res.status(200).json({ success: true,username:req.user.firstname,isactive: req.user.isactive });
+      }
+    });
   }
-);
+});
 
 router.get("/logout", (req, res) => {
   req.logout();
