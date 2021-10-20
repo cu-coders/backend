@@ -58,7 +58,7 @@ router.get("/user", (req, res) => {
   if (!req.user) {
     res.json({ username: null });
   } else {
-    req.json({
+    res.json({
       success: true,
       username: req.user.firstname,
       isactive: req.user.isactive,
