@@ -58,7 +58,7 @@ router.get("/user", (req, res) => {
   if (!req.user) {
     res.json({ success:false,username: null });
   } else {
-    if (req.user.isactive) {
+    if (req.user.isactive===true) {
       res.json({ success:true,username: req.user.firstname });
     } else {
       res.json({ success:true,mailErr: "Please confirm you mail first", username: req.user.firstname });
