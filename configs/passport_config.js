@@ -119,7 +119,7 @@ passport.use(
           bcrypt.compare(password, user.password).then((isValid) => {
             if (isValid) {
               // Checking if email is verified by the user
-              if (user.isactive === true) {
+              if (user.isactive) {
                 return done(null, user._id);
               } else {
                 return done(null, false, {
@@ -144,13 +144,13 @@ passport.use(
 //------------------------------------------------SERIALIZERS AND
 //DESERIALIZERS-----------------------------------//
 passport.serializeUser((id, done) => {
-  // console.log(id);
+  console.log(id);
   done(null, id);
 });
 
 passport.deserializeUser((id, done) => {
-  console.log(id)
-  console.log("Deserializing the session data");
+  //console.log(id)
+  //console.log("Deserializing the session data");
   User.findById(id).then((user) => {
     if (user) {
       done(null, user);
