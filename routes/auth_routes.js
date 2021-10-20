@@ -56,12 +56,12 @@ router.get("/verify", (req, res) => {
 // to get user corresponding to client session data
 router.get("/user", (req, res) => {
   if (!req.user) {
-    res.json({ username: null });
+    res.json({ success:false,username: null });
   } else {
     if (req.user.isactive) {
-      res.json({ username: req.user.firstname });
+      res.json({ success:true,username: req.user.firstname });
     } else {
-      res.json({ mailErr: "Please confirm you mail first", username: null });
+      res.json({ success:true,mailErr: "Please confirm you mail first", username: req.user.firstname });
     }
   }
 });
