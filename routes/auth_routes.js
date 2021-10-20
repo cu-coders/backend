@@ -56,7 +56,7 @@ router.get("/verify", (req, res) => {
 // to get user corresponding to client session data
 router.get("/user", (req, res) => {
   if (!req.user) {
-    res.json({ username: null });
+    res.json({ success:false,username: null });
   } else {
     res.json({
       success: true,
@@ -77,12 +77,16 @@ router.post("/login", passport.authenticate("local"), (req, res) => {
         res.status(200).json({ success: true,username:req.user.firstname,isactive: req.user.isactive });
       }
     });
+  }else{
+    res.json({success:false});
   }
 });
 
 router.get("/logout", (req, res) => {
   req.logout();
-  res.status(200).json({ logout: true });
+  res.session = null;
+  res.redirect("https://main.cuchapter.tech/login");
+  //res.status(200).json({ logout: true });
 });
 
 //------------------------------------END OF EMAIL LOGIN AND LOGOUT
