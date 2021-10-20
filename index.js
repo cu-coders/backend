@@ -8,6 +8,7 @@ const api_routes = require("./routes/api_routes");
 const auth_routes = require("./routes/auth_routes");
 const admin_routes = require("./routes/admin_routes");
 const contactUsRoutes = require("./routes/contactForm_routes");
+const forgetPasswordRoutes = require("./routes/forgotPassword_routes");
 const cors = require("cors");
 const passport = require("passport");
 const csrf = require("csurf");
@@ -33,7 +34,11 @@ mongoose
   });
 app.set("trust proxy", 1);
 // Whitelisting requests
-const whitelist = ["https://cuchapter.tech", "https://main.cuchapter.tech","http://localhost:3000"];
+const whitelist = [
+  "https://cuchapter.tech",
+  "https://main.cuchapter.tech",
+  "http://localhost:3000",
+];
 const corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
@@ -84,6 +89,7 @@ app.use("/api/", api_routes);
 app.use("/auth/", auth_routes);
 app.use("/admin/", admin_routes);
 app.use("/contact-us", contactUsRoutes);
+app.use("/forget", forgetPasswordRoutes);
 app.get("/form-token", csrfProtection, (req, res) => {
   res.json({ formToken: req.csrfToken() });
 });
