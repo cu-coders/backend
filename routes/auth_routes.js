@@ -17,7 +17,7 @@ router.use(express.json());
 //MIDDLEWARES----------------------------------------//
 
 // to register new users
-router.post("/signup", (req, res) => {
+router.post("/signup",(req, res) => {
   user_apis.register(req, res);
 });
 
@@ -56,7 +56,7 @@ router.get("/verify", (req, res) => {
 // to get user corresponding to client session data
 router.get("/user", (req, res) => {
   if (!req.user) {
-    res.json({ success: false, username: null });
+    res.json({ success:false,username: null });
   } else {
     res.json({
       success: true,
@@ -73,23 +73,9 @@ router.post("/login", function (req, res, next) {
       return next(err);
     }
     if (!user) {
-      return res.json({
-        success: false,
-        isactive: false,
-        message: info.message,
-      });
+      return res.json({ success:false,isactive:false,message: info.message });
     }
-    req.login(req.user, (err) => {
-      if (err) {
-        res.status(406).json({ success: false ,message:err});
-      } else {
-        res.status(200).json({
-          success: true,
-          username: req.user.firstname,
-          isactive: req.user.isactive,
-        });
-      }
-    });
+    res.json({ success: true, isactive: true, username: user.firstname });
   })(req, res, next);
 });
 
