@@ -19,8 +19,5 @@ const resetLinkSchema = mongoose.Schema({
   expire_at: { type: Date, default: Date.now, expires: 300 },
 });
 resetLinkSchema.index({ expire_at: 1 }, { expireAfterSeconds: 0 });
-resetLinkSchema.post("update",function(next){
-  this.expire_at
-})
 const ResetLink = mongoose.model("resetLink", resetLinkSchema);
 module.exports = ResetLink;

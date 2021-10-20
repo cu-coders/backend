@@ -9,7 +9,6 @@ router.post(
       .trim()
       .notEmpty()
       .withMessage("Please enter the email")
-      .normalizeEmail()
       .isEmail()
       .withMessage("Invalid Email format"),
   ],
@@ -22,8 +21,8 @@ router.post(
         res.json({ success: false, err: validationErr.array() });
       }
     } catch (err) {
-      console.log(err)
-      res.json({ success:false,message: "Internal server error" });
+      console.log(err);
+      res.json({ success: false, message: "Internal server error" });
     }
   }
 );

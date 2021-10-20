@@ -17,10 +17,6 @@ exports.contactForms = [
     .normalizeEmail()
     .isEmail()
     .withMessage("Invalid Email address"),
-  check("subject")
-    .trim().notEmpty()
-    .withMessage("Subject is empty"),
-  check("message")
-    .trim().notEmpty()
-    .withMessage("Message is be empty") 
+  check("subject").trim().notEmpty().withMessage("Subject is empty"),
+  check("message").trim().notEmpty().withMessage("Message is be empty"),
 ];
