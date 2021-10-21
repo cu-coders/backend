@@ -106,13 +106,13 @@ passport.use(
         if (!user) {
           return done(null, false, {
             success: false,
-            message: "Invalid credentials",
+            message: "unregistered email",
           });
         } else {
           // Password is null i.e registered using google or github
           if (!user.password) {
             return done(null, false, {
-              message: "Invalid credentials",
+              message: "Invalid login mode",
               success: false,
             });
           }
