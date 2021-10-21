@@ -32,13 +32,14 @@ router.get(
 
 router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
   if (req.user) {
+    res.redirect(process.env.HOME_PAGE);
     res.json({ success: true, isactive: true });
   } else {
     res.json({ success: false });
   }
   //console.log(req.user);
   // res.json({username:req.user.firstname,email:req.user.email})
-  //res.redirect(process.env.HOME_PAGE);
+  
 });
 //-----------------------------------END OF GOOGLE AUTHENTICATION
 //ROUTES-------------------------//
@@ -49,7 +50,8 @@ router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
 router.get("/github", passport.authenticate("github"));
 router.get("/github/redirect/", passport.authenticate("github"), (req, res) => {
   if (req.user) {
-    res.json({ success: true, isactive: true });
+    res.redirect(process.env.HOME_PAGE);
+    //res.json({ success: true, isactive: true });
   } else {
     res.json({ success: false });
   }
