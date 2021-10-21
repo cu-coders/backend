@@ -1,12 +1,11 @@
 exports.getTemplate = (userEmail, token, name, domain) => {
   const message = {
-    from : process.env.EMAIL_SENDER,
-    to : userEmail,
-    subject : "Password Reset",
-    text : `
-    Hi ${name}, Did you Forget your password? Here is the reset link http://${
-        domain}/forget/reset?token=${token}`,
-    html : `
+    from: process.env.EMAIL_SENDER,
+    to: userEmail,
+    subject: "Password Reset",
+    text: `
+    Hi ${name}, Did you Forget your password? Here is the reset link http://${domain}/forget/reset?token=${token}`,
+    html: `
 <!doctype html>
 <html lang="en-US">
 
@@ -51,8 +50,7 @@ exports.getTemplate = (userEmail, token, name, domain) => {
                                             password has been generated for you. To reset your password, click the
                                             following link and follow the instructions.
                                         </p>
-                                        <a href="http://${
-        domain}/forget/reset?token=${token}"
+                                        <a href="http://${domain}/forget/reset?token=${token}"
                                             style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Reset
                                             Password</a>
                                     </td>
