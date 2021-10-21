@@ -100,7 +100,7 @@ passport.use(
         if (!user) {
           return done(null, false, {
             success: false,
-            message: "unregistered Email",
+            message: "unregistered email",
           });
         } else {
           // Password is null i.e registered using google or github

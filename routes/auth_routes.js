@@ -32,7 +32,7 @@ router.get(
 
 router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
   if (req.user) {
-    res.json({ success: true, isactive: true });
+    res.redirect(process.env.HOME_PAGE);
   } else {
     res.json({ success: false });
   }
@@ -45,7 +45,7 @@ router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
 router.get("/github", passport.authenticate("github"));
 router.get("/github/redirect/", passport.authenticate("github"), (req, res) => {
   if (req.user) {
-    res.json({ success: true, isactive: true });
+    res.redirect(process.env.HOME_PAGE);
   } else {
     res.json({ success: false });
   }
