@@ -8,17 +8,19 @@ const api_routes = require("./routes/api_routes");
 const auth_routes = require("./routes/auth_routes");
 const admin_routes = require("./routes/admin_routes");
 const contactUsRoutes = require("./routes/contactForm_routes");
+const forgetPasswordRoutes = require("./routes/forgotPassword_routes");
 const cors = require("cors");
 const passport = require("passport");
+const csrf = require("csurf");
 // const hbs = require("hbs");
 //-----------------------------------------------END OF
 //IMPORTS---------------------------------------//
 
 //-------------------------------------------DATABASE CONNECTION
 //SETUP----------------------------------------//
+const csrfProtection = csrf({ cookie: true });
 const app = express();
 const PORT = process.env.PORT || 3001;
-
 // Demo database: Connect to a actual database before deployment
 mongoose
   .connect(process.env.DATABASE_URL, {
@@ -31,23 +33,13 @@ mongoose
     });
   });
 app.set("trust proxy", 1);
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Credentials", true);
-  res.header("Access-Control-Allow-Origin", req.headers.origin);
-  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept"
-  );
-  if (req.method === "OPTIONS") {
-    res.send(200);
-  } else {
-    next();
-  }
-});
 // Whitelisting requests
-var whitelist = ["https://cuchapter.tech/", "https://main.cuchapter.tech/"];
-var corsOptions = {
+const whitelist = [
+  "https://cuchapter.tech",
+  "https://main.cuchapter.tech",
+  "http://localhost:3000",
+];
+const corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
       callback(null, true);
@@ -88,6 +80,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.set("views", path.join(__dirname, "./templates/pages"));
 app.set("view engine", "hbs");
+app.disable("x-powered-by");
 //------------------------------------------------END OF
 //MIDDLEWARES--------------------------------------------//
 
@@ -96,5 +89,9 @@ app.use("/api/", api_routes);
 app.use("/auth/", auth_routes);
 app.use("/admin/", admin_routes);
 app.use("/contact-us", contactUsRoutes);
+app.use("/forget", forgetPasswordRoutes);
+app.get("/form-token", csrfProtection, (req, res) => {
+  res.json({ formToken: req.csrfToken() });
+});
 //---------------------------------------------------END OF
 //ROUTINGS--------------------------------------------//
