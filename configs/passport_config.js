@@ -18,10 +18,8 @@ passport.use(
       callbackURL: "https://main-cu-coders.herokuapp.com/auth/google/redirect",
     },
     (accessToken, refreshToken, profile, done) => {
-      //console.log(profile);
       User.findOne({ email: profile.emails[0].value }).then((oldUser) => {
         if (oldUser) {
-          //console.log("Old User", oldUser._id);
           done(null, oldUser._id);
         } else {
           new User({
@@ -36,8 +34,6 @@ passport.use(
           })
             .save()
             .then((newUser) => {
-              //console.log("New User", newUser);
-
               done(null, newUser._id);
             });
         }
@@ -64,7 +60,6 @@ passport.use(
       User.findOne({ email: profile.emails[0].value }).then((oldUser) => {
         if (oldUser) {
           // User with the same email already exists
-          console.log("Old User ID: " + oldUser._id);
           done(null, oldUser._id);
         } else {
           // New User
@@ -80,7 +75,6 @@ passport.use(
           })
             .save()
             .then((newUser) => {
-              //console.log("New User ID: " +newUser._id);
               done(null, newUser._id);
             });
         }
@@ -106,13 +100,13 @@ passport.use(
         if (!user) {
           return done(null, false, {
             success: false,
-            message: "Invalid credentials",
+            message: "unregistered Email",
           });
         } else {
           // Password is null i.e registered using google or github
           if (!user.password) {
             return done(null, false, {
-              message: "Invalid credentials",
+              message: "Invalid login mode",
               success: false,
             });
           }
@@ -144,13 +138,10 @@ passport.use(
 //------------------------------------------------SERIALIZERS AND
 //DESERIALIZERS-----------------------------------//
 passport.serializeUser((id, done) => {
-  //console.log(id);
   done(null, id);
 });
 
 passport.deserializeUser((id, done) => {
-  //console.log(id)
-  //console.log("Deserializing the session data");
   User.findById(id).then((user) => {
     if (user) {
       done(null, user);

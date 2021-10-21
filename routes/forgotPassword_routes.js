@@ -21,9 +21,24 @@ router.post(
         res.json({ success: false, err: validationErr.array() });
       }
     } catch (err) {
-      console.log(err);
+      //console.log(err);
       res.json({ success: false, message: "Internal server error" });
     }
   }
 );
+
+router.get("/reset", async (req, res) => {
+  try {
+    await resetLinkDbApis.verifyResetToken(req, res);
+  } catch (err) {
+    res.json({ success: false, message: "Internal server error" });
+  }
+});
+router.post("/reset", async (req, res) => {
+  try {
+    await resetLinkDbApis.updatePassword(req, res);
+  } catch (error) {
+    res.json({ success: false, message: "Internal server error" });
+  }
+});
 module.exports = router;

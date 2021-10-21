@@ -36,13 +36,9 @@ router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
   } else {
     res.json({ success: false });
   }
-  //console.log(req.user);
-  // res.json({username:req.user.firstname,email:req.user.email})
-  //res.redirect(process.env.HOME_PAGE);
 });
 //-----------------------------------END OF GOOGLE AUTHENTICATION
 //ROUTES-------------------------//
-
 //--------------------------------------- GITHUB AUTHENTICATION
 //ROUTES---------------------------//
 
@@ -53,11 +49,9 @@ router.get("/github/redirect/", passport.authenticate("github"), (req, res) => {
   } else {
     res.json({ success: false });
   }
-  //res.redirect(process.env.HOME_PAGE);
 });
 //----------------------------------- END OF GITHUB AUTHENTICATION
 //ROUTES------------------------//
-
 // to verify emails of new users
 router.get("/verify", (req, res) => {
   user_apis.verify_mail(req, res);
@@ -101,17 +95,14 @@ router.post("/login", function (req, res, next) {
         });
       }
     });
-    //res.json({ success: true, isactive: true, username: user.firstname });
   })(req, res, next);
 });
 
 router.get("/logout", (req, res) => {
   req.logout();
   res.session = null;
-  //res.redirect("https://main.cuchapter.tech/login");
   res.status(200).json({ logout: true });
 });
 //------------------------------------END OF EMAIL LOGIN AND LOGOUT
 //ROUTES----------------------------------------//
-
 module.exports = router;
