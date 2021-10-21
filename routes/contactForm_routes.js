@@ -9,7 +9,7 @@ router.post("/", rules.contactForms, async (req, res) => {
   if (validationErr.isEmpty()) {
     contactUsDbApis.insertMessage(req, res);
   } else {
-    res.status(422).jsonp({ success: false, err: validationErr.array() });
+    res.status(422).jsonp({ success: false, err: validationErr.array() }); //422 cannot be processed
   }
 });
 module.exports = router;
