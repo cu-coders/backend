@@ -3,13 +3,11 @@ const user_apis = require("../controllers/user_db_apis");
 const passport = require("passport");
 const passportConfig = require("../configs/passport_config"); // do not remove this import
 const router = express.Router();
-const csrf = require("csurf");
 //----------------------------------------END OF
 //IMPORT--------------------------------------------//
 
 //------------------------------------------MIDDLEWARES--------------------------------------------//
 
-const csrfProtection = csrf({ cookie: true });
 router.use(express.urlencoded({ extended: false }));
 router.use(express.json());
 

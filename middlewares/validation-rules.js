@@ -20,3 +20,15 @@ exports.contactForms = [
   check("subject").trim().notEmpty().withMessage("Subject is empty"),
   check("message").trim().notEmpty().withMessage("Message is be empty"),
 ];
+
+exports.resetForm = [
+  check("email")
+    .trim()
+    .notEmpty()
+    .withMessage("Email address is required")
+    .isEmail()
+    .withMessage("Invalid Email address"),
+  check("password")
+    .notEmpty()
+    .withMessage("Password cannot be empty")
+];

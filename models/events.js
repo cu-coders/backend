@@ -66,7 +66,7 @@ eventSchema.pre("save", function (next) {
       path.join(__dirname, "../public/covers/" + this.imageSrc.toString()),
       (err) => {
         if (err) {
-          console.log(err);
+          throw err;
         }
       }
     );
