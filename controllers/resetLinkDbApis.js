@@ -5,7 +5,7 @@ const mailer = require("../controllers/mailer");
 async function generateToken(email) {
   try {
     const salt = await bcrypt.genSalt(5);
-    const token = await bcrypt.hash(email, salt);
+    var token = await bcrypt.hash(email, salt);
     token = token.substring(7);
     return token;
   } catch (err) {
