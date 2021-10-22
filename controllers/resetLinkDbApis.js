@@ -69,7 +69,7 @@ exports.updatePassword = async (req, res) => {
         // For successful update
         user.password = password;
         await user.save();
-        res.render("success", { loginPage: process.env.LOGIN_page });
+        res.render("success");
       } else {
         // Did not update
         res.render("error", { message: "Can't process the request" });
