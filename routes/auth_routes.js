@@ -3,7 +3,6 @@ const user_apis = require("../controllers/user_db_apis");
 const passport = require("passport");
 const passportConfig = require("../configs/passport_config"); // do not remove this import
 const router = express.Router();
-
 //----------------------------------------END OF
 //IMPORT--------------------------------------------//
 
@@ -30,23 +29,27 @@ router.get(
 );
 
 router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
-  //console.log(req.user);
-  // res.json({username:req.user.firstname,email:req.user.email})
-  res.redirect(process.env.HOME_PAGE);
+  if (req.user) {
+    res.redirect(process.env.HOME_PAGE);
+  } else {
+    res.json({ success: false });
+  }
 });
 //-----------------------------------END OF GOOGLE AUTHENTICATION
 //ROUTES-------------------------//
-
 //--------------------------------------- GITHUB AUTHENTICATION
 //ROUTES---------------------------//
 
 router.get("/github", passport.authenticate("github"));
 router.get("/github/redirect/", passport.authenticate("github"), (req, res) => {
-  res.redirect(process.env.HOME_PAGE);
+  if (req.user) {
+    res.redirect(process.env.HOME_PAGE);
+  } else {
+    res.json({ success: false });
+  }
 });
 //----------------------------------- END OF GITHUB AUTHENTICATION
 //ROUTES------------------------//
-
 // to verify emails of new users
 router.get("/verify", (req, res) => {
   user_apis.verify_mail(req, res);
@@ -55,41 +58,49 @@ router.get("/verify", (req, res) => {
 // to get user corresponding to client session data
 router.get("/user", (req, res) => {
   if (!req.user) {
-    res.json({ username: null });
+    res.json({ success: false, username: null });
   } else {
-    if (req.user.isactive) {
-      res.json({ username: req.user.firstname });
-    } else {
-      res.json({ mailErr: "Please confirm you mail first",username:null });
-    }
+    res.json({
+      success: true,
+      username: req.user.firstname,
+      isactive: req.user.isactive,
+    });
   }
 });
-
 //--------------------------------------EMAIL LOGIN AND LOGOUT
 //ROUTES---------------------------------//
-
-router.post("/login", passport.authenticate("local"), (req, res) => {
-  //console.log(req.session.user)
-  if (req.user.isactive) {
-    //console.log(req.user);
-    req.login(req.user, (err) => {
+router.post("/login", function (req, res, next) {
+  passport.authenticate("local", function (err, user, info) {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return res.json({
+        success: false,
+        isactive: false,
+        message: info.message,
+        username: null,
+      });
+    }
+    req.login(user, (err) => {
       if (err) {
         res.status(406).json({ success: false });
       } else {
-        res.status(200).json({ success: true });
+        res.status(200).json({
+          success: true,
+          username: user.firstname,
+          isactive: user.isactive,
+        });
       }
     });
-  } else {
-    res.json({ success: false, message: "Please verify your email" });
-  }
+  })(req, res, next);
 });
 
 router.get("/logout", (req, res) => {
   req.logout();
+  res.session = null;
   res.status(200).json({ logout: true });
 });
-
 //------------------------------------END OF EMAIL LOGIN AND LOGOUT
 //ROUTES----------------------------------------//
-
 module.exports = router;

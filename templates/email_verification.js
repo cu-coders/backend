@@ -2,9 +2,9 @@ exports.getTemplate = (userEmail, username, domain, token) => {
   const message = {
     from: process.env.EMAIL_SENDER,
     to: userEmail,
-    subject: "Cucoders-Verify your email",
+    subject: "CU-Chapter - Verify your email",
     text: `
-    Welcome to cucoders!
+    Welcome to CU-Chapter!
     Hello, ${username} please visit to the following link to verify you email.
     http://${domain}/auth/verify?token=${token}`,
     html: `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -245,7 +245,7 @@ exports.getTemplate = (userEmail, username, domain, token) => {
 										<div style="border-top:0px solid transparent; border-left:0px solid transparent; border-bottom:0px solid transparent; border-right:0px solid transparent; padding-top:0px; padding-bottom:0px; padding-right: 0px; padding-left: 0px;">
 											<!--<![endif]-->
 											<div class="img-container center fixedwidth" align="center" style="padding-right: 40px;padding-left: 40px;">
-												<!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px"><td style="padding-right: 40px;padding-left: 40px;" align="center"><![endif]--><a href="https://cuchapter.tech" target="_blank" style="outline:none" tabindex="-1"><img class="center fixedwidth" align="center" border="0" src="https://cdn.dribbble.com/users/2407/screenshots/7319211/media/fea17aec16213441b38f1e56379cc14b.png?compress=1&amp;resize=1600x1200" alt="Logo" title="Logo" style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 544px; max-width: 100%; display: block;" width="544"></a>
+												<!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px"><td style="padding-right: 40px;padding-left: 40px;" align="center"><![endif]--><a href="https://cuchapter.tech" target="_blank" style="outline:none" tabindex="-1"><img class="center fixedwidth" align="center" border="0" src="https://cdn.dribbble.com/users/2407/screenshots/7319211/media/fea17aec16213441b38f1e56379cc14b.png?compress=1&amp;resize=1600x1200" alt="Main Image" title="Main Image" style="text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; border: 0; width: 544px; max-width: 100%; display: block;" width="544"></a>
 												<!--[if mso]></td></tr></table><![endif]-->
 											</div>
 											<table class="divider" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed; vertical-align: top; border-spacing: 0; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; min-width: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;" role="presentation" valign="top">
@@ -496,7 +496,7 @@ exports.getTemplate = (userEmail, username, domain, token) => {
 											<!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 40px; padding-left: 40px; padding-top: 15px; padding-bottom: 10px; font-family: Tahoma, sans-serif"><![endif]-->
 											<div style="color:#e8e1e1;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;line-height:1.8;padding-top:15px;padding-right:40px;padding-bottom:10px;padding-left:40px;">
 												<div class="txtTinyMce-wrapper" style="font-size: 12px; line-height: 1.8; color: #e8e1e1; font-family: Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; mso-line-height-alt: 22px;">
-													<p style="margin: 0; font-size: 12px; text-align: center; line-height: 1.8; word-break: break-word; mso-line-height-alt: 22px; margin-top: 0; margin-bottom: 0;">CodeChef CU Chapter is a platform for young and aspiring developers to get real world experience and get to learn from the best in the industry while creating an impeccable coding enviornment to instill problem solving skills in its members</p>
+													<p style="margin: 0; font-size: 12px; text-align: center; line-height: 1.8; word-break: break-word; mso-line-height-alt: 22px; margin-top: 0; margin-bottom: 0;">CodeChef CU Chapter is a platform for young and aspiring developers to get real-world experience and get to learn from the best in the industry while creating an impeccable coding environment to instill problem-solving skills in its members.</p>
 												</div>
 											</div>
 											<!--[if mso]></td></tr></table><![endif]-->
