@@ -115,11 +115,10 @@ passport.use(
             // Checking if email is verified by the user
             if (user.isactive) {
               return done(null, user._id);
-            } else {
-              return done(null, false, {
-                message: "Please verify your email first",
-              });
             }
+            return done(null, false, {
+              message: "Please verify your email first",
+            });
           }
           // incorrect password
           return done(null, false, {
