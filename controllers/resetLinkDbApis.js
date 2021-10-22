@@ -46,7 +46,8 @@ exports.verifyResetToken = async (req, res) => {
     if (reset_link) {
       res.render("reset-pass", { token });
     } else {
-      res.json({ success: false, message: "Link Expired" });
+      res.render("error", { message: "Invalid request" });
+      //res.json({ success: false, message: "Link Expired" });
     }
   } catch (err) {
     throw err;
@@ -60,7 +61,8 @@ exports.updatePassword = async (req, res) => {
       $and: [{ email, token }],
     });
     if (!reset_link) {
-      res.json({ success: false, message: "Session link expired" });
+      res.render("error", { message: "Session Link expired" });
+      //res.json({ success: false, message: "Session link expired" });
     } else {
       const user = await User.findOne({ email });
       if (user) {
@@ -70,7 +72,8 @@ exports.updatePassword = async (req, res) => {
         res.json({ success: true, message: "Password changed" });
       } else {
         // Did not update
-        res.json({ success: false, message: "Invaild details" });
+        res.render("error", { message: "Can't process the request" });
+        //res.json({ success: false, message: "Invaild details" });
       }
     }
   } catch (err) {

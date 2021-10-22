@@ -31,14 +31,15 @@ router.get("/reset", async (req, res) => {
   try {
     await resetLinkDbApis.verifyResetToken(req, res);
   } catch (err) {
-    res.json({ success: false, message: "Internal server error" });
+    res.render("error", { message: "Internal server error" });
+    //res.json({ success: false, message: "Internal server error" });
   }
 });
 router.post("/reset", async (req, res) => {
   try {
     await resetLinkDbApis.updatePassword(req, res);
   } catch (error) {
-    res.json({ success: false, message: "Internal server error" });
+    res.render("error", { message: "Internal server error" });
   }
 });
 module.exports = router;
