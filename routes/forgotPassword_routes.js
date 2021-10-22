@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { validationResult, check } = require("express-validator");
 const resetLinkDbApis = require("../controllers/resetLinkDbApis");
+const rules = require("../middlewares/validation-rules")
 router.post(
   "",
   [
@@ -35,9 +36,14 @@ router.get("/reset", async (req, res) => {
     //res.json({ success: false, message: "Internal server error" });
   }
 });
-router.post("/reset", async (req, res) => {
+router.post("/reset", rules.resetForm, async (req, res) => {
   try {
-    await resetLinkDbApis.updatePassword(req, res);
+    const validationErr = validationResult(req);
+    if (!validationErr.isEmpty()) {
+      res.json({ success: false, err: validationErr.array() });
+    } else {
+      await resetLinkDbApis.updatePassword(req, res);
+    }
   } catch (error) {
     res.render("error", { message: "Internal server error" });
   }

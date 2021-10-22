@@ -11,8 +11,8 @@
       <div class="form">
         <form class="login-form" action="./reset" method="POST">
           <input type="hidden" name="token" value={{token}} />
-          <input type="email" name="email" placeholder="Email" />
-          <input type="password" placeholder="New password" />
+          <input type="email" name="email" placeholder="Email" required/>
+          <input type="password" placeholder="New password" required />
           <button>Reset</button>
         </form>
       </div>
