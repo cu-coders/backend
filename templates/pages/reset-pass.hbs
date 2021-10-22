@@ -1,20 +1,21 @@
-<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/newPass-style.css" />
     <title>Reset-password</title>
-</head>
-<body>
-    <form action="./reset" method="POST">
-        <input type="email" placeholder="Enter you email" name="email">
-        <br>
-        <input type="password" placeholder="New Password" name="password">
-        <br>
-        <input type="hidden" name="token" value={{token}}>
-        <br>
-        <input type="submit">
-    </form>
-</body>
+  </head>
+  <body>
+    <div class="login-page">
+      <div class="form">
+        <form class="login-form" action="./reset" method="POST">
+          <input type="hidden" name="token" value={{token}} />
+          <input type="email" name="email" placeholder="Email" />
+          <input type="password" placeholder="New password" />
+          <button>Reset</button>
+        </form>
+      </div>
+    </div>
+  </body>
 </html>
