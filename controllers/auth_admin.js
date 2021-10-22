@@ -8,13 +8,13 @@ module.exports.auth = (req, res) => {
       if (err) {
         res.status(500).json({ message: "Opps! Something went wrong" });
         res.end();
-        console.log(err);
+        
       } else if (isvalid === true && cred.username == process.env.ADMIN_NAME) {
         jwt.sign(process.env.ADMIN_NAME, process.env.SECRET, (err, token) => {
           if (err) {
             res.status(500).json({ message: "Opps! Something went wrong" });
             res.end();
-            console.log(err);
+            
           } else {
             res.cookie("auth", token, { maxAge: 3600000, httpOnly: true });
             res.redirect("./add-events");
