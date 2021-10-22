@@ -9,7 +9,7 @@ module.exports.auth = (req, res) => {
         res.status(500).json({ message: "Opps! Something went wrong" });
         res.end();
         
-      } else if (isvalid === true && cred.username == process.env.ADMIN_NAME) {
+      } else if (isvalid === true && cred.username === process.env.ADMIN_NAME) {
         jwt.sign(process.env.ADMIN_NAME, process.env.SECRET, (err, token) => {
           if (err) {
             res.status(500).json({ message: "Opps! Something went wrong" });
