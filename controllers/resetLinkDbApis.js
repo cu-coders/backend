@@ -2,7 +2,6 @@ const ResetLink = require("../models/reset_links");
 const User = require("../models/users");
 const bcrypt = require("bcrypt");
 const mailer = require("../controllers/mailer");
-const passport = require("passport");
 async function generateToken(email) {
   try {
     const salt = await bcrypt.genSalt(5);

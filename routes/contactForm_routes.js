@@ -3,8 +3,6 @@ const { validationResult } = require("express-validator");
 const rules = require("../middlewares/validation-rules");
 const contactUsDbApis = require("../controllers/contactUsDbApis");
 const router = express.Router();
-const csrf = require("csurf");
-// Fconst csrfProtection = csrf({ cookie: true });
 router.post("/",rules.contactForms,async (req, res) => {
   const validationErr = validationResult(req);
   if (validationErr.isEmpty()) {
