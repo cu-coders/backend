@@ -27,7 +27,7 @@ router.get("/add-events", (req, res) => {
   }
 });
 // saves form to the database
-router.post("/add-events", upload.single("cover"), async (req, res) => {
+router.post("/add-events", upload.single("cover"),(req, res) => {
   if (req.cookies.auth) {
     jwt.verify(req.cookies.auth, process.env.SECRET, async (err, decoded) => {
       if (err) {
