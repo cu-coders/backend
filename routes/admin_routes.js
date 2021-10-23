@@ -2,7 +2,7 @@ const express = require("express");
 const auth_admin = require("../controllers/auth_admin");
 const db_apis = require("../controllers/event_db_apis");
 const jwt = require("jsonwebtoken");
-const cloudinaryConfig = require("../configs/cloudinary_config");
+const cloudinaryConfig = require("../configs/cloudinary_config").v2;
 const upload = require("../configs/multer_config");
 //----------------------------------END of
 //IMPORTS------------------------------------//
@@ -37,7 +37,10 @@ router.post("/add-events", upload.single("cover"),(req, res) => {
         });
       } else if (decoded === process.env.ADMIN_NAME) {
         try {
-          const result = await cloudinaryConfig.uploader.upload(req.file.path);
+          const result = await cloudinaryConfig.uploader.upload(req.file.path,{
+            folder:"event covers",
+            use_filename:true
+          });
           const { secure_url, public_id } = result;
           await db_apis.insert_event(req, res, secure_url, public_id);
           //res.status(200).send("uploaded");
