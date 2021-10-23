@@ -1,55 +1,16 @@
 const express = require("express");
-const multer = require("multer");
-const isImage = require("is-image");
 const auth_admin = require("../controllers/auth_admin");
 const db_apis = require("../controllers/event_db_apis");
 const jwt = require("jsonwebtoken");
-const path = require("path");
+const cloudinaryConfig = require("../configs/cloudinary_config");
+const upload = require("../configs/multer_config");
 //----------------------------------END of
 //IMPORTS------------------------------------//
 const router = express.Router();
-//----------------------------------  MULTER ---------------------------------//
-// defining images for images
-const storage = multer.diskStorage({
-  destination: function (request, file, callback) {
-    callback(null, path.join(__dirname, "../public/covers"));
-  },
-  // extentions
-  filename: function (request, file, callback) {
-    const suff = Math.round(Math.random() * 1e9);
-    callback(
-      null,
-      path.parse(file.originalname).name +
-        "_" +
-        Date.now() +
-        "_" +
-        suff +
-        path.extname(file.originalname)
-    );
-  },
-});
-
-// upload parameters for multer
-const upload = multer({
-  storage: storage,
-  limits: {
-    // file size limit is 8MB
-    fieldSize: 1024 * 1024 * 8,
-  },
-
-  fileFilter: function (request, file, callback) {
-    const name = path.basename(file.originalname);
-    if (!isImage(name)) {
-      return callback(new Error("Uploaded File is not an Image"));
-    }
-    callback(null, true);
-  },
-}).single("cover");
-//------------------------------------END OF MULTER
-//---------------------------------//
 //-------------------------------------ADMIN
 //ROUTES----------------------------------//
 // sends form to add event
+
 router.get("/add-events", (req, res) => {
   if (req.cookies.auth) {
     jwt.verify(req.cookies.auth, process.env.SECRET, (err, decoded) => {
@@ -66,15 +27,21 @@ router.get("/add-events", (req, res) => {
   }
 });
 // saves form to the database
-router.post("/add-events", upload, async (req, res) => {
+router.post("/add-events", upload.single("cover"), async (req, res) => {
   if (req.cookies.auth) {
     jwt.verify(req.cookies.auth, process.env.SECRET, async (err, decoded) => {
       if (err) {
-        res.status(500).json({ message: "Opps! Something went wrong" });
+        //res.status(500).json({ message: "Opps! Something went wrong" });
+        res.render("error", {
+          message: "Opps! Something went wrong, can't verify the Admin",
+        });
       } else if (decoded === process.env.ADMIN_NAME) {
         try {
-          await db_apis.insert_event(req, res);
-          res.status(200).send("uploaded");
+          const result = await cloudinaryConfig.uploader.upload(req.file.path);
+          const { secure_url, public_id } = result;
+          await db_apis.insert_event(req, res, secure_url, public_id);
+          //res.status(200).send("uploaded");
+          res.render("./add-events", { message: "Event added" });
         } catch (err) {
           res.status(403).send(err.message);
         }
@@ -91,7 +58,7 @@ router.get("/login", (req, res) => {
   if (req.cookies.auth) {
     jwt.verify(req.cookies.auth, process.env.SECRET, (err, decoded) => {
       if (err) {
-        res.status(500).json({ message: "Opps! Something went wrong" });
+        res.render("error", { message: "Opps! Something went wrong" });
       } else if (decoded === process.env.ADMIN_NAME) {
         res.redirect("./add-events");
       } else {

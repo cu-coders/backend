@@ -4,11 +4,12 @@ const Event = require("../models/events");
 
 //-----------------------------------------------EVENT DATABASE
 //APIs--------------------------//
-exports.insert_event = async (req, res) => {
+exports.insert_event = async (req, res, imageURL, public_id) => {
   try {
     const tempData = req.body;
     const event = new Event({
-      imageSrc: req.file.filename,
+      imageSrc: imageURL,
+      imageId: public_id,
       author: tempData.author,
       category: tempData.category,
       title: tempData.title,

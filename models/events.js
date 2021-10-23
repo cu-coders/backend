@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
-const path = require("path");
-const fs = require("fs");
+const cloudinaryConfig = require("../configs/cloudinary_config");
 //--------------------------------END OF
 //IMPORTS---------------------------------------//
 
@@ -8,6 +7,11 @@ const fs = require("fs");
 //SCHEMA-----------------------------------------//
 const eventSchema = mongoose.Schema({
   imageSrc: {
+    type: String,
+    require: true,
+    trim: true,
+  },
+  imageId: {
     type: String,
     require: true,
     trim: true,
@@ -57,19 +61,12 @@ const eventSchema = mongoose.Schema({
 //----------------------------------DB
 //MIDDLEWARES-----------------------------------------//
 // For invalid Date range
-eventSchema.pre("save", function (next) {
+eventSchema.pre("save", async function (next) {
   const start = this.date_start;
   const end = this.date_end;
   if (start > end) {
     // Removes the uploaded image
-    fs.unlink(
-      path.join(__dirname, "../public/covers/" + this.imageSrc.toString()),
-      (err) => {
-        if (err) {
-          throw err;
-        }
-      }
-    );
+    await cloudinaryConfig.uploader.destroy(this.imageId);
     throw new Error("Invalid date range");
   } else {
     next();
