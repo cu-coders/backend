@@ -102,33 +102,30 @@ passport.use(
             success: false,
             message: "unregistered email",
           });
-        } else {
-          // Password is null i.e registered using google or github
-          if (!user.password) {
-            return done(null, false, {
-              message: "Invalid login mode",
-              success: false,
-            });
-          }
-          bcrypt.compare(password, user.password).then((isValid) => {
-            if (isValid) {
-              // Checking if email is verified by the user
-              if (user.isactive) {
-                return done(null, user._id);
-              } else {
-                return done(null, false, {
-                  message: "Please verify your email first",
-                });
-              }
-            } else {
-              // incorrect password
-              return done(null, false, {
-                message: "Invalid Credentials",
-                success: false,
-              });
-            }
+        }
+        // Password is null i.e registered using google or github
+        if (!user.password) {
+          return done(null, false, {
+            message: "Invalid login mode",
+            success: false,
           });
         }
+        bcrypt.compare(password, user.password).then((isValid) => {
+          if (isValid) {
+            // Checking if email is verified by the user
+            if (user.isactive) {
+              return done(null, user._id);
+            }
+            return done(null, false, {
+              message: "Please verify your email first",
+            });
+          }
+          // incorrect password
+          return done(null, false, {
+            message: "Invalid Credentials",
+            success: false,
+          });
+        });
       });
     }
   )

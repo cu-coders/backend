@@ -12,6 +12,7 @@ const rules = require("../middlewares/validation-rules")
 //------------------------------------------MIDDLEWARES--------------------------------------------//
 
 // const csrfProtection = csrf({ cookie: true });
+
 router.use(express.urlencoded({ extended: false }));
 router.use(express.json());
 

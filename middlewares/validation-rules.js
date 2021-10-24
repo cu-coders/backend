@@ -26,6 +26,11 @@ exports.contactForms = [
 ];
 
 exports.signupform  = [
+  check("subject").trim().notEmpty().withMessage("Subject is empty"),
+  check("message").trim().notEmpty().withMessage("Message is be empty"),
+];
+
+exports.resetForm = [
   check("email")
     .trim()
     .notEmpty()
@@ -47,4 +52,7 @@ exports.signupform  = [
   check("password")
     .notEmpty()
     .withMessage("Password should not be empty")
+  check("password")
+    .notEmpty()
+    .withMessage("Password cannot be empty")
 ];

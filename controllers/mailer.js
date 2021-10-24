@@ -32,21 +32,12 @@ exports.send_verification = async (userEmail, username, domain, token) => {
 };
 exports.sendAck = async (userEmail, subject) => {
   const message = ackMessage.getTemplate(userEmail, subject);
-  try {
-    await transporter.sendMail(message);
-    // console.log(info);
-  } catch (err) {
-    throw err;
-  }
+  await transporter.sendMail(message);
 };
 
 exports.sendReset = async (name, email, token, domain) => {
   const message = resetMessage.getTemplate(email, token, name, domain);
-  try {
-    await transporter.sendMail(message);
-  } catch (err) {
-    throw err;
-  }
+  await transporter.sendMail(message);
 };
 //--------------------------------------------END OF MAILER
 //METHOD---------------------------------------------//
