@@ -1,12 +1,17 @@
+const { validationResult } = require("express-validator");
 const express = require("express");
 const user_apis = require("../controllers/user_db_apis");
 const passport = require("passport");
 const passportConfig = require("../configs/passport_config"); // do not remove this import
 const router = express.Router();
+const rules = require("../middlewares/validation-rules")
+// const csrf = require("csurf");
 //----------------------------------------END OF
 //IMPORT--------------------------------------------//
 
 //------------------------------------------MIDDLEWARES--------------------------------------------//
+
+// const csrfProtection = csrf({ cookie: true });
 
 router.use(express.urlencoded({ extended: false }));
 router.use(express.json());
@@ -15,8 +20,16 @@ router.use(express.json());
 //MIDDLEWARES----------------------------------------//
 
 // to register new users
-router.post("/signup", (req, res) => {
-  user_apis.register(req, res);
+router.post("/signup",rules.signupform ,(req, res) => {
+  const validationErr = validationResult(req);
+  if(!validationErr.isEmpty())
+  {
+    res.json({message:"Invalid Data",err: validationErr.array()})
+  }
+  else
+  {
+    user_apis.register(req, res);
+  }
 });
 
 //-----------------------------------GOOGLE AUTHENTICATION
