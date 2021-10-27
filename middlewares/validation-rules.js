@@ -52,7 +52,4 @@ exports.resetForm = [
   check("password")
     .notEmpty()
     .withMessage("Password should not be empty")
-  check("password")
-    .notEmpty()
-    .withMessage("Password cannot be empty")
 ];
