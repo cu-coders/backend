@@ -5,7 +5,7 @@ const contactUsDbApis = require("../controllers/contactUsDbApis");
 const router = express.Router();
 // const csrf = require("csurf");
 // const csrfProtection = csrf({ cookie: true });
-router.post("/",rules.contactForms,async (req, res) => {
+
 router.post("/", rules.contactForms, async (req, res) => {
   const validationErr = validationResult(req);
   if (validationErr.isEmpty()) {
