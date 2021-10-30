@@ -7,11 +7,7 @@ module.exports = multer({
     filename: function (request, file, callback) {
       callback(
         null,
-        path.parse(file.originalname).name +
-          "_" +
-          Date.now() //+
-          //"_" +
-          //path.extname(file.originalname)
+          Date.now() 
       );
     },
   }),
