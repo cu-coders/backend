@@ -14,7 +14,7 @@ module.exports = multer({
     if (!isImage(basename)) {
       return callback(new Error("Unsupported image file"), false);
     }
-    callback(null, true);
+    return callback(null, true);
   },
   limits: {
     fileSize: 1024 * 1024 * 5, //Max size 5 MB
