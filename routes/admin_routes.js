@@ -6,17 +6,17 @@ const jwt = require("jsonwebtoken");
 const cloudinaryConfig = require("../configs/cloudinary_config").v2;
 const upload = require("../configs/multer_config");
 //----------------------------------END of
-//IMPORTS------------------------------------//
+// IMPORTS------------------------------------//
 const router = express.Router();
 //-------------------------------------ADMIN
-//ROUTES----------------------------------//
+// ROUTES----------------------------------//
 // sends form to add event
 
 router.get("/add-events", (req, res) => {
   if (req.cookies.auth) {
     jwt.verify(req.cookies.auth, process.env.SECRET, (err, decoded) => {
       if (err) {
-        res.status(500).json({ message: "Opps!Something went wrong" });
+        res.status(500).json({message : "Opps!Something went wrong"});
       } else if (decoded === process.env.ADMIN_NAME) {
         res.render("./add-events");
       } else {
@@ -32,20 +32,20 @@ router.post("/add-events", upload.single("cover"), (req, res) => {
   if (req.cookies.auth) {
     jwt.verify(req.cookies.auth, process.env.SECRET, async (err, decoded) => {
       if (err) {
-        //res.status(500).json({ message: "Opps! Something went wrong" });
+        // res.status(500).json({ message: "Opps! Something went wrong" });
         res.render("error", {
-          message: "Opps! Something went wrong, can't verify the Admin",
+          message : "Opps! Something went wrong, can't verify the Admin",
         });
       } else if (decoded === process.env.ADMIN_NAME) {
         try {
           const result = await cloudinaryConfig.uploader.upload(req.file.path, {
-            folder: "event covers",
-            use_filename: true,
+            folder : "event covers",
+            use_filename : true,
           });
-          const { secure_url, public_id } = result;
+          const {secure_url, public_id} = result;
           await db_apis.insert_event(req, res, secure_url, public_id);
-          //res.status(200).send("uploaded");
-          res.render("./add-events", { message: "Event added" });
+          // res.status(200).send("uploaded");
+          res.render("./add-events", {message : "Event added"});
         } catch (error) {
           res.status(403).send(error.message);
         }
@@ -62,7 +62,7 @@ router.get("/login", (req, res) => {
   if (req.cookies.auth) {
     jwt.verify(req.cookies.auth, process.env.SECRET, (err, decoded) => {
       if (err) {
-        res.render("error", { message: "Opps! Something went wrong" });
+        res.render("error", {message : "Opps! Something went wrong"});
       } else if (decoded === process.env.ADMIN_NAME) {
         res.redirect("./add-events");
       } else {
@@ -74,14 +74,12 @@ router.get("/login", (req, res) => {
   }
 });
 
-router.post("/login", (req, res) => {
-  auth_admin.auth(req, res);
-});
+router.post("/login", (req, res) => { auth_admin.auth(req, res); });
 
 router.get("/logout", (req, res) => {
   res.clearCookie("auth");
   res.redirect("./login");
 });
 //---------------------------------------------END OF
-//ROUTES------------------------------------//
+// ROUTES------------------------------------//
 module.exports = router;
