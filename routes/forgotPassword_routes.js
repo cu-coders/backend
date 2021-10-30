@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const { validationResult, check } = require("express-validator");
 const resetLinkDbApis = require("../controllers/resetLinkDbApis");
-const rules = require("../middlewares/validation-rules")
 router.post(
   "",
   [

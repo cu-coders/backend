@@ -7,7 +7,7 @@ module.exports = multer({
     filename: function (request, file, callback) {
       callback(
         null,
-          Date.now()+""
+          `${Date.now()}`
       );
     },
   }),

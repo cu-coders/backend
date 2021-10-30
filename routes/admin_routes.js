@@ -45,8 +45,8 @@ router.post("/add-events", upload.single("cover"),(req, res) => {
           await db_apis.insert_event(req, res, secure_url, public_id);
           //res.status(200).send("uploaded");
           res.render("./add-events", { message: "Event added" });
-        } catch (err) {
-          res.status(403).send(err.message);
+        } catch (error) {
+          res.status(403).send(error.message);
         }
       } else {
         res.redirect("./login");

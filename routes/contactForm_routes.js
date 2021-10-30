@@ -9,7 +9,7 @@ const router = express.Router();
 router.post("/", rules.contactForms, async (req, res) => {
   const validationErr = validationResult(req);
   if (validationErr.isEmpty()) {
-    contactUsDbApis.insertMessage(req, res);
+    await contactUsDbApis.insertMessage(req, res);
   } else {
     res.jsonp({ success: false, err: validationErr.array() });
   }
