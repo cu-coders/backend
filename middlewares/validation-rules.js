@@ -25,12 +25,8 @@ exports.contactForms = [
     .withMessage("Message is be empty") 
 ];
 
-exports.signupform  = [
-  check("subject").trim().notEmpty().withMessage("Subject is empty"),
-  check("message").trim().notEmpty().withMessage("Message is be empty"),
-];
 
-exports.resetForm = [
+exports.signupform = [
   check("email")
     .trim()
     .notEmpty()
