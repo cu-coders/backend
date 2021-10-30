@@ -27,8 +27,7 @@ exports.handleRquests = async (req, res) => {
       message: "Please visit your e-mail inbox for reset link",
     });
   } else {
-    res.render("error", { message: "Email is not registered" });
-    //res.json({ success: false, message: "User is not registered" });
+    res.json({ success: false, message: "User is not registered" });
   }
 };
 
