@@ -36,7 +36,14 @@ router.get("/reset", async (req, res) => {
     //res.json({ success: false, message: "Internal server error" });
   }
 });
-router.post("/reset", rules.resetForm, async (req, res) => {
+router.post("/reset", [
+    check("email")
+      .trim()
+      .notEmpty()
+      .withMessage("Please enter the email")
+      .isEmail()
+      .withMessage("Invalid Email format"),
+  ], async (req, res) => {
   try {
     const validationErr = validationResult(req);
     if (!validationErr.isEmpty()) {
