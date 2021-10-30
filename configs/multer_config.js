@@ -5,15 +5,13 @@ module.exports = multer({
   storage: multer.diskStorage({
     // extentions
     filename: function (request, file, callback) {
-      const suff = Math.round(Math.random() * 1e9);
       callback(
         null,
         path.parse(file.originalname).name +
           "_" +
-          Date.now() +
-          "_" +
-          suff +
-          path.extname(file.originalname)
+          Date.now() //+
+          //"_" +
+          //path.extname(file.originalname)
       );
     },
   }),
