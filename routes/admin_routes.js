@@ -1,3 +1,4 @@
+"use strict";
 const express = require("express");
 const auth_admin = require("../controllers/auth_admin");
 const db_apis = require("../controllers/event_db_apis");
@@ -27,7 +28,7 @@ router.get("/add-events", (req, res) => {
   }
 });
 // saves form to the database
-router.post("/add-events", upload.single("cover"),(req, res) => {
+router.post("/add-events", upload.single("cover"), (req, res) => {
   if (req.cookies.auth) {
     jwt.verify(req.cookies.auth, process.env.SECRET, async (err, decoded) => {
       if (err) {
@@ -37,9 +38,9 @@ router.post("/add-events", upload.single("cover"),(req, res) => {
         });
       } else if (decoded === process.env.ADMIN_NAME) {
         try {
-          const result = await cloudinaryConfig.uploader.upload(req.file.path,{
-            folder:"event covers",
-            use_filename:true
+          const result = await cloudinaryConfig.uploader.upload(req.file.path, {
+            folder: "event covers",
+            use_filename: true,
           });
           const { secure_url, public_id } = result;
           await db_apis.insert_event(req, res, secure_url, public_id);

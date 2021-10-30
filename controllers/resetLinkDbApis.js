@@ -1,3 +1,4 @@
+"use strict";
 const ResetLink = require("../models/reset_links");
 const User = require("../models/users");
 const bcrypt = require("bcrypt");
@@ -9,7 +10,7 @@ async function generateToken(email) {
   return token;
 }
 exports.handleRquests = async (req, res) => {
-  const {email} = req.body;
+  const { email } = req.body;
   //console.log(email);
 
   const user = await User.findOne({ email: email });
@@ -32,7 +33,7 @@ exports.handleRquests = async (req, res) => {
 };
 
 exports.verifyResetToken = async (req, res) => {
-  const {token} = req.query;
+  const { token } = req.query;
   const reset_link = await ResetLink.findOne({ token });
   if (reset_link) {
     res.render("reset-pass", { token });

@@ -1,3 +1,4 @@
+"use strict";
 const mongoose = require("mongoose");
 const cloudinaryConfig = require("../configs/cloudinary_config");
 //--------------------------------END OF

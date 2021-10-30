@@ -1,3 +1,4 @@
+"use strict";
 const multer = require("multer");
 const path = require("path");
 const isImage = require("is-image");
@@ -5,10 +6,7 @@ module.exports = multer({
   storage: multer.diskStorage({
     // extentions
     filename: function (request, file, callback) {
-      callback(
-        null,
-          `${Date.now()}`
-      );
+      callback(null, `${Date.now()}`);
     },
   }),
   fileFilter: (req, file, callback) => {

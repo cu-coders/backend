@@ -1,3 +1,4 @@
+"use strict";
 const express = require("express");
 const { validationResult } = require("express-validator");
 const rules = require("../middlewares/validation-rules");

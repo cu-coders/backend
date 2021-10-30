@@ -1,3 +1,4 @@
+"use strict";
 const Event = require("../models/events");
 //------------------------------------------------END OF
 //IMPORTS----------------------------//
