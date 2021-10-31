@@ -5,6 +5,11 @@ const teamSchema = mongoose.Schema({
     require: true,
     trim: true,
   },
+  publicId: {
+    type: String,
+    trim: true,
+    require: true,
+  },
   fullname: {
     type: String,
     require: true,

@@ -5,6 +5,7 @@ const db_apis = require("../controllers/event_db_apis");
 const jwt = require("jsonwebtoken");
 const cloudinaryConfig = require("../configs/cloudinary_config").v2;
 const upload = require("../configs/multer_config");
+const teamDBApis = require("../controllers/teamDBApis");
 //----------------------------------END of
 //IMPORTS------------------------------------//
 const router = express.Router();
@@ -57,6 +58,44 @@ router.post("/add-events", upload.single("cover"), (req, res) => {
     res.redirect("./login");
   }
 });
+router.get("/add-team", (req, res) => {
+  if (req.cookies.auth) {
+    jwt.verify(req.cookies.auth, process.env.SECRET, (err, decoded) => {
+      if (err) {
+        res.status(500).json({ message: "Opps!Something went wrong" });
+      } else if (decoded === process.env.ADMIN_NAME) {
+        res.render("add-team");
+      } else {
+        res.redirect("./login");
+      }
+    });
+  } else {
+    res.redirect("./login");
+  }
+});
+router.post("/add-team", upload.single("profileImage"), async (req, res) => {
+  if (req.cookies.auth) {
+    jwt.verify(req.cookies.auth, process.env.SECRET, async (err, decode) => {
+      if (err) {
+        res.render("error", { message: "Something went wrong" });
+      } else if (decode === process.env.ADMIN_NAME) {
+        try {
+          const result = await cloudinaryConfig.uploader.upload(req.file.path, {
+            folder: "profile-images",
+            use_filename: true,
+          });
+          const { secure_url, public_id } = result;
+          await teamDBApis.addTeam(req, res, secure_url, public_id);
+        } catch (error) {
+          res.render("error", { message: "Profile can't be added" });
+        }
+      } else {
+        res.redirect("./login");
+      }
+    });
+  }
+});
+
 // sends admin login form
 router.get("/login", (req, res) => {
   if (req.cookies.auth) {
