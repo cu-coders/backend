@@ -32,7 +32,7 @@ exports.register = async (req, res) => {
       });
 
       // Sending the verification mail to the user-email
-      const isSent = await user.send_verification(req, res);
+      const isSent = await user.send_verification(req);
       if (isSent) {
         user.save();
         res.send({ message: "Registered, please visit your email" });

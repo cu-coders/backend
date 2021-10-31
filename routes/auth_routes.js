@@ -80,8 +80,8 @@ router.get("/user", (req, res) => {
 });
 //--------------------------------------EMAIL LOGIN AND LOGOUT
 //ROUTES---------------------------------//
-router.post("/login", function (req, res, next) {
-  passport.authenticate("local", function (err, user, info) {
+router.post("/login", (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
     if (err) {
       return next(err);
     }

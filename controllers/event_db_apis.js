@@ -5,7 +5,7 @@ const Event = require("../models/events");
 
 //-----------------------------------------------EVENT DATABASE
 //APIs--------------------------//
-exports.insert_event = async (req, res, imageURL, public_id) => {
+exports.insert_event = async (req, imageURL, public_id) => {
   try {
     const tempData = req.body;
     const event = new Event({
@@ -27,18 +27,14 @@ exports.insert_event = async (req, res, imageURL, public_id) => {
 };
 
 // API for ongoing events
-exports.read_ongoing_events = async (req, res) => {
-  try {
-    const data = await Event.find({
-      $and: [
-        { date_start: { $lte: Date.now() } },
-        { date_end: { $gte: Date.now() } },
-      ],
-    });
-    return data;
-  } catch (err) {
-    //console.log(data);
-  }
+exports.read_ongoing_events = async () => {
+  const data = await Event.find({
+    $and: [
+      { date_start: { $lte: Date.now() } },
+      { date_end: { $gte: Date.now() } },
+    ],
+  });
+  return data;
 };
 
 // API for upcomming events

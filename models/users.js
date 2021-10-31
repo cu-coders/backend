@@ -65,7 +65,7 @@ userSchema.pre("save", async function (next) {
 //----------------------------------------------------------DB METHODS----------------------------------------//
 
 //Mail varification Methods
-userSchema.methods.send_verification = async function (req, res) {
+userSchema.methods.send_verification = async function (req) {
   try {
     await mailer.send_verification(
       this.email,

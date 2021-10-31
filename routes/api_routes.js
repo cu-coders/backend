@@ -17,10 +17,10 @@ router.get("/upcomming-events", async (req, res) => {
 
 router.get("/ongoing-events", async (req, res) => {
   try {
-    const data = await db_apis.read_ongoing_events(req, res);
+    const data = await db_apis.read_ongoing_events();
     res.json(data);
   } catch (err) {
-    console.log(err);
+    res.json({ success: false, message: "Can't read data" });
   }
 });
 

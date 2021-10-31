@@ -44,7 +44,7 @@ router.post("/add-events", upload.single("cover"), (req, res) => {
             use_filename: true,
           });
           const { secure_url, public_id } = result;
-          await db_apis.insert_event(req, res, secure_url, public_id);
+          await db_apis.insert_event(req, secure_url, public_id);
           //res.status(200).send("uploaded");
           res.render("./add-events", { message: "Event added" });
         } catch (error) {
