@@ -5,7 +5,7 @@ const isImage = require("is-image");
 module.exports = multer({
   storage: multer.diskStorage({
     // extentions
-    filename: function (request, file, callback) {
+    filename(request, file, callback) {
       callback(null, `${Date.now()}`);
     },
   }),
