@@ -47,6 +47,9 @@
     </style>
   </head>
   <body>
+    {{#if message}}
+    <h1>{{message}}</h1>
+    {{/if}}
      <div class="btn-block"style="margin-top:10;">
           <button  onclick="window.location.href = './logout';"  style="background: red;">Logout</button>
         </div>

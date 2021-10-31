@@ -1,3 +1,4 @@
+"use strict";
 const ResetLink = require("../models/reset_links");
 const User = require("../models/users");
 const bcrypt = require("bcrypt");
@@ -9,7 +10,7 @@ async function generateToken(email) {
   return token;
 }
 exports.handleRquests = async (req, res) => {
-  const {email} = req.body;
+  const { email } = req.body;
   //console.log(email);
 
   const user = await User.findOne({ email: email });
@@ -27,13 +28,12 @@ exports.handleRquests = async (req, res) => {
       message: "Please visit your e-mail inbox for reset link",
     });
   } else {
-    res.render("error", { message: "Email is not registered" });
-    //res.json({ success: false, message: "User is not registered" });
+    res.json({ success: false, message: "User is not registered" });
   }
 };
 
 exports.verifyResetToken = async (req, res) => {
-  const {token} = req.query;
+  const { token } = req.query;
   const reset_link = await ResetLink.findOne({ token });
   if (reset_link) {
     res.render("reset-pass", { token });

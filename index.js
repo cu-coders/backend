@@ -91,7 +91,7 @@ app.use("/admin/", admin_routes);
 app.use("/contact-us", contactUsRoutes);
 app.use("/forget", forgetPasswordRoutes);
 app.get("/form-token",(req, res) => {
-  // res.json({ formToken: req.csrfToken() });
+   res.json({ formToken: "sample token" });
 });
 //---------------------------------------------------END OF
 //ROUTINGS--------------------------------------------//
