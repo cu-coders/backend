@@ -93,8 +93,8 @@ router.post("/login", (req, res, next) => {
         username: null,
       });
     }
-    req.login(user, (err) => {
-      if (err) {
+    req.login(user, (error) => {
+      if (error) {
         res.status(406).json({ success: false });
       } else {
         res.status(200).json({
