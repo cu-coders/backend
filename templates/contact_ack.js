@@ -1,4 +1,5 @@
-exports.getTemplate = (userEmail, subject,name) => {
+"use strict";
+exports.getTemplate = (userEmail, subject, name) => {
   const message = {
     from: process.env.EMAIL_SENDER,
     to: userEmail,

@@ -1,3 +1,4 @@
+"use strict";
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const mailer = require("../controllers/mailer");
@@ -58,7 +59,6 @@ userSchema.pre("save", async function (next) {
   }
   next();
 });
-
 
 //-------------------------------------------------------END OF DB MIDDLEWARES-------------------------------//
 

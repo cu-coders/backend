@@ -1,3 +1,4 @@
+"use strict";
 const Message = require("../models/message");
 const mailer = require("./mailer");
 //--------------------------------END OF

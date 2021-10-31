@@ -1,3 +1,4 @@
+"use strict";
 const User = require("../models/users");
 const bcrypt = require("bcrypt");
 //-------------------------------------END OF IMPORTS--------------------------------------//

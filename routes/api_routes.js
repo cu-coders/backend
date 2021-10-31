@@ -1,3 +1,4 @@
+"use strict";
 const express = require("express");
 const db_apis = require("../controllers/event_db_apis");
 const teamDBApis = require("../controllers/teamDBApis");

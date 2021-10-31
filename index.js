@@ -1,3 +1,4 @@
+"use strict";
 require("dotenv").config();
 const express = require("express");
 const path = require("path");
@@ -90,8 +91,8 @@ app.use("/auth/", auth_routes);
 app.use("/admin/", admin_routes);
 app.use("/contact-us", contactUsRoutes);
 app.use("/forget", forgetPasswordRoutes);
-app.get("/form-token",(req, res) => {
-   res.json({ formToken: "sample token" });
+app.get("/form-token", (req, res) => {
+  res.json({ formToken: "sample token" });
 });
 //---------------------------------------------------END OF
 //ROUTINGS--------------------------------------------//
