@@ -58,6 +58,7 @@ router.post("/add-events", upload.single("cover"), (req, res) => {
     res.redirect("./login");
   }
 });
+/* Render the team submission form */
 router.get("/add-team", (req, res) => {
   if (req.cookies.auth) {
     jwt.verify(req.cookies.auth, process.env.SECRET, (err, decoded) => {
@@ -73,6 +74,7 @@ router.get("/add-team", (req, res) => {
     res.redirect("./login");
   }
 });
+/* Handle team submit form request*/
 router.post("/add-team", upload.single("profileImage"), async (req, res) => {
   if (req.cookies.auth) {
     jwt.verify(req.cookies.auth, process.env.SECRET, async (err, decode) => {
