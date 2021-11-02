@@ -1,4 +1,5 @@
 "use strict";
+const sanitize = require("mongo-sanitize");
 const ResetLink = require("../models/reset_links");
 const User = require("../models/users");
 const bcrypt = require("bcrypt");
@@ -10,9 +11,8 @@ async function generateToken(email) {
   return token;
 }
 exports.handleRquests = async (req, res) => {
-  const { email } = req.body;
+  const email = sanitize(req.body.email);
   //console.log(email);
-
   const user = await User.findOne({ email });
   if (user) {
     // handel the req
@@ -33,7 +33,7 @@ exports.handleRquests = async (req, res) => {
 };
 
 exports.verifyResetToken = async (req, res) => {
-  const { token } = req.query;
+  const  token  = sanitize(req.query.token);
   const reset_link = await ResetLink.findOne({ token });
   if (reset_link) {
     res.render("reset-pass", { token });
@@ -44,7 +44,9 @@ exports.verifyResetToken = async (req, res) => {
 };
 
 exports.updatePassword = async (req, res) => {
-  const { email, password, token } = req.body;
+  const email = sanitize(req.body.email);
+  const password = sanitize(req.body.password);
+  const token = sanitize(req.body.token);
   const reset_link = await ResetLink.findOneAndDelete({
     $and: [{ email, token }],
   });
