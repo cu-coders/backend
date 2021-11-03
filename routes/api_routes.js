@@ -20,7 +20,7 @@ router.get("/ongoing-events", async (req, res) => {
     const data = await db_apis.read_ongoing_events();
     res.json(data);
   } catch (err) {
-    res.json({ success: false, message: "Can't read data" });
+    res.json({success : false, message : "Can't read data"});
   }
 });
 
@@ -40,7 +40,7 @@ router.get("/team", async (req, res) => {
   try {
     await teamDBApis.getTeam(res);
   } catch (error) {
-    res.json({ success: false, message: "Internal server error" });
+    res.json({success : false, message : "Internal server error"});
   }
 });
 
