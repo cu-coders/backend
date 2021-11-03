@@ -15,10 +15,10 @@ exports.register = async (req, res) => {
   const lastname = sanitize(req.body.lastname);
   const password = sanitize(req.body.password);
   try {
-    const e_user = await User.findOne({email});
+    const e_user = await User.findOne({ email });
     if (e_user) {
       // Email is already registered
-      res.send({message : "An account with this email already exists"});
+      res.send({ message: "An account with this email already exists" });
     } else {
       // Registering new user
       const salt = await bcrypt.genSalt(10);
@@ -27,26 +27,28 @@ exports.register = async (req, res) => {
         lastname,
         email,
         password,
-        mailtoken :
-            await bcrypt.hash(tempData.email + Date.now().toString(), salt),
-        isactive : false,
-        auth_type : "email",
-        third_partyID : null,
+        mailtoken: await bcrypt.hash(
+          tempData.email + Date.now().toString(),
+          salt
+        ),
+        isactive: false,
+        auth_type: "email",
+        third_partyID: null,
       });
 
       // Sending the verification mail to the user-email
       const isSent = await user.send_verification(req);
       if (isSent) {
         user.save();
-        res.send({message : "Registered, please visit your email"});
+        res.send({ message: "Registered, please visit your email" });
       } else {
         // vaification email was not sent
-        res.status(400).res({message : "Can't verify the email address."});
+        res.status(400).res({ message: "Can't verify the email address." });
       }
     }
   } catch (err) {
     console.log(err);
-    res.status(500).res({message : "Something went wrong"});
+    res.status(500).res({ message: "Something went wrong" });
   }
 };
 //---------------------------------------END OF USER REGISTRATION VIA
@@ -57,7 +59,7 @@ exports.register = async (req, res) => {
 exports.verify_mail = async (req, res) => {
   try {
     const mailtoken = sanitize(req.query.token);
-    const user = await User.findOne({mailtoken});
+    const user = await User.findOne({ mailtoken });
     if (user) {
       user.mailtoken = null;
       user.isactive = true;
