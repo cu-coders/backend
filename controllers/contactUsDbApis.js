@@ -1,15 +1,20 @@
+"use strict";
+const  sanitize  = require("mongo-sanitize");
 const Message = require("../models/message");
 const mailer = require("./mailer");
 //--------------------------------END OF
 //IMPORTS---------------------------------------//
 exports.insertMessage = async (req, res) => {
-  const tempData = req.body;
+  const email = sanitize(req.body.email);
+  const fullname = sanitize(req.body.fullname);
+  const subject = sanitize(req.body.subject);
+  const sMessage = sanitize(req.body.message);
   try {
     const message = new Message({
-      email: tempData.email,
-      fullname: tempData.fullname,
-      subject: tempData.subject,
-      message: tempData.message,
+      email,
+      fullname,
+      subject,
+      message: sMessage,
     });
     await mailer.sendAck(message.email, message.subject, message.fullname);
     await message.save();

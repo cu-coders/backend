@@ -1,3 +1,4 @@
+"use strict";
 const { check } = require("express-validator");
 //--------------------------------END OF
 //IMPORTS---------------------------------------//
@@ -21,14 +22,24 @@ exports.contactForms = [
   check("message").trim().notEmpty().withMessage("Message is be empty"),
 ];
 
-exports.resetForm = [
+exports.signupform = [
   check("email")
     .trim()
     .notEmpty()
     .withMessage("Email address is required")
     .isEmail()
     .withMessage("Invalid Email address"),
-  check("password")
+  check("firstname")
+    .trim()
     .notEmpty()
-    .withMessage("Password cannot be empty")
+    .withMessage("First name is required")
+    .matches(/^[a-zA-Z*$]/)
+    .withMessage("Only characters with white space are allowed"),
+  check("lastname")
+    .trim()
+    .notEmpty()
+    .withMessage("Last name is required")
+    .matches(/^[a-zA-Z*$]/)
+    .withMessage("Only characters with white space are allowed"),
+  check("password").notEmpty().withMessage("Password should not be empty"),
 ];

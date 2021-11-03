@@ -1,4 +1,6 @@
+"use strict";
 const passport = require("passport");
+const sanitize = require("mongo-sanitize");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const LocalStrategy = require("passport-local").Strategy;
 const GitHubStrategy = require("passport-github2").Strategy;
@@ -18,15 +20,19 @@ passport.use(
       callbackURL: "https://main-cu-coders.herokuapp.com/auth/google/redirect",
     },
     (accessToken, refreshToken, profile, done) => {
-      User.findOne({ email: profile.emails[0].value }).then((oldUser) => {
+      const email = sanitize(profile.emails[0].value);
+      User.findOne({ email }).then((oldUser) => {
         if (oldUser) {
           done(null, oldUser._id);
         } else {
+          const firstname = sanitize(profile.name.givenName);
+          const lastname = sanitize(profile.name.familyName);
+          const third_partyID = sanitize(profile.id);
           new User({
-            firstname: profile.name.givenName,
-            lastname: profile.name.familyName,
-            email: profile.emails[0].value,
-            third_partyID: profile.id,
+            firstname,
+            lastname,
+            email,
+            third_partyID,
             auth_type: "google",
             password: null,
             mailtoken: null,
@@ -57,17 +63,19 @@ passport.use(
     },
     (accessToken, refreshToken, profile, done) => {
       //console.log(profile);
-      User.findOne({ email: profile.emails[0].value }).then((oldUser) => {
+      const email = sanitize(profile.emails[0].value);
+      User.findOne({ email }).then((oldUser) => {
         if (oldUser) {
           // User with the same email already exists
           done(null, oldUser._id);
         } else {
-          // New User
+          const firstname = sanitize(profile.displayName);
+          const third_partyID = sanitize(profile.id);
           new User({
-            firstname: profile.displayName,
+            firstname,
             lastname: null,
-            email: profile.emails[0].value,
-            third_partyID: profile.id,
+            email,
+            third_partyID,
             auth_type: "github",
             password: null,
             mailtoken: null,
@@ -92,7 +100,8 @@ passport.use(
   new LocalStrategy(
     { usernameField: "email", passwordField: "password", session: true },
     (email, password, done) => {
-      User.findOne({ email: email }, (err, user) => {
+      const sEmail = sanitize(email);
+      User.findOne({ email:sEmail }, (err, user) => {
         if (err) {
           return done(err);
         }
@@ -110,7 +119,8 @@ passport.use(
             success: false,
           });
         }
-        bcrypt.compare(password, user.password).then((isValid) => {
+        const sPassword = sanitize(password);
+        bcrypt.compare(sPassword, user.password).then((isValid) => {
           if (isValid) {
             // Checking if email is verified by the user
             if (user.isactive) {
