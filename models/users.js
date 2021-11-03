@@ -1,3 +1,4 @@
+"use strict";
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const mailer = require("../controllers/mailer");
@@ -59,13 +60,12 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-
 //-------------------------------------------------------END OF DB MIDDLEWARES-------------------------------//
 
 //----------------------------------------------------------DB METHODS----------------------------------------//
 
 //Mail varification Methods
-userSchema.methods.send_verification = async function (req, res) {
+userSchema.methods.send_verification = async function (req) {
   try {
     await mailer.send_verification(
       this.email,

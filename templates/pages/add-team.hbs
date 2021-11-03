@@ -59,60 +59,42 @@
     <div class="testbox">
 
       <form
-        action="./add-events"
+        action="./add-team"
         method="post"
         enctype="multipart/form-data"
         style="margin-top:5px ;"
       >
-        <h1>Add a new event</h1>
+        <h1>Add a new Team member</h1>
         <p>Technology like art is a soaring exercise of the human imagination.</p>
         <hr />
         <div class="item">
-          <p>Starting date</p>
-          <input type="date" name="date_start" required />
-          <i class="fas fa-calendar-alt"></i>
+          <p>Fullname</p>
+          <input type="text" name="fullname" />
         </div>
         <div class="item">
-          <p>Ending date</p>
-          <input type="date" name="date_end" required />
-          <i class="fas fa-calendar-alt"></i>
-        </div>
-
-        <div class="item">
-          <p>Title</p>
-          <input type="text" name="title" />
+          <p>Role</p>
+          <input type="text" name="role" />
         </div>
         <div class="item">
-          <p>Subtitle</p>
-          <input type="text" name="subtitle" />
+          <p>Linkedin</p>
+          <input type="text" name="linkedin" />
         </div>
         <div class="item">
-          <p>Author</p>
-          <input type="text" name="author" />
+          <p>Instagram</p>
+          <input type="text" name="instagram" />
         </div>
         <div class="item">
-          <p>Category</p>
-          <input type="text" name="Category" />
+          <p>Github</p>
+          <input type="text" name="github" />
         </div>
         <div class="item">
-          <p>Contest url</p>
-          <input type="text" name="url" />
-        </div>
-        <div class="item">
-          <p>Cover image</p>
-          <input type="file" name="cover" accept="image/*" />
-        </div>
-        <div class="item">
-          <p>Description</p>
-          <div class="details-tiem">
-            <textarea rows="5" name="description"></textarea>
-          </div>
+          <p>Profile image</p>
+          <input type="file" name="profileImage" accept="image/*" />
         </div>
         <div class="btn-block">
-          <button type="submit" href="/">Send</button>
+          <button type="submit" href="/">Add</button>
         </div>
       </form>
     </div>
-
   </body>
 </html>

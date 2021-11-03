@@ -1,3 +1,4 @@
+"use strict";
 const nodemailer = require("nodemailer");
 const gen_message = require("../templates/email_verification");
 const ackMessage = require("../templates/contact_ack.js");
