@@ -70,7 +70,7 @@ app.use(
     keys: [process.env.COOKIE_SESSION_KEY],
     httpOnly: true,
     secure: true,
-    sameSite: "Strict",
+    sameSite: "none",
   })
 );
 app.use(cookieParser());
