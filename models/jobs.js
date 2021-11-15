@@ -1,10 +1,11 @@
+"use strict";
 const mongoose = require("mongoose");
 const jobSchema = mongoose.Schema({
-  role: {
+  name: {
     type: String,
     require: true,
   },
-  applicantName: {
+  role: {
     type: String,
     require: true,
   },
@@ -16,13 +17,16 @@ const jobSchema = mongoose.Schema({
     type: String,
     require: true,
   },
-  phone: {
+  number: {
     type: String,
     require: true,
   },
   resume: {
     type: String,
     require: true,
+  },
+  resumeId: {
+    type: String,
   },
 });
 const Job = mongoose.model("job-application", jobSchema);
