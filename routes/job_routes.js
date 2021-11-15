@@ -8,7 +8,6 @@ router.post("/apply", uploadDoc.single("resume"), (req, res) => {
     addJobApplication(req, res);
   } catch (error) {
     res.json({
-      err:error.message,
       success: false,
       message: "Form submission failed",
     });
