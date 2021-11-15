@@ -5,7 +5,7 @@ const { uploadDoc } = require("../configs/multer_config");
 const jobDBApis = require("../controllers/jobDBApis");
 router.post("/apply", uploadDoc.single("resume"), (req, res) => {
   try {
-    jobDBApis.addJobApplication(req, res);
+    addJobApplication(req, res);
   } catch (error) {
     res.json({
       err:error.message,
