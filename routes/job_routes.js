@@ -2,14 +2,12 @@
 const express = require("express");
 const router = express.Router();
 const { uploadDoc } = require("../configs/multer_config");
-const { addJobApplication } = require("../controllers/jobDBApis");
+const jobDBApis = require("../controllers/jobDBApis");
 router.post("/apply", uploadDoc.single("resume"), (req, res) => {
   try {
-    addJobApplication(req, res);
+    jobDBApis.addJobApplication(req, res);
   } catch (error) {
     res.json({
-      error:error.message,
-      data:req.body,
       success: false,
       message: "Form submission failed",
     });
