@@ -5,10 +5,10 @@ const sanitize = require("mongo-sanitize");
 
 exports.addJobApplication = async (req, res) => {
   const uploadResult = await cloudinaryConfig.uploader.upload(req.file.path, {
-    folder : "resume",
-    use_filename : true,
+    folder: "resume",
+    use_filename: true,
   });
-  const {secure_url, public_id} = uploadResult;
+  const { secure_url, public_id } = uploadResult;
   const name = sanitize(req.body.name);
   const email = sanitize(req.body.email);
   const address = sanitize(req.body.address);
@@ -20,12 +20,12 @@ exports.addJobApplication = async (req, res) => {
     address,
     number,
     role,
-    resume : secure_url,
-    resumeId : public_id,
+    resume: secure_url,
+    resumeId: public_id,
   });
   try {
     await newApplicant.save();
-    res.json({success : true, message : "Applied Successfully!"});
+    res.json({ success: true, message: "Applied Successfully!" });
   } catch (error) {
     await cloudinaryConfig.uploader.destroy(newApplicant.resumeId);
     throw new Error("Cannot add to the database");
