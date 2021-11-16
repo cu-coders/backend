@@ -10,6 +10,7 @@ const auth_routes = require("./routes/auth_routes");
 const admin_routes = require("./routes/admin_routes");
 const contactUsRoutes = require("./routes/contactForm_routes");
 const forgetPasswordRoutes = require("./routes/forgotPassword_routes");
+const jobRoutes = require("./routes/job_routes");
 const cors = require("cors");
 const passport = require("passport");
 // const csrf = require("csurf");
@@ -87,6 +88,7 @@ app.disable("x-powered-by");
 
 //-----------------------------------------------------ROUTINGS-------------------------------------------------//
 app.use("/api/", api_routes);
+app.use("/jobs/", jobRoutes);
 app.use("/auth/", auth_routes);
 app.use("/admin/", admin_routes);
 app.use("/contact-us", contactUsRoutes);

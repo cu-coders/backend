@@ -4,7 +4,7 @@ const auth_admin = require("../controllers/auth_admin");
 const db_apis = require("../controllers/event_db_apis");
 const jwt = require("jsonwebtoken");
 const cloudinaryConfig = require("../configs/cloudinary_config").v2;
-const upload = require("../configs/multer_config");
+const { uploadImage } = require("../configs/multer_config");
 const teamDBApis = require("../controllers/teamDBApis");
 //----------------------------------END of
 //IMPORTS------------------------------------//
@@ -29,7 +29,7 @@ router.get("/add-events", (req, res) => {
   }
 });
 // saves form to the database
-router.post("/add-events", upload.single("cover"), (req, res) => {
+router.post("/add-events", uploadImage.single("cover"), (req, res) => {
   if (req.cookies.auth) {
     jwt.verify(req.cookies.auth, process.env.SECRET, async (err, decoded) => {
       if (err) {
@@ -75,7 +75,7 @@ router.get("/add-team", (req, res) => {
   }
 });
 /* Handle team submit form request*/
-router.post("/add-team", upload.single("profileImage"), async (req, res) => {
+router.post("/add-team", uploadImage.single("profileImage"), async (req, res) => {
   if (req.cookies.auth) {
     jwt.verify(req.cookies.auth, process.env.SECRET, async (err, decode) => {
       if (err) {
