@@ -56,7 +56,7 @@ exports.verify_mail = async (req, res) => {
   try {
     const mailtoken = sanitize(req.query.token);
     const user = await User.findOne({ mailtoken });
-    if (user) {
+    if (user && mailtoken) {
       user.mailtoken = null;
       user.isactive = true;
       await user.save();
