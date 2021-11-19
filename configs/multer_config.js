@@ -34,6 +34,6 @@ exports.uploadDoc = multer({
     return callback(new Error("Unsupported file format"));
   },
   limits: {
-    fileSize: 1024 * 1024 * 5,
+    fileSize: 1024 * 1024 * 20,
   },
 });

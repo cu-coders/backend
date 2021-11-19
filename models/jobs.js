@@ -8,6 +8,17 @@ const jobSchema = mongoose.Schema({
   role: {
     type: String,
     require: true,
+    enum: [
+      "backend-developer",
+      "frontend-developer",
+      "fullstack-developer",
+      "problem-setter",
+      "problem-tester",
+      "editorialist",
+      "graphic-designer",
+      "ui/ux-designer",
+      "motion-designer",
+    ],
   },
   email: {
     type: String,

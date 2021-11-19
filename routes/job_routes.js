@@ -8,12 +8,12 @@ router.post("/apply", uploadDoc.single("resume"), async (req, res) => {
     await jobDBApis.addJobApplication(req, res);
   } catch (error) {
     res.json({
-      message: error.message,
+      err: error.message,
       success: false,
       message: "Form submission failed",
     });
-  }finally{
-      return;
+  } finally {
+    return;
   }
 });
 module.exports = router;

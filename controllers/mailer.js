@@ -3,6 +3,7 @@ const nodemailer = require("nodemailer");
 const gen_message = require("../templates/email_verification");
 const ackMessage = require("../templates/contact_ack.js");
 const resetMessage = require("../templates/resetPassword.js");
+const applicationMessage = require("../templates/job_ack.js");
 //--------------------------------------------END OF
 //IMPORTS--------------------------------------------------//
 //-------------------------------------------CONFIG.
@@ -38,6 +39,11 @@ exports.sendAck = async (userEmail, subject) => {
 
 exports.sendReset = async (name, email, token, domain) => {
   const message = resetMessage.getTemplate(email, token, name, domain);
+  await transporter.sendMail(message);
+};
+
+exports.applicationAck = async (email, role, name) => {
+  const message = applicationMessage.getTemplate(email, role, name);
   await transporter.sendMail(message);
 };
 //--------------------------------------------END OF MAILER
