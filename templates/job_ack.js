@@ -535,4 +535,5 @@ We are currently in the procesing your application. If you are selected for an i
 
 </html>`,
   };
+  return message;
 };
