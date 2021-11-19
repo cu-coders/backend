@@ -5,7 +5,7 @@ const sanitize = require("mongo-sanitize");
 
 exports.addJobApplication = async (req, res) => {
   const uploadResult = await cloudinaryConfig.uploader.upload(req.file.path, {
-    folder: `resume`,
+    folder: "resume",
     use_filename: true,
     resource_type: "raw",
   });
