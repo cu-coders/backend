@@ -10,12 +10,12 @@ const applicationMessage = require("../templates/job_ack.js");
 // TRANSPORTER-------------------------------------------//
 const transporter = nodemailer.createTransport({
   // service: process.env.EMAIL_SERVICE_NAME,
-  host : "smtppro.zoho.in",
-  secure : true,
-  port : 465,
-  auth : {
-    user : process.env.EMAIL_SENDER,
-    pass : process.env.EMAIL_PASSWORD,
+  host: "smtppro.zoho.in",
+  secure: true,
+  port: 465,
+  auth: {
+    user: process.env.EMAIL_SENDER,
+    pass: process.env.EMAIL_PASSWORD,
   },
 });
 //-----------------------------------------END CONFIG.

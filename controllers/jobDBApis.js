@@ -5,13 +5,15 @@ const sanitize = require("mongo-sanitize");
 const mailer = require("./mailer");
 
 exports.addJobApplication = async (req, res) => {
-  const uploadResult =
-      await cloudinaryConfig.v2.uploader.upload(req.file.path, {
-        folder : `resume/${req.body.role}`,
-        use_filename : true,
-        resource_type : "auto",
-      });
-  const {secure_url, public_id} = uploadResult;
+  const uploadResult = await cloudinaryConfig.v2.uploader.upload(
+    req.file.path,
+    {
+      folder: `resume/${req.body.role}`,
+      use_filename: true,
+      resource_type: "auto",
+    }
+  );
+  const { secure_url, public_id } = uploadResult;
   const name = sanitize(req.body.name);
   const email = sanitize(req.body.email);
   const address = sanitize(req.body.address);
@@ -23,13 +25,13 @@ exports.addJobApplication = async (req, res) => {
     address,
     number,
     role,
-    resume : secure_url,
-    resumeId : public_id,
+    resume: secure_url,
+    resumeId: public_id,
   });
   try {
     await mailer.applicationAck(email, role, name);
     await newApplicant.save();
-    res.json({success : true, message : "Applied Successfully!"});
+    res.json({ success: true, message: "Applied Successfully!" });
   } catch (error) {
     await cloudinaryConfig.uploader.destroy(newApplicant.resumeId);
     throw error;
