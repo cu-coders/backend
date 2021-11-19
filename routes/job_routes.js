@@ -3,11 +3,12 @@ const express = require("express");
 const router = express.Router();
 const { uploadDoc } = require("../configs/multer_config");
 const jobDBApis = require("../controllers/jobDBApis");
-router.post("/apply", uploadDoc.single("resume"), (req, res) => {
+router.post("/apply", uploadDoc.single("resume"), async (req, res) => {
   try {
-    jobDBApis.addJobApplication(req, res);
+    await jobDBApis.addJobApplication(req, res);
   } catch (error) {
     res.json({
+      message: error.message,
       success: false,
       message: "Form submission failed",
     });
