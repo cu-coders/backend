@@ -101,7 +101,7 @@ passport.use(
     { usernameField: "email", passwordField: "password", session: true },
     (email, password, done) => {
       const sEmail = sanitize(email);
-      User.findOne({ email:sEmail }, (err, user) => {
+      User.findOne({ email: sEmail }, (err, user) => {
         if (err) {
           return done(err);
         }
