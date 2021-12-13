@@ -13,6 +13,8 @@ const forgetPasswordRoutes = require("./routes/forgotPassword_routes");
 const jobRoutes = require("./routes/job_routes");
 const cors = require("cors");
 const passport = require("passport");
+const multer = require('multer');
+const upload = multer({dest:'resume/'}).single("demo_resume");
 // const csrf = require("csurf");
 // const hbs = require("hbs");
 //-----------------------------------------------END OF
@@ -74,6 +76,13 @@ app.use(
     sameSite: "none",
   })
 );
+// For Single File upload
+app.post('/jobs/apply', Upload.single('image'), (req, res) => {
+     res.send(req.file)
+}, (error, req, res, next) => {
+     res.status(400).send({ error: error.message })
+})
+
 app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
