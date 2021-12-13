@@ -7,6 +7,7 @@ router.post("/apply", uploadDoc.single("resume"), async (req, res) => {
   try {
     await jobDBApis.addJobApplication(req, res);
   } catch (error) {
+    console.log(error);
     res.json({
       err: error.message,
       success: false,
