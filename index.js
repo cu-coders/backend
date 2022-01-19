@@ -9,6 +9,7 @@ const api_routes = require("./routes/api_routes");
 const auth_routes = require("./routes/auth_routes");
 const admin_routes = require("./routes/admin_routes");
 const contactUsRoutes = require("./routes/contactForm_routes");
+const projectRoutes = require("./routes/projectForm_routes");
 const forgetPasswordRoutes = require("./routes/forgotPassword_routes");
 const jobRoutes = require("./routes/job_routes");
 const cors = require("cors");
@@ -102,6 +103,7 @@ app.use("/auth/", auth_routes);
 app.use("/admin/", admin_routes);
 app.use("/contact-us", contactUsRoutes);
 app.use("/forget", forgetPasswordRoutes);
+app.use("/project", projectRoutes);
 app.get("/form-token", (req, res) => {
   res.json({ formToken: "sample token" });
 });
