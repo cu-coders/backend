@@ -38,7 +38,6 @@ exports.projectForm = [
     .withMessage("Invalid Email address"),
   check("details")
     .trim()
-    .notEmpty()
     .withMessage("Details is required"),
 ];
 
