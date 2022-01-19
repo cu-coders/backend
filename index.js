@@ -15,7 +15,8 @@ const jobRoutes = require("./routes/job_routes");
 const cors = require("cors");
 const passport = require("passport");
 const multer = require('multer');
-const upload = multer({dest:'resume/'}).single("demo_resume");
+const upload = multer({dest:'resume/'})
+//.single("demo_resume");
 // const csrf = require("csurf");
 // const hbs = require("hbs");
 //-----------------------------------------------END OF
