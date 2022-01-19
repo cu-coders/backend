@@ -6,19 +6,19 @@ const mongoose = require("mongoose");
 //--------------------------------CONTACT US
 //SCHEMA-----------------------------------------//
 const messageSchema = mongoose.Schema({
-  email: {
+  name: {
     type: String,
     require: true,
     trim: true,
   },
-  name: {
+  email: {
     type: String,
     require: true,
     trim: true,
   },
   details: {
     type: String,
-    require: true,
+    require: false,
     trim: true,
   },
   // document will be removed after 3 mos(5256000 sec)
