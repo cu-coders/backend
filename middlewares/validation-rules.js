@@ -58,8 +58,8 @@ exports.projectForm = [
     .normalizeEmail()
     .isEmail()
     .withMessage("Invalid Email address"),
-  check("description")
+  check("details")
     .trim()
     .notEmpty()
-    .withMessage("Description is required"),
+    .withMessage("Details is required"),
 ];
