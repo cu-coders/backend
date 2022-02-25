@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.get("/upcoming-events", async (req, res) => {
   try {
-    const data = await db_apis.read_upcomming_events(req, res);
+    const data = await db_apis.read_upcoming_events(req, res);
     res.json(data);
   } catch (err) {
     console.log(err);
