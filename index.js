@@ -94,7 +94,7 @@ app.use("/auth/", auth_routes);
 app.use("/admin/", admin_routes);
 app.use("/contact-us", contactUsRoutes);
 app.use("/forget", forgetPasswordRoutes);
-app.use("/projects", projectRoutes);
+app.use("/projects/", projectRoutes);
 app.get("/form-token", (req, res) => {
   res.json({ formToken: "sample token" });
 });

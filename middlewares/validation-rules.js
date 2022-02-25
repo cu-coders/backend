@@ -43,6 +43,7 @@ exports.signupform = [
     .withMessage("Only characters with white space are allowed"),
   check("password").notEmpty().withMessage("Password should not be empty"),
 ];
+
 exports.projectForm = [
   check("name")
     .trim()
@@ -54,8 +55,9 @@ exports.projectForm = [
     .trim()
     .notEmpty()
     .withMessage("Email address is required")
+    .normalizeEmail()
     .isEmail()
-    .withMessage("Email is not valid"),
+    .withMessage("Invalid Email address"),
   check("description")
     .trim()
     .notEmpty()
