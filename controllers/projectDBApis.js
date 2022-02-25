@@ -16,8 +16,8 @@ exports.insertProject = async (req, res) => {
     });
     await mailer.sendAck(project.email, project.name, project.description);
     await project.save();
-    res.status(200).json({success : true});
+    res.status(200).json({ success: true });
   } catch (err) {
-    res.status(500).json({success : false});
+    res.status(500).json({ success: false });
   }
 };
