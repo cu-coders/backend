@@ -44,7 +44,7 @@ exports.signupform = [
   check("password").notEmpty().withMessage("Password should not be empty"),
 ];
 
-exports.projectForm = [
+exports.projectForms = [
   check("name")
     .trim()
     .notEmpty()
