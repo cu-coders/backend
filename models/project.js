@@ -9,7 +9,7 @@ const projectSchema = mongoose.Schema({
         type: String,
         require: true,
     },
-    description: {
+    details: {
         type: String,
         require: true,
     }

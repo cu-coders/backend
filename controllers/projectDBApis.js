@@ -7,12 +7,12 @@ const mailer = require("./mailer");
 exports.insertProject = async (req, res) => {
     const name = sanitizer(req.body.name);
     const email = sanitizer(req.body.email);
-    const description = sanitizer(req.body.description);
+    const details = sanitizer(req.body.description);
     try {
         const project = new Project({
             name,
             email,
-            description,
+            details,
         });
         await mailer.sendAck(project.email, project.name, project.description);
         await project.save();
