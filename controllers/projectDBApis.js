@@ -1,24 +1,23 @@
 "use strict";
-const sanitizer = require("mongo-sanitize");
-const Project = require("../models/message");
+const  sanitize  = require("mongo-sanitize");
+const Project = require('../models/project');
 const mailer = require("./mailer");
 //--------------------------------END OF
 //IMPORTS---------------------------------------//
 exports.insertProject = async (req, res) => {
-    const name = sanitizer(req.body.name);
-    const email = sanitizer(req.body.email);
-    const details = sanitizer(req.body.description);
+    const name = sanitize(req.body.name);
+    const email = sanitize(req.body.email);
+    const sDetails = sanitize(req.body.details);
     try {
-        const project = new Project({
-            name,
-            email,
-            details,
+        const message = new Message({
+        email,
+        name,
+        details: sDetails,
         });
-        await mailer.sendAck(project.email, project.name, project.description);
-        await project.save();
+        //await mailer.sendAck(message.email, message.name);
+        await details.save();
         res.status(200).json({ success: true });
     } catch (err) {
         res.status(500).json({ success: false });
     }
 };
-
