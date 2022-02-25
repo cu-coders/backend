@@ -75,7 +75,7 @@ router.get("/add-team", (req, res) => {
   }
 });
 /* Handle team submit form request*/
-router.post("/add-team", uploadImage.single("profileImage"), async (req, res) => {
+router.post("/add-team", uploadImage.single("profileImage"), (req, res) => {
   if (req.cookies.auth) {
     jwt.verify(req.cookies.auth, process.env.SECRET, async (err, decode) => {
       if (err) {

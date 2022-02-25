@@ -22,25 +22,6 @@ exports.contactForms = [
   check("message").trim().notEmpty().withMessage("Message is be empty"),
 ];
 
-exports.projectForm = [
-  check("name")
-    .trim()
-    .notEmpty()
-    .withMessage("Name is required")
-    .matches(/^[a-zA-Z*$]/)
-    .withMessage("Only characters with white space are allowed"),
-  check("email")
-    .trim()
-    .notEmpty()
-    .withMessage("Email address is required")
-    .normalizeEmail()
-    .isEmail()
-    .withMessage("Invalid Email address"),
-  check("details")
-    .trim()
-    .withMessage("Details is required"),
-];
-
 exports.signupform = [
   check("email")
     .trim()

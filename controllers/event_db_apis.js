@@ -44,7 +44,7 @@ exports.read_ongoing_events = async () => {
   return data;
 };
 
-// API for upcoming events
+// API for upcomming events
 exports.read_upcoming_events = async () => {
   try {
     const data = await Event.find({ date_start: { $gt: Date.now() } });

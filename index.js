@@ -9,14 +9,10 @@ const api_routes = require("./routes/api_routes");
 const auth_routes = require("./routes/auth_routes");
 const admin_routes = require("./routes/admin_routes");
 const contactUsRoutes = require("./routes/contactForm_routes");
-const projectRoutes = require("./routes/projectForm_routes");
 const forgetPasswordRoutes = require("./routes/forgotPassword_routes");
 const jobRoutes = require("./routes/job_routes");
 const cors = require("cors");
 const passport = require("passport");
-const multer = require('multer');
-const upload = multer({dest:'resume/'})
-//.single("demo_resume");
 // const csrf = require("csurf");
 // const hbs = require("hbs");
 //-----------------------------------------------END OF
@@ -78,13 +74,6 @@ app.use(
     sameSite: "none",
   })
 );
-// For Single File upload
-app.post('/jobs/apply', upload.single('image'), (req, res) => {
-     res.send(req.file)
-}, (error, req, res, next) => {
-     res.status(400).send({ error: error.message })
-})
-
 app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
@@ -104,7 +93,6 @@ app.use("/auth/", auth_routes);
 app.use("/admin/", admin_routes);
 app.use("/contact-us", contactUsRoutes);
 app.use("/forget", forgetPasswordRoutes);
-app.use("/project", projectRoutes);
 app.get("/form-token", (req, res) => {
   res.json({ formToken: "sample token" });
 });

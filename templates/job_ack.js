@@ -3,7 +3,7 @@ exports.getTemplate = (userEmail, role, name) => {
   const message = {
     from: process.env.EMAIL_SENDER,
     to: userEmail,
-    subject: "CU-Chapter - Verify your email",
+    subject: "CU-Chapter - Job application",
     text: `
     We have recived you application`,
     html: `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

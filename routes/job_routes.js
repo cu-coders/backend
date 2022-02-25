@@ -12,6 +12,6 @@ router.post("/apply", uploadDoc.single("resume"), async (req, res) => {
       success: false,
       message: "Form submission failed",
     });
-  } 
+  }
 });
 module.exports = router;
