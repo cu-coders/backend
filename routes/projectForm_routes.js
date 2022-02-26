@@ -10,7 +10,7 @@ const router = express.Router();
 router.post("/", rules.projectForms, async (req, res) => {
     const validationErr = validationResult(req);
     if (validationErr.isEmpty()) {
-        await projectDbApis.insertMessage(req, res);
+        await projectDbApis.insertProject(req, res);
     } else {
         res.jsonp({ success: false, err: validationErr.array() });
     }

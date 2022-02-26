@@ -9,13 +9,13 @@ exports.insertProject = async (req, res) => {
     const email = sanitize(req.body.email);
     const sDetails = sanitize(req.body.details);
     try {
-        const message = new Message({
+        const project = new Project({
         email,
         name,
         details: sDetails,
         });
         //await mailer.sendAck(message.email, message.name);
-        await details.save();
+        await project.save();
         res.status(200).json({ success: true });
     } catch (err) {
         res.status(500).json({ success: false });
