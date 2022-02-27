@@ -641,4 +641,3 @@ exports.getTemplate = (userEmail, name) => {
     };
     return message;
 };
-  
