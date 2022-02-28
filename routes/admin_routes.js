@@ -7,7 +7,7 @@ const cloudinaryConfig = require("../configs/cloudinary_config").v2;
 const { uploadImage } = require("../configs/multer_config");
 const { uploadDoc } = require("../configs/multer_config");
 const teamDBApis = require("../controllers/teamDBApis");
-const resourceDBApis = require("../controllers/resource_db_apis");
+const resourcesDBApis = require("../controllers/resources_db_apis");
 //----------------------------------END of
 //IMPORTS------------------------------------//
 const router = express.Router();
@@ -130,7 +130,7 @@ router.post("/add-resources", uploadDoc.single("resources"), uploadImage.single(
             use_filename: true,
           });
           const { secure_url, public_id } = result;
-          await resourceDBApis.insert_resource(req, res, secure_url, public_id);
+          await resourcesDBApis.insert_resource(req, res, secure_url, public_id);
         } catch (error) {
           res.render("error", { message: "Resources can't be added" });
         }

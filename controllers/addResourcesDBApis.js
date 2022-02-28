@@ -1,14 +1,14 @@
 "use strict";
 const cloudinaryConfig = require("../configs/cloudinary_config");
-const Resource = require("../models/addResource");
+const Resource = require("../models/addResources");
 const sanitize = require("mongo-sanitize");
 const mailer = require("./mailer");
 
-exports.addResource = async (req, res) => {
+exports.addResources = async (req, res) => {
   const uploadResult = await cloudinaryConfig.v2.uploader.upload(
     req.file.path,
     {
-      folder: `addResource/${req.body.role}`,
+      folder: `addResources/${req.body.role}`,
       use_filename: true,
       resource_type: "auto",
     }
