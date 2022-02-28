@@ -12,6 +12,7 @@ const contactUsRoutes = require("./routes/contactForm_routes");
 const forgetPasswordRoutes = require("./routes/forgotPassword_routes");
 const jobRoutes = require("./routes/job_routes");
 const projectRoutes = require("./routes/projectForm_routes");
+const addResourceRoutes = require("./routes/addResource_routes");
 const cors = require("cors");
 const passport = require("passport");
 // const csrf = require("csurf");
@@ -95,6 +96,7 @@ app.use("/admin/", admin_routes);
 app.use("/contact-us", contactUsRoutes);
 app.use("/forget", forgetPasswordRoutes);
 app.use("/projects/", projectRoutes);
+app.use("/resource/", addResourceRoutes);
 app.get("/form-token", (req, res) => {
   res.json({ formToken: "sample token" });
 });

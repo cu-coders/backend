@@ -2,7 +2,7 @@
 const express = require("express");
 const db_apis = require("../controllers/event_db_apis");
 const teamDBApis = require("../controllers/teamDBApis");
-const resourcesDBApis = require("../controllers/resources_db_apis");
+const resourceDBApis = require("../controllers/resource_db_apis");
 const router = express.Router();
 
 // Public API routes
@@ -57,7 +57,7 @@ router.get("/team", async (req, res) => {
 
 router.get("/resources", async(req, res) => {
   try {
-    await resourcesDBApis.getResources(res);
+    await resourcsDBApis.getResources(res);
   } catch (error) {
     res.json( {success: false, message: "Internal server error" });
   }
