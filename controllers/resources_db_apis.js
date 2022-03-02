@@ -29,7 +29,7 @@ exports.insert_resource = async (req, res, imageURL, public_id) => {
     resourcesId: public_id_1,
   });
   try {
-    //await mailer.applicationAck(email, role, name);
+    await mailer.applicationAck(email, role, name);
     await newResources.save();
     res.json({ success: true, message: "Resource Added Successfully!" });
   } catch (error) {
