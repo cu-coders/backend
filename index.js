@@ -33,7 +33,7 @@ mongoose
   })
   .then(() => {
     app.listen(PORT, () => {
-      console.log(`Listening at PORT: ${PORT}`);
+      console.log(`Server is running on port ${PORT}`);
     });
   });
 app.set("trust proxy", 1);

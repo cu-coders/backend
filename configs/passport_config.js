@@ -62,7 +62,6 @@ passport.use(
       scope: ["user:email"],
     },
     (accessToken, refreshToken, profile, done) => {
-      //console.log(profile);
       const email = sanitize(profile.emails[0].value);
       User.findOne({ email }).then((oldUser) => {
         if (oldUser) {

@@ -50,7 +50,7 @@ exports.read_upcoming_events = async () => {
     const data = await Event.find({ date_start: { $gt: Date.now() } });
     return data;
   } catch (err) {
-    console.log(err);
+    res.json({ success: false, message: "Internal server error" });
   }
 };
 
@@ -60,7 +60,7 @@ exports.read_past_events = async () => {
     const data = await Event.find({ date_end: { $lt: Date.now() } });
     return data;
   } catch (err) {
-    console.log(err);
+    res.json({ success: false, message: "Internal server error" });
   }
 };
 //----------------------------------END OF EVENT DATABASE

@@ -29,9 +29,10 @@ exports.send_verification = async (userEmail, username, domain, token) => {
   const message = gen_message.getTemplate(userEmail, username, domain, token);
   try {
     await transporter.sendMail(message);
-    // console.log(info);
+    return true;
+    return info;
   } catch (err) {
-    console.log(err);
+    return err;
   }
 };
 exports.sendAck = async (userEmail, subject) => {

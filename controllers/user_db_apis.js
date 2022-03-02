@@ -45,8 +45,7 @@ exports.register = async (req, res) => {
       }
     }
   } catch (err) {
-    console.log(err);
-    res.status(500).res({ message: "Something went wrong" });
+    res.status(500).send({ message: "Something went wrong" });
   }
 };
 //---------------------------------------END OF USER REGISTRATION VIA EMAIL-----------------------------//
@@ -65,7 +64,6 @@ exports.verify_mail = async (req, res) => {
       res.send("Something went wrong");
     }
   } catch (err) {
-    console.log(err);
     res.send("Something went wrong");
   }
 };

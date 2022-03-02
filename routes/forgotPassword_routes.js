@@ -22,8 +22,7 @@ router.post(
         res.json({ success: false, err: validationErr.array() });
       }
     } catch (err) {
-      //console.log(err);
-      res.json({ success: false, message: "Internal server error" });
+      res.json({ success: false, err: err.message });
     }
   }
 );

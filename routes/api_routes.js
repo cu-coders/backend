@@ -12,7 +12,7 @@ router.get("/upcoming-events", async (req, res) => {
     const data = await db_apis.read_upcoming_events(req, res);
     res.json(data);
   } catch (err) {
-    console.log(err);
+    res.json({ success: false, message: "Internal server error" });
   }
 });
 
@@ -30,7 +30,7 @@ router.get("/past-events", async (req, res) => {
     const data = await db_apis.read_past_events();
     res.json(data);
   } catch (err) {
-    console.log(err);
+    res.json({ success: false, message: "Can't read data" });
   }
 });
 
@@ -39,8 +39,7 @@ router.get("/team", async (req, res) => {
       const data = await teamDBApis.getTeam();
       res.json(data);
   } catch (err) {
-      res.json({ success: false, message: "Internal server error "});
-      console.log(err);
+      res.json({ success: false, message: "Can't read data" });
   }
 });
 

@@ -75,7 +75,6 @@ userSchema.methods.send_verification = async function (req) {
     );
     return true;
   } catch (err) {
-    console.log("Mailing agent failed:" + err);
     return false;
   }
 };
