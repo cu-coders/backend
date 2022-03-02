@@ -27,7 +27,7 @@ exports.addResources = async (req, res) => {
     resourceId: public_id,
   });
   try {
-    await mailer.applicationAck(email, name);
+    await mailer.resourceAck(email, name);
     await newResource.save();
     res.json({ success: true, message: "Submitted Successfully!" });
   } catch (error) {

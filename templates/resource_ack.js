@@ -1,4 +1,5 @@
 "use strict";
+const year = new Date().getFullYear();
 exports.getTemplate = (userEmail, name) => {
     const message = {
         from: process.env.EMAIL_SENDER,
@@ -167,7 +168,7 @@ exports.getTemplate = (userEmail, name) => {
                                                                     <td>
                                                                         <div style="font-family: sans-serif">
                                                                             <div style="font-size: 12px; mso-line-height-alt: 14.399999999999999px; color: #555555; line-height: 1.2; font-family: Arial, Helvetica Neue, Helvetica, sans-serif;">
-                                                                                <p style="margin: 0; font-size: 14px; text-align: center;">Copyright @CU-Chapter 2019-2022</p>
+                                                                                <p style="margin: 0; font-size: 14px; text-align: center;">© Copyright 2019 - ${year}, CU-Coders. All Rights Reserved.</p>
                                                                             </div>
                                                                         </div>
                                                                     </td>
