@@ -73,7 +73,7 @@ exports.getTemplate = (userEmail, name) => {
                                                                         <div style="font-family: Georgia, 'Times New Roman', serif">
                                                                             <div style="font-size: 12px; font-family: Georgia, Times, 'Times New Roman', serif; mso-line-height-alt: 14.399999999999999px; color: #00d2b9; line-height: 1.2;">
                                                                                 <p style="margin: 0; font-size: 14px; text-align: center;"><span style="font-size:38px;"><span style="font-size:38px;">Thank You</span></span></p>
-                                                                                <p style="margin: 0; font-size: 14px; text-align: center;"><em><span style="color:#555555;font-size:80px;"><span style="font-size:80px;"><span style="font-size:80px;">John!</span></span></span></em></p>
+                                                                                <p style="margin: 0; font-size: 14px; text-align: center;"><em><span style="color:#555555;font-size:80px;"><span style="font-size:80px;"><span style="font-size:80px;">${name}</span></span></span></em></p>
                                                                             </div>
                                                                         </div>
                                                                     </td>
