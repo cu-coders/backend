@@ -51,6 +51,11 @@ exports.applicationAck = async (email, role, name) => {
 exports.projectAck = async (email, name) => {
   const message = projectMessage.getTemplate(email, name);
   await transporter.sendMail(message);
+};
+
+exports.resourceAck = async(email, name) => {
+  const message = projectMessage.getTemplate(email, name);
+  await transporter.sendMail(message);
 }
 //--------------------------------------------END OF MAILER
 //METHOD---------------------------------------------//

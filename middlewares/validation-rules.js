@@ -63,3 +63,33 @@ exports.projectForms = [
     .notEmpty()
     .withMessage("Details is required"),
 ];
+
+exports.resourcesForms = [
+  check("name")
+    .trim()
+    .notEmpty()
+    .withMessage("Name is required")
+    .matches(/^[a-zA-Z*$]/)
+    .withMessage("Only characters with white space are allowed"),
+  check("email")
+    .trim()
+    .notEmpty()
+    .withMessage("Email address is required")
+    .normalizeEmail()
+    .isEmail()
+    .withMessage("Invalid Email address"),
+  check("description")
+    .trim()         
+    .notEmpty()
+    .withMessage("Description is required"),
+  check("phone")
+    .trim()
+    .notEmpty()
+    .withMessage("Phone number is required")
+    .matches(/^[0-9]/)
+    .withMessage("Only numbers are allowed"),
+  check("address")
+    .trim()
+    .notEmpty()
+    .withMessage("Address is required"),
+];
