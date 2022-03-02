@@ -30,7 +30,6 @@ exports.send_verification = async (userEmail, username, domain, token) => {
   try {
     await transporter.sendMail(message);
     return true;
-    return info;
   } catch (err) {
     return err;
   }
