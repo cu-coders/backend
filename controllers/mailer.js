@@ -5,6 +5,7 @@ const ackMessage = require("../templates/contact_ack.js");
 const resetMessage = require("../templates/resetPassword.js");
 const applicationMessage = require("../templates/job_ack.js");
 const projectMessage = require("../templates/project_ack.js");
+const resourceMessage = require("../templates/resource_ack.js");
 //--------------------------------------------END OF
 //IMPORTS--------------------------------------------------//
 //-------------------------------------------CONFIG.
@@ -54,7 +55,7 @@ exports.projectAck = async (email, name) => {
 };
 
 exports.resourceAck = async(email, name) => {
-  const message = projectMessage.getTemplate(email, name);
+  const message = resourceMessage.getTemplate(email, name);
   await transporter.sendMail(message);
 }
 //--------------------------------------------END OF MAILER
