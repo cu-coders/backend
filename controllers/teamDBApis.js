@@ -30,6 +30,6 @@ exports.getTeam = async () => {
     const data = await team.find();
     return data;
   } catch (err) {
-    throw err;
+    return err;
   }
 };
