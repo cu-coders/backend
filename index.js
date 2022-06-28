@@ -42,6 +42,7 @@ const whitelist = [
   "https://cuchapter.tech",
   "https://main.cuchapter.tech",
   "http://localhost:3000",
+  "https://home.cuchapter.tech",
 ];
 const corsOptions = {
   origin(origin, callback) {
