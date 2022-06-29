@@ -8,7 +8,7 @@ exports.addResources = async (req, res) => {
   const uploadResult = await cloudinaryConfig.v2.uploader.upload(
     req.file.path,
     {
-      folder: `addResources/${req.body.role}`,
+      folder: `addResources/${req.body.domain}`,
       use_filename: true,
       resource_type: "auto",
     }

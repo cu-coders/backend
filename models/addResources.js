@@ -24,6 +24,22 @@ const addResourceSchema = mongoose.Schema({
   resourceId: {
     type: String,
   },
+  domain: {
+    type: String,
+    require: true,
+    enum: [
+      "Data-Structure-Algorithms",
+      "Competitive-Programming",
+      "Web-Development",
+      "Programming-Languages",
+      "AI-and-ML",
+      "Database",
+      "Security",
+      "Version-Control",
+      "Mobile-Development",
+      "Cloud",
+    ],
+  },
 });
 const Resource = mongoose.model("resource-application", addResourceSchema);
 module.exports = Resource;
