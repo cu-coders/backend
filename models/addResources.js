@@ -37,7 +37,7 @@ const addResourceSchema = mongoose.Schema({
       "Security",
       "Version-Control",
       "Mobile-Development",
-      "Cloud",
+      "Cloud-DevOps",
     ],
   },
 });

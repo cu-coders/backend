@@ -36,10 +36,10 @@ router.get("/past-events", async (req, res) => {
 
 router.get("/team", async (req, res) => {
   try {
-      const data = await teamDBApis.getTeam();
-      res.json(data);
+    const data = await teamDBApis.getTeam();
+    res.json(data);
   } catch (err) {
-      res.json({ success: false, message: "Can't read data" });
+    res.json({ success: false, message: "Can't read data" });
   }
 });
 
@@ -54,11 +54,11 @@ router.get("/team", async (req, res) => {
 //   }
 // });
 
-router.get("/resources", async(req, res) => {
+router.get("/resources", async (req, res) => {
   try {
     await resourcesDBApis.getResources(res);
   } catch (error) {
-    res.json( {success: false, message: "Internal server error" });
+    res.json({ success: false, message: "Internal server error" });
   }
 });
 

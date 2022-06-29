@@ -8,7 +8,7 @@ exports.insert_resource = async (req, res, imageURL, public_id) => {
   const uploadResult = await cloudinaryConfig.v2.uploader.upload(
     req.file.path,
     {
-      folder: `resources/${req.body.category}`,
+      folder: `resources/${req.body.domain}`,
       use_filename: true,
       resource_type: "auto",
     }
@@ -17,14 +17,11 @@ exports.insert_resource = async (req, res, imageURL, public_id) => {
   const title = sanitize(req.body.title);
   const subtitle = sanitize(req.body.subtitle);
   const description = sanitize(req.body.description);
-  const category = sanitize(req.body.category);
   const newResources = new resources({
-    imageSrc: imageURL,
-    imageId: public_id,
     title,
     subtitle,
     description,
-    category,
+    domain: req.body.domain,
     resources: secure_url,
     resourcesId: public_id_1,
   });
@@ -39,6 +36,6 @@ exports.insert_resource = async (req, res, imageURL, public_id) => {
 };
 
 exports.getResources = async (res) => {
-    const resourcesData = await resources.find();
-    res.json({ success: true, data: resourcesData });
+  const resourcesData = await resources.find();
+  res.json({ success: true, data: resourcesData });
 };

@@ -1,11 +1,11 @@
 "use strict";
 exports.getTemplate = (userEmail, name) => {
-    const message = {
-        from: process.env.EMAIL_SENDER,
-        to: userEmail,
-        subject: "CU-Chapter Project Submission",
-        text: `Dear ${name},\n\nThank you for trusting us. We will get back to you soon.\n\nRegards,\nTeam`,        
-        html: `<!DOCTYPE html>
+  const message = {
+    from: process.env.EMAIL_SENDER,
+    to: userEmail,
+    subject: "CU-Chapter Project Submission",
+    text: `Dear ${name},\n\nThank you for trusting us. We will get back to you soon.\n\nRegards,\nTeam`,
+    html: `<!DOCTYPE html>
         <html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en">
         
         <head>
@@ -638,6 +638,6 @@ exports.getTemplate = (userEmail, name) => {
         </body>
         
         </html>`,
-    };
-    return message;
+  };
+  return message;
 };

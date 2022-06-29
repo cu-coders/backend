@@ -1,12 +1,12 @@
 "use strict";
 const year = new Date().getFullYear();
 exports.getTemplate = (userEmail, name) => {
-    const message = {
-        from: process.env.EMAIL_SENDER,
-        to: userEmail,
-        subject: "Resource Submission",
-        text: `Dear ${name},\n\nThank you for sharing resources with us.`,        
-        html: `<!DOCTYPE html>
+  const message = {
+    from: process.env.EMAIL_SENDER,
+    to: userEmail,
+    subject: "Resource Submission",
+    text: `Dear ${name},\n\nThank you for sharing resources with us.`,
+    html: `<!DOCTYPE html>
         <html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en">
 
         <head>
@@ -114,7 +114,7 @@ exports.getTemplate = (userEmail, name) => {
                                                                     <td>
                                                                         <div style="font-family: sans-serif">
                                                                             <div style="font-size: 12px; mso-line-height-alt: 14.399999999999999px; color: #989898; line-height: 1.2; font-family: Arial, Helvetica Neue, Helvetica, sans-serif;">
-                                                                                <p style="margin: 0; font-size: 14px; text-align: center;">I believe we each walk our paths so we can learn and share those lessons with others. I feel so blessed to have you with us.&nbsp;</p>
+                                                                                <p style="margin: 0; font-size: 14px; text-align: center;">I believe we each walk our paths so we can learn and share those lessons with others. We feel so blessed to have you with us.&nbsp;</p>
                                                                             </div>
                                                                         </div>
                                                                     </td>
@@ -188,7 +188,6 @@ exports.getTemplate = (userEmail, name) => {
             </table><!-- End -->
         </body>
     </html>`,
-    };
-    return message;
+  };
+  return message;
 };
-
