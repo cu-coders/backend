@@ -58,10 +58,7 @@ exports.projectForms = [
     .normalizeEmail()
     .isEmail()
     .withMessage("Invalid Email address"),
-  check("details")
-    .trim()
-    .notEmpty()
-    .withMessage("Details is required"),
+  check("details").trim().notEmpty().withMessage("Details is required"),
 ];
 
 exports.resourcesForms = [
@@ -78,18 +75,12 @@ exports.resourcesForms = [
     .normalizeEmail()
     .isEmail()
     .withMessage("Invalid Email address"),
-  check("description")
-    .trim()         
-    .notEmpty()
-    .withMessage("Description is required"),
+  check("description").trim().notEmpty().withMessage("Description is required"),
   check("phone")
     .trim()
     .notEmpty()
     .withMessage("Phone number is required")
     .matches(/^[0-9]/)
     .withMessage("Only numbers are allowed"),
-  check("address")
-    .trim()
-    .notEmpty()
-    .withMessage("Address is required"),
+  check("address").trim().notEmpty().withMessage("Address is required"),
 ];

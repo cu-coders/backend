@@ -34,8 +34,8 @@ exports.send_verification = async (userEmail, username, domain, token) => {
     return err;
   }
 };
-exports.sendAck = async (userEmail, subject) => {
-  const message = ackMessage.getTemplate(userEmail, subject);
+exports.sendAck = async (userEmail, fullname, subject) => {
+  const message = ackMessage.getTemplate(userEmail, fullname, subject);
   await transporter.sendMail(message);
 };
 
@@ -54,9 +54,9 @@ exports.projectAck = async (email, name) => {
   await transporter.sendMail(message);
 };
 
-exports.resourceAck = async(email, name) => {
+exports.resourceAck = async (email, name) => {
   const message = resourceMessage.getTemplate(email, name);
   await transporter.sendMail(message);
-}
+};
 //--------------------------------------------END OF MAILER
 //METHOD---------------------------------------------//

@@ -1,5 +1,5 @@
 "use strict";
-const  sanitize  = require("mongo-sanitize");
+const sanitize = require("mongo-sanitize");
 const Message = require("../models/message");
 const mailer = require("./mailer");
 //--------------------------------END OF
