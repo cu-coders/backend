@@ -82,5 +82,8 @@ exports.resourcesForms = [
     .withMessage("Phone number is required")
     .matches(/^[0-9]/)
     .withMessage("Only numbers are allowed"),
-  check("address").trim().notEmpty().withMessage("Address is required"),
+  check("reason_to_join")
+    .trim()
+    .notEmpty()
+    .withMessage("Reason to join is required"),
 ];

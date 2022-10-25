@@ -24,7 +24,7 @@ const jobSchema = mongoose.Schema({
     type: String,
     require: true,
   },
-  address: {
+  reason_to_join: {
     type: String,
     require: true,
   },

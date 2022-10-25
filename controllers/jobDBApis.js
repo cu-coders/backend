@@ -16,13 +16,13 @@ exports.addJobApplication = async (req, res) => {
   const { secure_url, public_id } = uploadResult;
   const name = sanitize(req.body.name);
   const email = sanitize(req.body.email);
-  const address = sanitize(req.body.address);
+  const reason_to_join = sanitize(req.body.reason_to_join);
   const number = sanitize(req.body.number);
   const role = sanitize(req.body.role);
   const newApplicant = new Job({
     name,
     email,
-    address,
+    reason_to_join,
     number,
     role,
     resume: secure_url,
