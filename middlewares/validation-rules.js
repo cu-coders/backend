@@ -82,8 +82,46 @@ exports.resourcesForms = [
     .withMessage("Phone number is required")
     .matches(/^[0-9]/)
     .withMessage("Only numbers are allowed"),
-  check("reason_to_join")
+  check("domain").trim().notEmpty().withMessage("Reason to join is required"),
+];
+
+exports.membershipForms = [
+  check("fullname")
     .trim()
     .notEmpty()
-    .withMessage("Reason to join is required"),
+    .withMessage("Fullname is required")
+    .matches(/^[a-zA-Z*$]/)
+    .withMessage("Only characters with white space are allowed"),
+  check("email")
+    .trim()
+    .notEmpty()
+    .withMessage("Email address is required")
+    .normalizeEmail()
+    .isEmail()
+    .withMessage("Invalid Email address"),
+  check("collegename")
+    .trim()
+    .notEmpty()
+    .withMessage("College name is required")
+    .matches(/^[a-zA-Z*$]/)
+    .withMessage("Only characters with white space are allowed"),
+  check("collegeid").trim().notEmpty().withMessage("College ID is required"),
+  check("branch")
+    .trim()
+    .notEmpty()
+    .withMessage("Branch is required")
+    .matches(/^[a-zA-Z*$]/)
+    .withMessage("Only characters with white space are allowed"),
+  check("year")
+    .trim()
+    .notEmpty()
+    .withMessage("Year is required")
+    .matches(/^[0-9]/)
+    .withMessage("Only numbers are allowed"),
+  check("phonenumber")
+    .trim()
+    .notEmpty()
+    .withMessage("Phone number is required")
+    .matches(/^[0-9]/)
+    .withMessage("Only numbers are allowed"),
 ];
