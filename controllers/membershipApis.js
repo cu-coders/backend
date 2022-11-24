@@ -9,7 +9,7 @@ exports.insertMembership = async (req, res) => {
   const uploadResult = await cloudinaryConfig.v2.uploader.upload(
     req.file.path,
     {
-      folder: `CollegeID/${req.body.college}`,
+      folder: `CollegeID/${req.body.college}/${req.body.year}`,
       use_filename: true,
       resource_type: "auto",
     }
@@ -28,11 +28,13 @@ exports.insertMembership = async (req, res) => {
     if (e_user) {
       // Email is already registered
       res.status(400);
+      // res.statusText("An account with this email already exists");
       res.send({
         message: "An account with this email already exists",
       });
     } else if (e_collegeID) {
       res.status(400);
+      // res.statusText("An account with this college id already exists");
       res.send({
         message: "An account with this college id already exists",
       });
