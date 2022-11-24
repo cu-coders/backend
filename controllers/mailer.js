@@ -58,5 +58,10 @@ exports.resourceAck = async (email, name) => {
   const message = resourceMessage.getTemplate(email, name);
   await transporter.sendMail(message);
 };
+
+exports.membershipAck = async (email, name) => {
+  const message = membershipMessage.getTemplate(email, name);
+  await transporter.sendMail(message);
+};
 //--------------------------------------------END OF MAILER
 //METHOD---------------------------------------------//
