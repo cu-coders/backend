@@ -25,6 +25,17 @@ const membershipSchema = mongoose.Schema({
     type: String,
     require: true,
   },
+  phonenumber: {
+    type: String,
+    require: true,
+  },
+  image: {
+    type: String,
+    require: true,
+  },
+  imageID: {
+    type: String,
+  },
 });
 const Membership = mongoose.model("membership", membershipSchema);
 module.exports = Membership;

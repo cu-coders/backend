@@ -118,4 +118,10 @@ exports.membershipForms = [
     .withMessage("Year is required")
     .matches(/^[0-9]/)
     .withMessage("Only numbers are allowed"),
+  check("phonenumber")
+    .trim()
+    .notEmpty()
+    .withMessage("Phone number is required")
+    .matches(/^[0-9]/)
+    .withMessage("Only numbers are allowed"),
 ];

@@ -6,6 +6,7 @@ const resetMessage = require("../templates/resetPassword.js");
 const applicationMessage = require("../templates/job_ack.js");
 const projectMessage = require("../templates/project_ack.js");
 const resourceMessage = require("../templates/resource_ack.js");
+const membershipMessage = require("../templates/membership_ack.js");
 //--------------------------------------------END OF
 //IMPORTS--------------------------------------------------//
 //-------------------------------------------CONFIG.
