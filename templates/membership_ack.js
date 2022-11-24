@@ -1,13 +1,12 @@
 "use strict";
 exports.getTemplate = (userEmail, fullname) => {
   const message = {
-    from : process.env.EMAIL_SENDER,
-    to : userEmail,
-    subject : "Confirmation of Membership",
-    text : `
-    Thank you ${
-        fullname} for joining with us. We have received your membership. We're looking for a long term relationship with you.`,
-    html : `<!DOCTYPE html>
+    from: process.env.EMAIL_SENDER,
+    to: userEmail,
+    subject: "Confirmation of Membership",
+    text: `
+    Thank you ${fullname} for joining with us. We have received your membership. We're looking for a long term relationship with you.`,
+    html: `<!DOCTYPE html>
 <html
   xmlns:v="urn:schemas-microsoft-com:vml"
   xmlns:o="urn:schemas-microsoft-com:office:office"
