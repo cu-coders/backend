@@ -41,7 +41,7 @@ exports.insertMembership = async (req, res) => {
       });
       await mailer.membershipAck(membership.email, membership.fullname);
       await membership.save();
-      res.json({ success: true, message: "Membership Successfully!" });
+      res.json({ success: true, message: "Now, you're a Member!" });
     }
   } catch (err) {
     await cloudinaryConfig.uploader.destroy(membership.imageID);

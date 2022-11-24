@@ -19,7 +19,6 @@ router.post(
       res.json({
         err: error.message,
         success: false,
-        message: "Membership activation failed",
       });
     }
   }
