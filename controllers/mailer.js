@@ -8,24 +8,24 @@ const projectMessage = require("../templates/project_ack.js");
 const resourceMessage = require("../templates/resource_ack.js");
 const membershipMessage = require("../templates/membership_ack.js");
 //--------------------------------------------END OF
-//IMPORTS--------------------------------------------------//
+// IMPORTS--------------------------------------------------//
 //-------------------------------------------CONFIG.
-//TRANSPORTER-------------------------------------------//
+// TRANSPORTER-------------------------------------------//
 const transporter = nodemailer.createTransport({
-  //service: process.env.EMAIL_SERVICE_NAME,
-  host: "smtppro.zoho.in",
-  secure: true,
-  port: 465,
-  auth: {
-    user: process.env.EMAIL_SENDER,
-    pass: process.env.EMAIL_PASSWORD,
+  // service: process.env.EMAIL_SERVICE_NAME,
+  host : "smtppro.zoho.in",
+  secure : true,
+  port : 465,
+  auth : {
+    user : process.env.EMAIL_SENDER,
+    pass : process.env.EMAIL_PASSWORD,
   },
 });
 //-----------------------------------------END CONFIG.
-//TRANSPORTER-------------------------------------------//
+// TRANSPORTER-------------------------------------------//
 
 //----------------------------------------------MAILER
-//METHOD--------------------------------------------------//
+// METHOD--------------------------------------------------//
 exports.send_verification = async (userEmail, username, domain, token) => {
   const message = gen_message.getTemplate(userEmail, username, domain, token);
   try {
@@ -65,4 +65,4 @@ exports.membershipAck = async (email, name) => {
   await transporter.sendMail(message);
 };
 //--------------------------------------------END OF MAILER
-//METHOD---------------------------------------------//
+// METHOD---------------------------------------------//
