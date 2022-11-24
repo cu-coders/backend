@@ -4,7 +4,7 @@ const { validationResult } = require("express-validator");
 const rules = require("../middlewares/validation-rules");
 const { uploadImage } = require("../configs/multer_config");
 
-const membershipApis = require("../controllers/memberShipApis");
+const membershipApis = require("../controllers/membershipApis");
 const router = express.Router();
 // const csrf = require("csurf");
 // const csrfProtection = csrf({ cookie: true });
