@@ -24,11 +24,17 @@ exports.insertMembership = async (req, res) => {
   const phonenumber = sanitize(req.body.phonenumber);
   try {
     const e_user = await Membership.findOne({ email });
+    const e_collegeID = await Membership.findOne({ collegeid });
     if (e_user) {
       // Email is already registered
       res.status(400);
       res.send({
         message: "An account with this email already exists",
+      });
+    } else if (e_collegeID) {
+      res.status(400);
+      res.send({
+        message: "An account with this college id already exists",
       });
     } else {
       const membership = new Membership({
