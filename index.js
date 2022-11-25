@@ -1,6 +1,8 @@
 "use strict";
 require("dotenv").config();
 const express = require("express");
+const Sentry = require("@sentry/node");
+const SentryTracing = require("@sentry/tracing");
 const path = require("path");
 const cookieSession = require("cookie-session");
 const cookieParser = require("cookie-parser");
@@ -63,6 +65,15 @@ app.use(
     credentials: true,
   })
 );
+
+Sentry.init({
+  dsn: "https://2c70291e84f247b197eda70578fe9f96@o1258362.ingest.sentry.io/4504220930605056",
+
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 1.0,
+});
 
 //----------------------------------------END OF DATABASE CONNECTION
 //SETUP----------------------------------------//
