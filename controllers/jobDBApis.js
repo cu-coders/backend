@@ -31,9 +31,15 @@ exports.addJobApplication = async (req, res) => {
   try {
     await mailer.applicationAck(email, role, name);
     await newApplicant.save();
-    res.json({ success: true, message: "Applied Successfully!" });
+    res
+      .status(200)
+      .json({ success: true, message: "We got your application!" });
   } catch (error) {
     await cloudinaryConfig.uploader.destroy(newApplicant.resumeId);
+    res.status(500).json({
+      success: false,
+      message: "It's not you. It's on us. We're working on it",
+    });
     throw error;
   }
 };

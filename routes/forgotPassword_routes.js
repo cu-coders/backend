@@ -22,7 +22,10 @@ router.post(
         res.json({ success: false, err: validationErr.array() });
       }
     } catch (err) {
-      res.json({ success: false, err: err.message });
+      res.status(500).json({
+        success: false,
+        message: "It's not you. It's on us. We're working on it",
+      });
     }
   }
 );
@@ -31,27 +34,36 @@ router.get("/reset", async (req, res) => {
   try {
     await resetLinkDbApis.verifyResetToken(req, res);
   } catch (err) {
-    res.render("error", { message: "Internal server error" });
-    //res.json({ success: false, message: "Internal server error" });
+    res.status(500).json({
+      success: false,
+      message: "It's not you. It's on us. We're working on it",
+    });
   }
 });
-router.post("/reset", [
+router.post(
+  "/reset",
+  [
     check("email")
       .trim()
       .notEmpty()
       .withMessage("Please enter the email")
       .isEmail()
       .withMessage("Invalid Email format"),
-  ], async (req, res) => {
-  try {
-    const validationErr = validationResult(req);
-    if (!validationErr.isEmpty()) {
-      res.json({ success: false, err: validationErr.array() });
-    } else {
-      await resetLinkDbApis.updatePassword(req, res);
+  ],
+  async (req, res) => {
+    try {
+      const validationErr = validationResult(req);
+      if (!validationErr.isEmpty()) {
+        res.json({ success: false, err: validationErr.array() });
+      } else {
+        await resetLinkDbApis.updatePassword(req, res);
+      }
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "It's not you. It's on us. We're working on it",
+      });
     }
-  } catch (error) {
-    res.render("error", { message: "Internal server error" });
   }
-});
+);
 module.exports = router;

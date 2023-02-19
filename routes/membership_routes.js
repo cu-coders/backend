@@ -16,9 +16,9 @@ router.post(
     try {
       await membershipApis.insertMembership(req, res);
     } catch (error) {
-      res.json({
-        err: error.message,
+      res.status(500).json({
         success: false,
+        message: "It's not you. It's on us. We're working on it",
       });
     }
   }

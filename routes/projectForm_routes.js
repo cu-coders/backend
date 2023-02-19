@@ -8,11 +8,11 @@ const router = express.Router();
 // const csrfProtection = csrf({ cookie: true });
 
 router.post("/", rules.projectForms, async (req, res) => {
-    const validationErr = validationResult(req);
-    if (validationErr.isEmpty()) {
-        await projectDbApis.insertProject(req, res);
-    } else {
-        res.jsonp({ success: false, err: validationErr.array() });
-    }
+  const validationErr = validationResult(req);
+  if (validationErr.isEmpty()) {
+    await projectDbApis.insertProject(req, res);
+  } else {
+    res.status(500).json({ success: false, err: validationErr.array() });
+  }
 });
 module.exports = router;
