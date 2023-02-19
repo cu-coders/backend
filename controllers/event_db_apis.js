@@ -7,28 +7,26 @@ const Event = require("../models/events");
 //-----------------------------------------------EVENT DATABASE
 // APIs--------------------------//
 exports.insert_event = async (req, imageURL, public_id) => {
-  try {
-    const tempData = req.body;
-    const author = sanitize(req.body.author);
-    const category = sanitize(req.body.category);
-    const title = sanitize(req.body.title);
-    const subtitle = sanitize(req.body.subtitle);
-    const description = sanitize(req.body.description);
-    const url = sanitize(req.body.url);
-    const event = new Event({
-      imageSrc: imageURL,
-      imageId: public_id,
-      author,
-      category,
-      title,
-      subtitle,
-      description,
-      url,
-      date_start: new Date(tempData.date_start).getTime(),
-      date_end: new Date(tempData.date_end).getTime(),
-    });
-    await event.save();
-  } catch (err) {}
+  const tempData = req.body;
+  const author = sanitize(req.body.author);
+  const category = sanitize(req.body.category);
+  const title = sanitize(req.body.title);
+  const subtitle = sanitize(req.body.subtitle);
+  const description = sanitize(req.body.description);
+  const url = sanitize(req.body.url);
+  const event = new Event({
+    imageSrc: imageURL,
+    imageId: public_id,
+    author,
+    category,
+    title,
+    subtitle,
+    description,
+    url,
+    date_start: new Date(tempData.date_start).getTime(),
+    date_end: new Date(tempData.date_end).getTime(),
+  });
+  await event.save();
 };
 
 // API for ongoing events
