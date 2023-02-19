@@ -29,7 +29,7 @@ exports.insert_event = async (req, imageURL, public_id) => {
     });
     await event.save();
   } catch (err) {
-    throw err;
+    throw new err();
   }
 };
 
@@ -44,7 +44,7 @@ exports.read_ongoing_events = async () => {
     });
     return data;
   } catch (err) {
-    throw err;
+    throw new err();
   }
 };
 
@@ -54,7 +54,7 @@ exports.read_upcoming_events = async () => {
     const data = await Event.find({ date_start: { $gt: Date.now() } });
     return data;
   } catch (err) {
-    throw err;
+    throw new err();
   }
 };
 
@@ -64,7 +64,7 @@ exports.read_past_events = async () => {
     const data = await Event.find({ date_end: { $lt: Date.now() } });
     return data;
   } catch (err) {
-    throw err;
+    throw new err();
   }
 };
 //----------------------------------END OF EVENT DATABASE
