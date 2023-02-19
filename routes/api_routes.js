@@ -13,8 +13,8 @@ router.get("/upcoming-events", async (req, res) => {
     res.json(data);
   } catch (err) {
     res.status(500).json({
-      success : false,
-      message : "It's not you. It's on us. We're working on it",
+      success: false,
+      message: "It's not you. It's on us. We're working on it",
     });
   }
 });
@@ -25,8 +25,8 @@ router.get("/ongoing-events", async (req, res) => {
     res.json(data);
   } catch (err) {
     res.status(500).json({
-      success : false,
-      message : "It's not you. It's on us. We're working on it",
+      success: false,
+      message: "It's not you. It's on us. We're working on it",
     });
   }
 });
@@ -37,8 +37,8 @@ router.get("/past-events", async (req, res) => {
     res.json(data);
   } catch (err) {
     res.status(500).json({
-      success : false,
-      message : "It's not you. It's on us. We're working on it",
+      success: false,
+      message: "It's not you. It's on us. We're working on it",
     });
   }
 });
@@ -49,8 +49,8 @@ router.get("/team", async (req, res) => {
     res.json(data);
   } catch (err) {
     res.status(500).json({
-      success : false,
-      message : "It's not you. It's on us. We're working on it",
+      success: false,
+      message: "It's not you. It's on us. We're working on it",
     });
   }
 });
@@ -71,8 +71,8 @@ router.get("/resources", async (req, res) => {
     await resourcesDBApis.getResources(res);
   } catch (error) {
     res.status(500).json({
-      success : false,
-      message : "It's not you. It's on us. We're working on it",
+      success: false,
+      message: "It's not you. It's on us. We're working on it",
     });
   }
 });

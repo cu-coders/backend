@@ -14,16 +14,17 @@ exports.insertMessage = async (req, res) => {
       email,
       fullname,
       subject,
-      message : sMessage,
+      message: sMessage,
     });
     await mailer.sendAck(message.email, message.subject, message.fullname);
     await message.save();
-    res.status(201).json(
-        {success : true, message : "We will contact you soon!"});
+    res
+      .status(201)
+      .json({ success: true, message: "We will contact you soon!" });
   } catch (error) {
     res.status(500).json({
-      success : false,
-      message : "It's not you. It's on us. We're working on it",
+      success: false,
+      message: "It's not you. It's on us. We're working on it",
     });
     throw error;
   }
