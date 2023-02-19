@@ -29,23 +29,23 @@ exports.insert_event = async (req, imageURL, public_id) => {
     });
     await event.save();
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: "It's not you. It's on us. We're working on it",
-    });
     throw err;
   }
 };
 
 // API for ongoing events
 exports.read_ongoing_events = async () => {
-  const data = await Event.find({
-    $and: [
-      { date_start: { $lte: Date.now() } },
-      { date_end: { $gte: Date.now() } },
-    ],
-  });
-  return data;
+  try {
+    const data = await Event.find({
+      $and: [
+        { date_start: { $lte: Date.now() } },
+        { date_end: { $gte: Date.now() } },
+      ],
+    });
+    return data;
+  } catch (err) {
+    throw err;
+  }
 };
 
 // API for upcomming events
@@ -54,10 +54,6 @@ exports.read_upcoming_events = async () => {
     const data = await Event.find({ date_start: { $gt: Date.now() } });
     return data;
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: "It's not you. It's on us. We're working on it",
-    });
     throw err;
   }
 };
@@ -68,10 +64,6 @@ exports.read_past_events = async () => {
     const data = await Event.find({ date_end: { $lt: Date.now() } });
     return data;
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: "It's not you. It's on us. We're working on it",
-    });
     throw err;
   }
 };
