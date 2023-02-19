@@ -30,10 +30,6 @@ exports.getTeam = async () => {
     const data = await team.find();
     return data;
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: "It's not you. It's on us. We're working on it",
-    });
-    throw err;
+    throw new err();
   }
 };
