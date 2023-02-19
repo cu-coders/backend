@@ -20,7 +20,7 @@ exports.insertMessage = async (req, res) => {
     await message.save();
     res.status(201).json({ success: true, message: "We will contact you soon!" });
   } catch (err) {
-    throw error;
+    throw err;
     res.status(500).json({ success: false });
   }
 };
