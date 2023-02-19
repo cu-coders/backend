@@ -26,10 +26,6 @@ exports.addTeam = async (req, res, secure_url, public_id) => {
 // };
 
 exports.getTeam = async () => {
-  try {
-    const data = await team.find();
-    return data;
-  } catch (err) {
-    throw new err();
-  }
+  const data = await team.find();
+  return data;
 };

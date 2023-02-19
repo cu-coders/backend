@@ -28,44 +28,30 @@ exports.insert_event = async (req, imageURL, public_id) => {
       date_end: new Date(tempData.date_end).getTime(),
     });
     await event.save();
-  } catch (err) {
-    throw new err();
-  }
+  } catch (err) {}
 };
 
 // API for ongoing events
 exports.read_ongoing_events = async () => {
-  try {
-    const data = await Event.find({
-      $and: [
-        { date_start: { $lte: Date.now() } },
-        { date_end: { $gte: Date.now() } },
-      ],
-    });
-    return data;
-  } catch (err) {
-    throw new err();
-  }
+  const data = await Event.find({
+    $and: [
+      { date_start: { $lte: Date.now() } },
+      { date_end: { $gte: Date.now() } },
+    ],
+  });
+  return data;
 };
 
 // API for upcomming events
 exports.read_upcoming_events = async () => {
-  try {
-    const data = await Event.find({ date_start: { $gt: Date.now() } });
-    return data;
-  } catch (err) {
-    throw new err();
-  }
+  const data = await Event.find({ date_start: { $gt: Date.now() } });
+  return data;
 };
 
 // API for past events
 exports.read_past_events = async () => {
-  try {
-    const data = await Event.find({ date_end: { $lt: Date.now() } });
-    return data;
-  } catch (err) {
-    throw new err();
-  }
+  const data = await Event.find({ date_end: { $lt: Date.now() } });
+  return data;
 };
 //----------------------------------END OF EVENT DATABASE
 // APIs----------------------------------------//
