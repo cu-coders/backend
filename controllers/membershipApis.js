@@ -4,7 +4,7 @@ const sanitize = require("mongo-sanitize");
 const Membership = require("../models/membership");
 const mailer = require("./mailer");
 //--------------------------------END OF
-//IMPORTS---------------------------------------//
+// IMPORTS---------------------------------------//
 exports.insertMembership = async (req, res) => {
   const uploadResult = await cloudinaryConfig.v2.uploader.upload(
     req.file.path,

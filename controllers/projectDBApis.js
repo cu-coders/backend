@@ -3,7 +3,7 @@ const sanitize = require("mongo-sanitize");
 const Project = require("../models/project");
 const mailer = require("./mailer");
 //--------------------------------END OF
-//IMPORTS---------------------------------------//
+// IMPORTS---------------------------------------//
 exports.insertProject = async (req, res) => {
   const name = sanitize(req.body.name);
   const email = sanitize(req.body.email);
