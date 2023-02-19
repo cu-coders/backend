@@ -18,8 +18,9 @@ exports.insertMessage = async (req, res) => {
     });
     await mailer.sendAck(message.email, message.subject, message.fullname);
     await message.save();
-    res.status(201).json({ success: true });
+    res.status(201).json({ success: true, message: "We will contact you soon!" });
   } catch (err) {
+    throw error;
     res.status(500).json({ success: false });
   }
 };
