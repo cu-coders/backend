@@ -52,10 +52,16 @@ exports.insertMembership = async (req, res) => {
       });
       await mailer.membershipAck(membership.email, membership.fullname);
       await membership.save();
-      res.json({ success: true, message: "Now, you're a Member!" });
+      res
+        .status(200)
+        .json({ success: true, message: "Congrats! Now, you're a Member!" });
     }
   } catch (err) {
     await cloudinaryConfig.uploader.destroy(membership.imageID);
+    res.status(500).json({
+      success: false,
+      message: "It's not you. It's on us. We're working on it",
+    });
     throw err;
   }
 };

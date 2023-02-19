@@ -1,5 +1,5 @@
 "use strict";
-const  sanitize  = require("mongo-sanitize");
+const sanitize = require("mongo-sanitize");
 const Event = require("../models/events");
 //------------------------------------------------END OF
 //IMPORTS----------------------------//
@@ -29,7 +29,11 @@ exports.insert_event = async (req, imageURL, public_id) => {
     });
     await event.save();
   } catch (err) {
-    throw new Error(err);
+    res.status(500).json({
+      success: false,
+      message: "It's not you. It's on us. We're working on it",
+    });
+    throw err;
   }
 };
 
@@ -50,7 +54,11 @@ exports.read_upcoming_events = async () => {
     const data = await Event.find({ date_start: { $gt: Date.now() } });
     return data;
   } catch (err) {
-    res.json({ success: false, message: "Internal server error" });
+    res.status(500).json({
+      success: false,
+      message: "It's not you. It's on us. We're working on it",
+    });
+    throw err;
   }
 };
 
@@ -60,7 +68,11 @@ exports.read_past_events = async () => {
     const data = await Event.find({ date_end: { $lt: Date.now() } });
     return data;
   } catch (err) {
-    res.json({ success: false, message: "Internal server error" });
+    res.status(500).json({
+      success: false,
+      message: "It's not you. It's on us. We're working on it",
+    });
+    throw err;
   }
 };
 //----------------------------------END OF EVENT DATABASE

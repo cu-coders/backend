@@ -12,7 +12,7 @@ router.post("/", rules.contactForms, async (req, res) => {
   if (validationErr.isEmpty()) {
     await contactUsDbApis.insertMessage(req, res);
   } else {
-    res.jsonp({ success: false, err: validationErr.array() });
+    res.status(500).json({ success: false, err: validationErr.array() });
   }
 });
 module.exports = router;

@@ -28,14 +28,20 @@ exports.insert_resource = async (req, res, imageURL, public_id) => {
   try {
     await mailer.applicationAck(email, role, name);
     await newResources.save();
-    res.json({ success: true, message: "Resource Added Successfully!" });
+    res
+      .status(201)
+      .json({ success: true, message: "Resource Added Successfully!" });
   } catch (error) {
     await cloudinaryConfig.uploader.destroy(newResources.resourcesId);
+    res.status(500).json({
+      success: false,
+      message: "It's not you. It's on us. We're working on it",
+    });
     throw error;
   }
 };
 
 exports.getResources = async (res) => {
   const resourcesData = await resources.find();
-  res.json({ success: true, data: resourcesData });
+  res.status(200).json({ success: true, data: resourcesData });
 };

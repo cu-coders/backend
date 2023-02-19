@@ -29,9 +29,13 @@ exports.addResources = async (req, res) => {
   try {
     await mailer.resourceAck(email, name);
     await newResource.save();
-    res.json({ success: true, message: "Submitted Successfully!" });
+    res.json({ success: true, message: "Resources Submitted Successfully!" });
   } catch (error) {
     await cloudinaryConfig.uploader.destroy(newResource.resourceId);
+    res.status(500).json({
+      success: false,
+      message: "It's not you. It's on us. We're working on it",
+    });
     throw error;
   }
 };

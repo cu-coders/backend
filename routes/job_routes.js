@@ -7,10 +7,9 @@ router.post("/apply", uploadDoc.single("resume"), async (req, res) => {
   try {
     await jobDBApis.addJobApplication(req, res);
   } catch (error) {
-    res.json({
-      err: error.message,
+    res.status(500).json({
       success: false,
-      message: "Form submission failed",
+      message: "It's not you. It's on us. We're working on it",
     });
   }
 });
