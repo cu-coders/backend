@@ -1,6 +1,6 @@
 "use strict";
 const express = require("express");
-const { validationResult } = require("express-validator");
+const {validationResult} = require("express-validator");
 const rules = require("../middlewares/validation-rules");
 const contactUsDbApis = require("../controllers/contactUsDbApis");
 const router = express.Router();
@@ -12,7 +12,7 @@ router.post("/", rules.contactForms, async (req, res) => {
   if (validationErr.isEmpty()) {
     await contactUsDbApis.insertMessage(req, res);
   } else {
-    res.status(500).json({ success: false, err: validationErr.array() });
+    res.status(500).json({success : false, err : validationErr.array()});
   }
 });
 module.exports = router;

@@ -5,15 +5,13 @@ const sanitize = require("mongo-sanitize");
 const mailer = require("./mailer");
 
 exports.addJobApplication = async (req, res) => {
-  const uploadResult = await cloudinaryConfig.v2.uploader.upload(
-    req.file.path,
-    {
-      folder: `resume/${req.body.role}`,
-      use_filename: true,
-      resource_type: "auto",
-    }
-  );
-  const { secure_url, public_id } = uploadResult;
+  const uploadResult =
+      await cloudinaryConfig.v2.uploader.upload(req.file.path, {
+        folder : `resume/${req.body.role}`,
+        use_filename : true,
+        resource_type : "auto",
+      });
+  const {secure_url, public_id} = uploadResult;
   const name = sanitize(req.body.name);
   const email = sanitize(req.body.email);
   const reason_to_join = sanitize(req.body.reason_to_join);
@@ -25,20 +23,19 @@ exports.addJobApplication = async (req, res) => {
     reason_to_join,
     number,
     role,
-    resume: secure_url,
-    resumeId: public_id,
+    resume : secure_url,
+    resumeId : public_id,
   });
   try {
     await mailer.applicationAck(email, role, name);
     await newApplicant.save();
-    res
-      .status(200)
-      .json({ success: true, message: "We got your application!" });
+    res.status(200).json(
+        {success : true, message : "We got your application!"});
   } catch (error) {
     await cloudinaryConfig.uploader.destroy(newApplicant.resumeId);
     res.status(500).json({
-      success: false,
-      message: "It's not you. It's on us. We're working on it",
+      success : false,
+      message : "It's not you. It's on us. We're working on it",
     });
     throw error;
   }

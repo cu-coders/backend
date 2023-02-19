@@ -12,17 +12,16 @@ exports.insertProject = async (req, res) => {
     const project = new Project({
       email,
       name,
-      details: sDetails,
+      details : sDetails,
     });
     await mailer.projectAck(project.email, project.name);
     await project.save();
-    res
-      .status(200)
-      .json({ success: true, message: "Project Submitted Successfully!" });
+    res.status(200).json(
+        {success : true, message : "Project Submitted Successfully!"});
   } catch (err) {
     res.status(500).json({
-      success: false,
-      message: "It's not you. It's on us. We're working on it",
+      success : false,
+      message : "It's not you. It's on us. We're working on it",
     });
     throw err;
   }
