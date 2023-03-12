@@ -4,13 +4,11 @@ const router = express.Router();
 const { uploadDoc } = require("../configs/multer_config");
 const jobDBApis = require("../controllers/jobDBApis");
 router.post("/apply", uploadDoc.single("resume"), async (req, res) => {
-  try {
+  const validationErr = validationResult(req);
+  if (validationErr.isEmpty()) {
     await jobDBApis.addJobApplication(req, res);
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "It's not you. It's on us. We're working on it",
-    });
+  } else {
+    res.status(500).json({ success: false, err: validationErr.array() });
   }
 });
 module.exports = router;
