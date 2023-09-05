@@ -1,5 +1,6 @@
 "use strict";
 const cloudinary = require("cloudinary");
+const winston = require("winston");
 
 try {
   if (!process.env.CLOUDINARY_CLOUDNAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
@@ -14,6 +15,18 @@ try {
 
   module.exports = cloudinary;
 } catch (error) {
-  console.error("Cloudinary configuration error:", error);
+  // Configure Winston logger
+  const logger = winston.createLogger({
+    level: "error", // Set log level to "error" for production
+    format: winston.format.json(),
+    transports: [
+      new winston.transports.File({ filename: "error.log" }), // Log errors to a file
+    ],
+  });
+
+  logger.error("Cloudinary configuration error:", error);
+
+  // Optionally, you can also send error notifications or take other actions here
+
   process.exit(1); // Exit the application with an error code
 }

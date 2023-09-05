@@ -14,7 +14,6 @@ router.post("/add", rules.resourcesForms, uploadDoc.single("resource"), async (r
   try {
     await resourcesDBApis.addResources(req, res);
   } catch (error) {
-    console.error("Error:", error);
     res.status(500).json({
       success: false,
       message: "Internal server error. We're working on it.",

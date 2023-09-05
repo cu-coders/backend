@@ -4,6 +4,15 @@ const ResetLink = require("../models/reset_links");
 const User = require("../models/users");
 const bcrypt = require("bcrypt");
 const mailer = require("../controllers/mailer");
+const winston = require("winston");
+
+const logger = winston.createLogger({
+  level: "error", // Set the log level as needed
+  format: winston.format.json(),
+  transports: [
+    new winston.transports.File({ filename: "reset_error.log" }), // Log reset errors to a file
+  ],
+});
 
 async function generateToken(email) {
   const saltRounds = 10; // Increased salt rounds for better security
@@ -35,7 +44,8 @@ exports.handleRequests = async (req, res) => {
       return res.json({ success: false, message: "User is not registered." });
     }
   } catch (error) {
-    console.error("Error while handling reset request:", error);
+    // Use the logger to log the error
+    logger.error("Error while handling reset request:", error);
     return res.status(500).json({
       success: false,
       message: "An error occurred while processing your request.",
@@ -54,7 +64,8 @@ exports.verifyResetToken = async (req, res) => {
       return res.render("error", { message: "Invalid request." });
     }
   } catch (error) {
-    console.error("Error while verifying reset token:", error);
+    // Use the logger to log the error
+    logger.error("Error while verifying reset token:", error);
     return res.render("error", { message: "An error occurred while processing your request." });
   }
 };
@@ -84,7 +95,8 @@ exports.updatePassword = async (req, res) => {
       }
     }
   } catch (error) {
-    console.error("Error while updating password:", error);
+    // Use the logger to log the error
+    logger.error("Error while updating password:", error);
     return res.render("error", { message: "An error occurred while processing your request." });
   }
 };

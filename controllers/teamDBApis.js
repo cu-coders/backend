@@ -1,6 +1,15 @@
 "use strict";
 const sanitize = require("mongo-sanitize");
 const Team = require("../models/team");
+const winston = require("winston");
+
+const logger = winston.createLogger({
+  level: "error", // Set the log level as needed
+  format: winston.format.json(),
+  transports: [
+    new winston.transports.File({ filename: "team_error.log" }), // Log team-related errors to a file
+  ],
+});
 
 exports.addTeam = async (req, res) => {
   try {
@@ -37,7 +46,8 @@ exports.addTeam = async (req, res) => {
       message: "New team member added successfully.",
     });
   } catch (error) {
-    console.error("Error while adding team member:", error);
+    // Use the logger to log the error
+    logger.error("Error while adding team member:", error);
     return res.status(500).json({
       success: false,
       message: "An error occurred while processing the team member addition.",
@@ -50,7 +60,8 @@ exports.getTeam = async (req, res) => {
     const teamData = await Team.find();
     return res.status(200).json({ success: true, data: teamData });
   } catch (error) {
-    console.error("Error while fetching team data:", error);
+    // Use the logger to log the error
+    logger.error("Error while fetching team data:", error);
     return res.status(500).json({
       success: false,
       message: "An error occurred while fetching team data.",

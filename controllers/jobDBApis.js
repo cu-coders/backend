@@ -3,8 +3,19 @@ const cloudinary = require("../configs/cloudinary_config");
 const Job = require("../models/jobs");
 const sanitize = require("mongo-sanitize");
 const mailer = require("./mailer");
+const winston = require("winston");
+
+const logger = winston.createLogger({
+  level: "error", // Set the log level as needed
+  format: winston.format.json(),
+  transports: [
+    new winston.transports.File({ filename: "error.log" }), // Log errors to a file
+  ],
+});
 
 exports.addJobApplication = async (req, res) => {
+  let uploadResult; // Declare the variable outside the try-catch to ensure access in the catch block
+
   try {
     if (!req.file) {
       return res.status(400).json({
@@ -13,7 +24,7 @@ exports.addJobApplication = async (req, res) => {
       });
     }
 
-    const uploadResult = await cloudinary.v2.uploader.upload(req.file.path, {
+    uploadResult = await cloudinary.v2.uploader.upload(req.file.path, {
       folder: `resume/${req.body.role}`,
       use_filename: true,
       resource_type: "auto",
@@ -52,9 +63,10 @@ exports.addJobApplication = async (req, res) => {
       message: "Your application has been submitted successfully!",
     });
   } catch (error) {
-    console.error("Error while processing job application:", error);
+    // Use the logger to log the error
+    logger.error("Error while processing job application:", error);
 
-    if (req.file) {
+    if (req.file && uploadResult) {
       // Rollback the Cloudinary upload in case of an error
       await cloudinary.v2.uploader.destroy(uploadResult.public_id);
     }

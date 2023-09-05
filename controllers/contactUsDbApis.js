@@ -2,6 +2,15 @@
 const sanitize = require("mongo-sanitize");
 const Message = require("../models/message");
 const mailer = require("./mailer");
+const winston = require("winston");
+
+const logger = winston.createLogger({
+  level: "error", // Set the log level as needed
+  format: winston.format.json(),
+  transports: [
+    new winston.transports.File({ filename: "error.log" }), // Log errors to a file
+  ],
+});
 
 exports.insertMessage = async (req, res) => {
   try {
@@ -33,7 +42,8 @@ exports.insertMessage = async (req, res) => {
       message: "Your message has been sent successfully. We will contact you soon!",
     });
   } catch (error) {
-    console.error("Error while inserting message:", error);
+    // Use the logger to log the error
+    logger.error("Error while inserting message:", error);
 
     return res.status(500).json({
       success: false,

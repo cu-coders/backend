@@ -18,7 +18,6 @@ router.post("/apply", uploadDoc.single("resume"), async (req, res) => {
       res.status(400).json({ success: false, errors: validationErr.array() });
     }
   } catch (err) {
-    console.error(err);
     res.status(500).json({
       success: false,
       message: "Internal server error",

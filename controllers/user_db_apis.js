@@ -2,6 +2,15 @@
 const sanitize = require("mongo-sanitize");
 const User = require("../models/users");
 const bcrypt = require("bcrypt");
+const winston = require("winston");
+
+const logger = winston.createLogger({
+  level: "error", // Set the log level as needed
+  format: winston.format.json(),
+  transports: [
+    new winston.transports.File({ filename: "registration_error.log" }), // Log registration-related errors to a file
+  ],
+});
 
 exports.register = async (req, res) => {
   try {
@@ -54,7 +63,8 @@ exports.register = async (req, res) => {
       return res.status(500).json({ success: false, message: "Failed to send the verification email." });
     }
   } catch (error) {
-    console.error("Error during user registration:", error);
+    // Use the logger to log the error
+    logger.error("Error during user registration:", error);
     return res.status(500).json({ success: false, message: "Something went wrong." });
   }
 };
@@ -73,7 +83,8 @@ exports.verifyEmail = async (req, res) => {
       return res.status(400).json({ success: false, message: "Invalid or expired verification token." });
     }
   } catch (error) {
-    console.error("Error during email verification:", error);
+    // Use the logger to log the error
+    logger.error("Error during email verification:", error);
     return res.status(500).json({ success: false, message: "Something went wrong." });
   }
 };

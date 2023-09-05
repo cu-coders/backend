@@ -3,6 +3,15 @@ const cloudinary = require("../configs/cloudinary_config");
 const resources = require("../models/resources");
 const sanitize = require("mongo-sanitize");
 const mailer = require("./mailer");
+const winston = require("winston");
+
+const logger = winston.createLogger({
+  level: "error", // Set the log level as needed
+  format: winston.format.json(),
+  transports: [
+    new winston.transports.File({ filename: "resource_error.log" }), // Log resource errors to a file
+  ],
+});
 
 exports.insertResource = async (req, res) => {
   try {
@@ -41,7 +50,8 @@ exports.insertResource = async (req, res) => {
       message: "Resource added successfully!",
     });
   } catch (error) {
-    console.error("Error while inserting resource:", error);
+    // Use the logger to log the error
+    logger.error("Error while inserting resource:", error);
 
     if (req.file) {
       // Rollback the Cloudinary upload in case of an error
@@ -60,7 +70,8 @@ exports.getResources = async (req, res) => {
     const resourcesData = await resources.find();
     return res.status(200).json({ success: true, data: resourcesData });
   } catch (error) {
-    console.error("Error while fetching resources:", error);
+    // Use the logger to log the error
+    logger.error("Error while fetching resources:", error);
     return res.status(500).json({
       success: false,
       message: "An error occurred while fetching resources.",

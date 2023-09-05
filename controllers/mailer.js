@@ -7,6 +7,7 @@ const applicationMessage = require("../templates/job_ack.js");
 const projectMessage = require("../templates/project_ack.js");
 const resourceMessage = require("../templates/resource_ack.js");
 const membershipMessage = require("../templates/membership_ack.js");
+const winston = require("winston");
 
 const transporter = nodemailer.createTransport({
   // Use the appropriate email service settings here
@@ -19,12 +20,21 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+const logger = winston.createLogger({
+  level: "error", // Set the log level as needed
+  format: winston.format.json(),
+  transports: [
+    new winston.transports.File({ filename: "email_error.log" }), // Log email errors to a file
+  ],
+});
+
 async function sendEmail(message) {
   try {
     await transporter.sendMail(message);
     return true;
   } catch (err) {
-    console.error("Error while sending email:", err);
+    // Use the logger to log the email sending error
+    logger.error("Error while sending email:", err);
     return err;
   }
 }
@@ -63,4 +73,3 @@ exports.membershipAck = async (email, name) => {
   const message = membershipMessage.getTemplate(email, name);
   return sendEmail(message);
 };
-

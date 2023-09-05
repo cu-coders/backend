@@ -3,6 +3,15 @@ const cloudinary = require("../configs/cloudinary_config");
 const Resource = require("../models/addResources");
 const sanitize = require("mongo-sanitize");
 const mailer = require("./mailer");
+const winston = require("winston");
+
+const logger = winston.createLogger({
+  level: "error", // Set the log level as needed
+  format: winston.format.json(),
+  transports: [
+    new winston.transports.File({ filename: "error.log" }), // Log errors to a file
+  ],
+});
 
 exports.addResources = async (req, res) => {
   try {
@@ -49,7 +58,8 @@ exports.addResources = async (req, res) => {
       message: "Resource submitted successfully!",
     });
   } catch (error) {
-    console.error("Error while uploading resource:", error);
+    // Use the logger to log the error
+    logger.error("Error while uploading resource:", error);
 
     if (req.file) {
       // Rollback the Cloudinary upload in case of an error

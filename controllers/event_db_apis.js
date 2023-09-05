@@ -1,6 +1,15 @@
 "use strict";
 const sanitize = require("mongo-sanitize");
 const Event = require("../models/events");
+const winston = require("winston");
+
+const logger = winston.createLogger({
+  level: "error", // Set the log level as needed
+  format: winston.format.json(),
+  transports: [
+    new winston.transports.File({ filename: "error.log" }), // Log errors to a file
+  ],
+});
 
 exports.insert_event = async (req, imageURL, public_id) => {
   try {
@@ -32,7 +41,8 @@ exports.insert_event = async (req, imageURL, public_id) => {
 
     await event.save();
   } catch (error) {
-    console.error("Error while inserting event:", error);
+    // Use the logger to log the error
+    logger.error("Error while inserting event:", error);
     throw error;
   }
 };
@@ -47,7 +57,8 @@ exports.read_ongoing_events = async () => {
     });
     return data;
   } catch (error) {
-    console.error("Error while reading ongoing events:", error);
+    // Use the logger to log the error
+    logger.error("Error while reading ongoing events:", error);
     throw error;
   }
 };
@@ -57,7 +68,8 @@ exports.read_upcoming_events = async () => {
     const data = await Event.find({ date_start: { $gt: Date.now() } });
     return data;
   } catch (error) {
-    console.error("Error while reading upcoming events:", error);
+    // Use the logger to log the error
+    logger.error("Error while reading upcoming events:", error);
     throw error;
   }
 };
@@ -67,7 +79,8 @@ exports.read_past_events = async () => {
     const data = await Event.find({ date_end: { $lt: Date.now() } });
     return data;
   } catch (error) {
-    console.error("Error while reading past events:", error);
+    // Use the logger to log the error
+    logger.error("Error while reading past events:", error);
     throw error;
   }
 };

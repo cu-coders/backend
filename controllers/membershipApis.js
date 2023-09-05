@@ -3,8 +3,19 @@ const cloudinary = require("../configs/cloudinary_config");
 const sanitize = require("mongo-sanitize");
 const Membership = require("../models/membership");
 const mailer = require("./mailer");
+const winston = require("winston");
+
+const logger = winston.createLogger({
+  level: "error", // Set the log level as needed
+  format: winston.format.json(),
+  transports: [
+    new winston.transports.File({ filename: "membership_error.log" }), // Log membership errors to a file
+  ],
+});
 
 exports.insertMembership = async (req, res) => {
+  let uploadResult; // Declare the variable outside the try-catch to ensure access in the catch block
+
   try {
     if (!req.file) {
       return res.status(400).json({
@@ -13,7 +24,7 @@ exports.insertMembership = async (req, res) => {
       });
     }
 
-    const uploadResult = await cloudinary.v2.uploader.upload(req.file.path, {
+    uploadResult = await cloudinary.v2.uploader.upload(req.file.path, {
       folder: `CollegeID/${req.body.college}/${req.body.year}`,
       use_filename: true,
       resource_type: "auto",
@@ -71,9 +82,10 @@ exports.insertMembership = async (req, res) => {
       });
     }
   } catch (error) {
-    console.error("Error while inserting membership:", error);
+    // Use the logger to log the error
+    logger.error("Error while inserting membership:", error);
 
-    if (req.file) {
+    if (req.file && uploadResult) {
       // Rollback the Cloudinary upload in case of an error
       await cloudinary.v2.uploader.destroy(uploadResult.public_id);
     }
