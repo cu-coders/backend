@@ -7,28 +7,27 @@ const GitHubStrategy = require("passport-github2").Strategy;
 const bcrypt = require("bcrypt");
 const User = require("../models/users");
 
-//-------------------------------------------------END OF
-//IMPORTS---------------------------------------------//
-
-//----------------------------------------------GOOGLE OAUTH
-//STRATEGY-----------------------------------------//
+// Define passport strategies
 passport.use(
+  "google",
   new GoogleStrategy(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "https://backend.cuchapter.tech/auth/google/redirect",
+      callbackURL: process.env.GOOGLE_CALLBACK_URL,
     },
-    (accessToken, refreshToken, profile, done) => {
-      const email = sanitize(profile.emails[0].value);
-      User.findOne({ email }).then((oldUser) => {
-        if (oldUser) {
-          done(null, oldUser._id);
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        const email = sanitize(profile.emails[0].value);
+        const existingUser = await User.findOne({ email });
+
+        if (existingUser) {
+          return done(null, existingUser._id);
         } else {
           const firstname = sanitize(profile.name.givenName);
           const lastname = sanitize(profile.name.familyName);
           const third_partyID = sanitize(profile.id);
-          new User({
+          const newUser = new User({
             firstname,
             lastname,
             email,
@@ -37,40 +36,37 @@ passport.use(
             password: null,
             mailtoken: null,
             isactive: true,
-          })
-            .save()
-            .then((newUser) => {
-              done(null, newUser._id);
-            });
+          });
+          await newUser.save();
+          return done(null, newUser._id);
         }
-      });
+      } catch (error) {
+        return done(error);
+      }
     }
   )
 );
-//-------------------------------------END OF GOOGLE OAUTH
-//STRATEGY-----------------------------------//
-
-//----------------------------------------- GITHUB
-//STRATEGY------------------------------------------//
 
 passport.use(
+  "github",
   new GitHubStrategy(
     {
       clientID: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
-      callbackURL: "https://backend.cuchapter.tech/auth/github/redirect",
+      callbackURL: process.env.GITHUB_CALLBACK_URL,
       scope: ["user:email"],
     },
-    (accessToken, refreshToken, profile, done) => {
-      const email = sanitize(profile.emails[0].value);
-      User.findOne({ email }).then((oldUser) => {
-        if (oldUser) {
-          // User with the same email already exists
-          done(null, oldUser._id);
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        const email = sanitize(profile.emails[0].value);
+        const existingUser = await User.findOne({ email });
+
+        if (existingUser) {
+          return done(null, existingUser._id);
         } else {
           const firstname = sanitize(profile.displayName);
           const third_partyID = sanitize(profile.id);
-          new User({
+          const newUser = new User({
             firstname,
             lastname: null,
             email,
@@ -79,80 +75,67 @@ passport.use(
             password: null,
             mailtoken: null,
             isactive: true,
-          })
-            .save()
-            .then((newUser) => {
-              done(null, newUser._id);
-            });
+          });
+          await newUser.save();
+          return done(null, newUser._id);
         }
-      });
+      } catch (error) {
+        return done(error);
+      }
     }
   )
 );
 
-//--------------------------------------END OF GITHUB
-//STRATEGY----------------------------------------//
-
-//-------------------------------------------LOCAL
-//STRATEGY-------------------------------------------//
 passport.use(
+  "local",
   new LocalStrategy(
     { usernameField: "email", passwordField: "password", session: true },
-    (email, password, done) => {
-      const sEmail = sanitize(email);
-      User.findOne({ email: sEmail }, (err, user) => {
-        if (err) {
-          return done(err);
-        }
-        // If the user is invalid
+    async (email, password, done) => {
+      try {
+        const sEmail = sanitize(email);
+        const user = await User.findOne({ email: sEmail });
+
         if (!user) {
-          return done(null, false, {
-            success: false,
-            message: "unregistered email",
-          });
+          return done(null, false, { message: "Unregistered email" });
         }
-        // Password is null i.e registered using google or github
+
         if (!user.password) {
-          return done(null, false, {
-            message: "Invalid login mode",
-            success: false,
-          });
+          return done(null, false, { message: "Invalid login mode" });
         }
+
         const sPassword = sanitize(password);
-        bcrypt.compare(sPassword, user.password).then((isValid) => {
-          if (isValid) {
-            // Checking if email is verified by the user
-            if (user.isactive) {
-              return done(null, user._id);
-            }
-            return done(null, false, {
-              message: "Please verify your email first",
-            });
+        const isValid = await bcrypt.compare(sPassword, user.password);
+
+        if (isValid) {
+          if (user.isactive) {
+            return done(null, user._id);
+          } else {
+            return done(null, false, { message: "Please verify your email first" });
           }
-          // incorrect password
-          return done(null, false, {
-            message: "Invalid Credentials",
-            success: false,
-          });
-        });
-      });
+        } else {
+          return done(null, false, { message: "Invalid credentials" });
+        }
+      } catch (error) {
+        return done(error);
+      }
     }
   )
 );
-//--------------------------------------------------END  OF LOCAL
-//STRATEGY----------------------------------------//
-//------------------------------------------------SERIALIZERS AND
-//DESERIALIZERS-----------------------------------//
-passport.serializeUser((id, done) => {
-  done(null, id);
+
+// Define serializers and deserializers
+passport.serializeUser((user, done) => {
+  done(null, user._id);
 });
 
 passport.deserializeUser((id, done) => {
-  User.findById(id).then((user) => {
+  User.findById(id, (err, user) => {
+    if (err) {
+      return done(err);
+    }
     if (user) {
       done(null, user);
     }
   });
 });
-//------------------------------------------END OF SERIALIZERS AND
-//DESERIALIZERS----------------------------------//
+
+module.exports = passport;

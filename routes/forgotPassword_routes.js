@@ -3,8 +3,14 @@ const express = require("express");
 const router = express.Router();
 const { validationResult, check } = require("express-validator");
 const resetLinkDbApis = require("../controllers/resetLinkDbApis");
+
+// Middleware to parse JSON and URL-encoded request bodies
+router.use(express.json());
+router.use(express.urlencoded({ extended: false }));
+
+// Request for sending reset password link
 router.post(
-  "",
+  "/request",
   [
     check("email")
       .trim()
@@ -17,29 +23,32 @@ router.post(
     try {
       const validationErr = validationResult(req);
       if (validationErr.isEmpty()) {
-        await resetLinkDbApis.handleRquests(req, res);
+        await resetLinkDbApis.handleRequests(req, res);
       } else {
-        res.json({ success: false, err: validationErr.array() });
+        res.status(400).json({ success: false, errors: validationErr.array() });
       }
     } catch (err) {
       res.status(500).json({
         success: false,
-        message: "It's not you. It's on us. We're working on it",
+        message: "Internal server error",
       });
     }
   }
 );
 
+// Verify reset password token
 router.get("/reset", async (req, res) => {
   try {
     await resetLinkDbApis.verifyResetToken(req, res);
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: "It's not you. It's on us. We're working on it",
+      message: "Internal server error",
     });
   }
 });
+
+// Reset password route
 router.post(
   "/reset",
   [
@@ -54,16 +63,17 @@ router.post(
     try {
       const validationErr = validationResult(req);
       if (!validationErr.isEmpty()) {
-        res.json({ success: false, err: validationErr.array() });
+        res.status(400).json({ success: false, errors: validationErr.array() });
       } else {
         await resetLinkDbApis.updatePassword(req, res);
       }
     } catch (error) {
       res.status(500).json({
         success: false,
-        message: "It's not you. It's on us. We're working on it",
+        message: "Internal server error",
       });
     }
   }
 );
+
 module.exports = router;

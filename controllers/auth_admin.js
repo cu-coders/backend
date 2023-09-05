@@ -1,30 +1,57 @@
 "use strict";
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-module.exports.auth = (req, res) => {
-  const cred = req.body;
-  if (cred.username && cred.password) {
-    bcrypt.compare(cred.password, process.env.ADMIN_PASS, (err, isvalid) => {
-      if (err) {
-        res.status(500).json({
-          success: false,
-          message: "It's not you. It's on us. We're working on it",
-        });
-        res.end();
-      } else if (isvalid === true && cred.username === process.env.ADMIN_NAME) {
-        jwt.sign(process.env.ADMIN_NAME, process.env.SECRET, (error, token) => {
-          if (error) {
-            res.status(500).json({ message: "Opps! Something went wrong" });
-            res.end();
-          } else {
-            res.cookie("auth", token, { maxAge: 3600000, httpOnly: true });
-            res.redirect("./add-events");
-          }
-        });
-      } else {
-        res.status(401).json({ message: "Invalid credentials" });
-        res.end();
-      }
+
+module.exports.auth = async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    // Check if both username and password are provided
+    if (!username || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Username and password are required.",
+      });
+    }
+
+    // Compare the provided password with the hashed admin password
+    const isPasswordValid = await bcrypt.compare(
+      password,
+      process.env.ADMIN_PASS
+    );
+
+    if (!isPasswordValid) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid credentials.",
+      });
+    }
+
+    if (username !== process.env.ADMIN_NAME) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid credentials.",
+      });
+    }
+
+    // Generate a JWT token
+    const token = jwt.sign({ username }, process.env.SECRET, {
+      expiresIn: "1h", // Set the token expiration time
+    });
+
+    // Set the token as an HttpOnly cookie
+    res.cookie("auth", token, {
+      maxAge: 3600000, // 1 hour in milliseconds
+      httpOnly: true,
+    });
+
+    // Redirect to the desired endpoint (e.g., "./add-events")
+    res.redirect("./add-events");
+  } catch (error) {
+    console.error("Authentication error:", error);
+    res.status(500).json({
+      success: false,
+      message: "An internal server error occurred.",
     });
   }
 };

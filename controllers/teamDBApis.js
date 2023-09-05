@@ -1,31 +1,59 @@
 "use strict";
 const sanitize = require("mongo-sanitize");
-const team = require("../models/team");
-exports.addTeam = async (req, res, secure_url, public_id) => {
-  const fullname = sanitize(req.body.fullname);
-  const role = sanitize(req.body.role);
-  const linkedin = sanitize(req.body.linkedin);
-  const instagram = sanitize(req.body.instagram);
-  const github = sanitize(req.body.github);
-  const newTeam = new team({
-    profileImage: secure_url,
-    publicId: public_id,
-    fullname,
-    role,
-    linkedin,
-    instagram,
-    github,
-  });
-  await newTeam.save();
-  res.status(201).json({ success: true, message: "new team member added" });
+const Team = require("../models/team");
+
+exports.addTeam = async (req, res) => {
+  try {
+    const secure_url = sanitize(req.file.secure_url);
+    const public_id = sanitize(req.file.public_id);
+    const fullname = sanitize(req.body.fullname);
+    const role = sanitize(req.body.role);
+    const linkedin = sanitize(req.body.linkedin);
+    const instagram = sanitize(req.body.instagram);
+    const github = sanitize(req.body.github);
+
+    // Validate the input data (e.g., check if required fields are provided)
+    if (!secure_url || !public_id || !fullname || !role) {
+      return res.status(400).json({
+        success: false,
+        message: "Incomplete or invalid data provided.",
+      });
+    }
+
+    const newTeamMember = new Team({
+      profileImage: secure_url,
+      publicId: public_id,
+      fullname,
+      role,
+      linkedin,
+      instagram,
+      github,
+    });
+
+    await newTeamMember.save();
+
+    return res.status(201).json({
+      success: true,
+      message: "New team member added successfully.",
+    });
+  } catch (error) {
+    console.error("Error while adding team member:", error);
+    return res.status(500).json({
+      success: false,
+      message: "An error occurred while processing the team member addition.",
+    });
+  }
 };
 
-// exports.getTeam = async (res) => {
-//   const teamData = await team.find();
-//   res.json({ success: true, data: teamData });
-// };
-
-exports.getTeam = async () => {
-  const data = await team.find();
-  return data;
+exports.getTeam = async (req, res) => {
+  try {
+    const teamData = await Team.find();
+    return res.status(200).json({ success: true, data: teamData });
+  } catch (error) {
+    console.error("Error while fetching team data:", error);
+    return res.status(500).json({
+      success: false,
+      message: "An error occurred while fetching team data.",
+    });
+  }
 };

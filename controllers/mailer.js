@@ -7,12 +7,9 @@ const applicationMessage = require("../templates/job_ack.js");
 const projectMessage = require("../templates/project_ack.js");
 const resourceMessage = require("../templates/resource_ack.js");
 const membershipMessage = require("../templates/membership_ack.js");
-//--------------------------------------------END OF
-//IMPORTS--------------------------------------------------//
-//-------------------------------------------CONFIG.
-//TRANSPORTER-------------------------------------------//
+
 const transporter = nodemailer.createTransport({
-  //service: process.env.EMAIL_SERVICE_NAME,
+  // Use the appropriate email service settings here
   host: "smtppro.zoho.in",
   secure: true,
   port: 465,
@@ -21,48 +18,49 @@ const transporter = nodemailer.createTransport({
     pass: process.env.EMAIL_PASSWORD,
   },
 });
-//-----------------------------------------END CONFIG.
-//TRANSPORTER-------------------------------------------//
 
-//----------------------------------------------MAILER
-//METHOD--------------------------------------------------//
-exports.send_verification = async (userEmail, username, domain, token) => {
-  const message = gen_message.getTemplate(userEmail, username, domain, token);
+async function sendEmail(message) {
   try {
     await transporter.sendMail(message);
     return true;
   } catch (err) {
+    console.error("Error while sending email:", err);
     return err;
   }
+}
+
+exports.send_verification = async (userEmail, username, domain, token) => {
+  const message = gen_message.getTemplate(userEmail, username, domain, token);
+  return sendEmail(message);
 };
+
 exports.sendAck = async (userEmail, fullname, subject) => {
   const message = ackMessage.getTemplate(userEmail, fullname, subject);
-  await transporter.sendMail(message);
+  return sendEmail(message);
 };
 
 exports.sendReset = async (name, email, token, domain) => {
   const message = resetMessage.getTemplate(email, token, name, domain);
-  await transporter.sendMail(message);
+  return sendEmail(message);
 };
 
 exports.applicationAck = async (email, role, name) => {
   const message = applicationMessage.getTemplate(email, role, name);
-  await transporter.sendMail(message);
+  return sendEmail(message);
 };
 
 exports.projectAck = async (email, name) => {
   const message = projectMessage.getTemplate(email, name);
-  await transporter.sendMail(message);
+  return sendEmail(message);
 };
 
 exports.resourceAck = async (email, name) => {
   const message = resourceMessage.getTemplate(email, name);
-  await transporter.sendMail(message);
+  return sendEmail(message);
 };
 
 exports.membershipAck = async (email, name) => {
   const message = membershipMessage.getTemplate(email, name);
-  await transporter.sendMail(message);
+  return sendEmail(message);
 };
-//--------------------------------------------END OF MAILER
-//METHOD---------------------------------------------//
+

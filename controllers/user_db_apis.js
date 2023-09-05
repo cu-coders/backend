@@ -2,69 +2,78 @@
 const sanitize = require("mongo-sanitize");
 const User = require("../models/users");
 const bcrypt = require("bcrypt");
-//-------------------------------------END OF IMPORTS--------------------------------------//
 
-//--------------------------------USER REGISTRATION VIA EMAIL------------------------------//
-// to add new user data to DB(registration)
 exports.register = async (req, res) => {
-  const tempData = req.body;
-  const email = sanitize(req.body.email);
-  const firstname = sanitize(req.body.firstname);
-  const lastname = sanitize(req.body.lastname);
-  const password = sanitize(req.body.password);
   try {
-    const e_user = await User.findOne({ email });
-    if (e_user) {
-      // Email is already registered
-      res.send({ message: "An account with this email already exists" });
-    } else {
-      // Registering new user
-      const salt = await bcrypt.genSalt(10);
-      const user = await new User({
-        firstname,
-        lastname,
-        email,
-        password,
-        mailtoken: await bcrypt.hash(
-          tempData.email + Date.now().toString(),
-          salt
-        ),
-        isactive: false,
-        auth_type: "email",
-        third_partyID: null,
-      });
+    const email = sanitize(req.body.email);
+    const firstname = sanitize(req.body.firstname);
+    const lastname = sanitize(req.body.lastname);
+    const password = sanitize(req.body.password);
 
-      // Sending the verification mail to the user-email
-      const isSent = await user.send_verification(req);
-      if (isSent) {
-        user.save();
-        res.send({ message: "Registered, please visit your email" });
-      } else {
-        // vaification email was not sent
-        res.status(400).res({ message: "Can't verify the email address." });
-      }
+    // Validate the input data (e.g., check if required fields are provided)
+    if (!email || !firstname || !lastname || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Incomplete or invalid data provided.",
+      });
     }
-  } catch (err) {
-    res.status(500).send({ message: "Something went wrong" });
+
+    // Check if the email is already registered
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({
+        success: false,
+        message: "An account with this email already exists.",
+      });
+    }
+
+    // Generate a salt and hash the user's password
+    const saltRounds = 10;
+    const salt = await bcrypt.genSalt(saltRounds);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // Create a new user with the provided data
+    const user = new User({
+      firstname,
+      lastname,
+      email,
+      password: hashedPassword,
+      mailtoken: null,
+      isactive: false,
+      auth_type: "email",
+      third_partyID: null,
+    });
+
+    // Send the verification email to the user's email address
+    const isEmailSent = await user.send_verification(req);
+
+    if (isEmailSent) {
+      await user.save();
+      return res.status(200).json({ success: true, message: "Registered, please check your email for verification." });
+    } else {
+      return res.status(500).json({ success: false, message: "Failed to send the verification email." });
+    }
+  } catch (error) {
+    console.error("Error during user registration:", error);
+    return res.status(500).json({ success: false, message: "Something went wrong." });
   }
 };
-//---------------------------------------END OF USER REGISTRATION VIA EMAIL-----------------------------//
 
-//---------------------------------------API TO VARIFY USER EMAIL REQUEST-------------------------------//
-exports.verify_mail = async (req, res) => {
+exports.verifyEmail = async (req, res) => {
   try {
     const mailtoken = sanitize(req.query.token);
     const user = await User.findOne({ mailtoken });
+
     if (user && mailtoken) {
       user.mailtoken = null;
       user.isactive = true;
       await user.save();
-      res.send("Verified");
+      return res.status(200).json({ success: true, message: "Email verified successfully." });
     } else {
-      res.send("Something went wrong");
+      return res.status(400).json({ success: false, message: "Invalid or expired verification token." });
     }
-  } catch (err) {
-    res.send("Something went wrong");
+  } catch (error) {
+    console.error("Error during email verification:", error);
+    return res.status(500).json({ success: false, message: "Something went wrong." });
   }
 };
-//---------------------------------------END API TO VARIFY USER EMAIL REQUEST-------------------------------//

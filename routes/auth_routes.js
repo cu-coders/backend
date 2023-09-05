@@ -1,37 +1,27 @@
 "use strict";
-const { validationResult } = require("express-validator");
 const express = require("express");
+const router = express.Router();
+const { validationResult } = require("express-validator");
 const user_apis = require("../controllers/user_db_apis");
 const passport = require("passport");
-const passportConfig = require("../configs/passport_config"); // do not remove this import
-const router = express.Router();
+const passportConfig = require("../configs/passport_config"); // Do not remove this import
 const rules = require("../middlewares/validation-rules");
-// const csrf = require("csurf");
-//----------------------------------------END OF
-//IMPORT--------------------------------------------//
 
-//------------------------------------------MIDDLEWARES--------------------------------------------//
-
-// const csrfProtection = csrf({ cookie: true });
-
+// Middlewares
 router.use(express.urlencoded({ extended: false }));
 router.use(express.json());
 
-//---------------------------------------END OF
-//MIDDLEWARES----------------------------------------//
-
-// to register new users
+// User Registration Route
 router.post("/signup", rules.signupform, (req, res) => {
   const validationErr = validationResult(req);
   if (!validationErr.isEmpty()) {
-    res.json({ message: "Invalid Data", err: validationErr.array() });
+    res.status(400).json({ message: "Invalid Data", errors: validationErr.array() });
   } else {
     user_apis.register(req, res);
   }
 });
 
-//-----------------------------------GOOGLE AUTHENTICATION
-//ROUTES--------------------------------//
+// Google Authentication Routes
 router.get(
   "/google",
   passport.authenticate("google", {
@@ -43,50 +33,46 @@ router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
   if (req.user) {
     res.redirect(process.env.HOME_PAGE);
   } else {
-    res.json({ success: false });
+    res.status(401).json({ success: false });
   }
 });
-//-----------------------------------END OF GOOGLE AUTHENTICATION
-//ROUTES-------------------------//
-//--------------------------------------- GITHUB AUTHENTICATION
-//ROUTES---------------------------//
 
+// GitHub Authentication Routes
 router.get("/github", passport.authenticate("github"));
 router.get("/github/redirect/", passport.authenticate("github"), (req, res) => {
   if (req.user) {
     res.redirect(process.env.HOME_PAGE);
   } else {
-    res.json({ success: false });
+    res.status(401).json({ success: false });
   }
 });
-//----------------------------------- END OF GITHUB AUTHENTICATION
-//ROUTES------------------------//
-// to verify emails of new users
+
+// Email Verification Route
 router.get("/verify", (req, res) => {
   user_apis.verify_mail(req, res);
 });
 
-// to get user corresponding to client session data
+// Get User Route
 router.get("/user", (req, res) => {
   if (!req.user) {
-    res.json({ success: false, username: null });
+    res.status(200).json({ success: false, username: null });
   } else {
-    res.json({
+    res.status(200).json({
       success: true,
       username: req.user.firstname,
       isactive: req.user.isactive,
     });
   }
 });
-//--------------------------------------EMAIL LOGIN AND LOGOUT
-//ROUTES---------------------------------//
+
+// Email Login Route
 router.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) {
       return next(err);
     }
     if (!user) {
-      return res.json({
+      return res.status(401).json({
         success: false,
         isactive: false,
         message: info.message,
@@ -107,11 +93,11 @@ router.post("/login", (req, res, next) => {
   })(req, res, next);
 });
 
+// Logout Route
 router.get("/logout", (req, res) => {
   req.logout();
   res.session = null;
   res.status(200).json({ logout: true });
 });
-//------------------------------------END OF EMAIL LOGIN AND LOGOUT
-//ROUTES----------------------------------------//
+
 module.exports = router;
