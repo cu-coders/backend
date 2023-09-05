@@ -7,11 +7,10 @@ const mailer = require("../controllers/mailer");
 const winston = require("winston");
 
 const logger = winston.createLogger({
-  level : "error", // Set the log level as needed
-  format : winston.format.json(),
-  transports : [
-    new winston.transports.File(
-        {filename : "reset_error.log"}), // Log reset errors to a file
+  level: "error", // Set the log level as needed
+  format: winston.format.json(),
+  transports: [
+    new winston.transports.File({ filename: "reset_error.log" }), // Log reset errors to a file
   ],
 });
 
@@ -25,31 +24,31 @@ async function generateToken(email) {
 exports.handleRequests = async (req, res) => {
   try {
     const email = sanitize(req.body.email);
-    const user = await User.findOne({email});
+    const user = await User.findOne({ email });
 
     if (user) {
       const token = await generateToken(email);
-      const expireAt =
-          new Date(Date.now() +
-                   24 * 60 * 60 * 1000); // Set the token expiration to 24 hours
-      await ResetLink.findOneAndUpdate({email},
-                                       {$set : {email, token, expireAt}},
-                                       {returnOriginal : false, upsert : true});
+      const expireAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // Set the token expiration to 24 hours
+      await ResetLink.findOneAndUpdate(
+        { email },
+        { $set: { email, token, expireAt } },
+        { returnOriginal: false, upsert: true },
+      );
       await mailer.sendReset(user.firstname, email, token, req.headers.host);
 
       return res.json({
-        success : true,
-        message : "Please visit your email inbox for the reset link.",
+        success: true,
+        message: "Please visit your email inbox for the reset link.",
       });
     } else {
-      return res.json({success : false, message : "User is not registered."});
+      return res.json({ success: false, message: "User is not registered." });
     }
   } catch (error) {
     // Use the logger to log the error
     logger.error("Error while handling reset request:", error);
     return res.status(500).json({
-      success : false,
-      message : "An error occurred while processing your request.",
+      success: false,
+      message: "An error occurred while processing your request.",
     });
   }
 };
@@ -57,19 +56,19 @@ exports.handleRequests = async (req, res) => {
 exports.verifyResetToken = async (req, res) => {
   try {
     const token = sanitize(req.query.token);
-    const resetLink = await ResetLink.findOne({token});
+    const resetLink = await ResetLink.findOne({ token });
 
     if (resetLink) {
-      return res.render("reset-pass", {token});
+      return res.render("reset-pass", { token });
     } else {
-      return res.render("error", {message : "Invalid request."});
+      return res.render("error", { message: "Invalid request." });
     }
   } catch (error) {
     // Use the logger to log the error
     logger.error("Error while verifying reset token:", error);
-    return res.render(
-        "error",
-        {message : "An error occurred while processing your request."});
+    return res.render("error", {
+      message: "An error occurred while processing your request.",
+    });
   }
 };
 
@@ -78,12 +77,12 @@ exports.updatePassword = async (req, res) => {
     const email = sanitize(req.body.email);
     const password = sanitize(req.body.password);
     const token = sanitize(req.body.token);
-    const resetLink = await ResetLink.findOneAndDelete({email, token});
+    const resetLink = await ResetLink.findOneAndDelete({ email, token });
 
     if (!resetLink) {
-      return res.render("error", {message : "Session link expired."});
+      return res.render("error", { message: "Session link expired." });
     } else {
-      const user = await User.findOne({email});
+      const user = await User.findOne({ email });
 
       if (user) {
         // Update the password and save the user
@@ -94,14 +93,14 @@ exports.updatePassword = async (req, res) => {
 
         return res.render("success");
       } else {
-        return res.render("error", {message : "Can't process the request."});
+        return res.render("error", { message: "Can't process the request." });
       }
     }
   } catch (error) {
     // Use the logger to log the error
     logger.error("Error while updating password:", error);
-    return res.render(
-        "error",
-        {message : "An error occurred while processing your request."});
+    return res.render("error", {
+      message: "An error occurred while processing your request.",
+    });
   }
 };

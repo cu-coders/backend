@@ -55,8 +55,8 @@ router.get("/resources", async (req, res) => {
 // Helper function to handle errors
 function handleError(res, err) {
   res.status(500).json({
-    success : false,
-    message : "It's not you. It's on us. We're working on it",
+    success: false,
+    message: "It's not you. It's on us. We're working on it",
   });
 }
 

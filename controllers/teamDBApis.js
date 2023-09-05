@@ -4,11 +4,10 @@ const Team = require("../models/team");
 const winston = require("winston");
 
 const logger = winston.createLogger({
-  level : "error", // Set the log level as needed
-  format : winston.format.json(),
-  transports : [
-    new winston.transports.File(
-        {filename : "team_error.log"}), // Log team-related errors to a file
+  level: "error", // Set the log level as needed
+  format: winston.format.json(),
+  transports: [
+    new winston.transports.File({ filename: "team_error.log" }), // Log team-related errors to a file
   ],
 });
 
@@ -25,14 +24,14 @@ exports.addTeam = async (req, res) => {
     // Validate the input data (e.g., check if required fields are provided)
     if (!secure_url || !public_id || !fullname || !role) {
       return res.status(400).json({
-        success : false,
-        message : "Incomplete or invalid data provided.",
+        success: false,
+        message: "Incomplete or invalid data provided.",
       });
     }
 
     const newTeamMember = new Team({
-      profileImage : secure_url,
-      publicId : public_id,
+      profileImage: secure_url,
+      publicId: public_id,
       fullname,
       role,
       linkedin,
@@ -43,15 +42,15 @@ exports.addTeam = async (req, res) => {
     await newTeamMember.save();
 
     return res.status(201).json({
-      success : true,
-      message : "New team member added successfully.",
+      success: true,
+      message: "New team member added successfully.",
     });
   } catch (error) {
     // Use the logger to log the error
     logger.error("Error while adding team member:", error);
     return res.status(500).json({
-      success : false,
-      message : "An error occurred while processing the team member addition.",
+      success: false,
+      message: "An error occurred while processing the team member addition.",
     });
   }
 };
@@ -59,13 +58,13 @@ exports.addTeam = async (req, res) => {
 exports.getTeam = async (req, res) => {
   try {
     const teamData = await Team.find();
-    return res.status(200).json({success : true, data : teamData});
+    return res.status(200).json({ success: true, data: teamData });
   } catch (error) {
     // Use the logger to log the error
     logger.error("Error while fetching team data:", error);
     return res.status(500).json({
-      success : false,
-      message : "An error occurred while fetching team data.",
+      success: false,
+      message: "An error occurred while fetching team data.",
     });
   }
 };

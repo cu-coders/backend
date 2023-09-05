@@ -1,38 +1,41 @@
 "use strict";
 const express = require("express");
 const router = express.Router();
-const {validationResult} = require("express-validator");
+const { validationResult } = require("express-validator");
 const user_apis = require("../controllers/user_db_apis");
 const passport = require("passport");
-const passportConfig =
-    require("../configs/passport_config"); // Do not remove this import
+const passportConfig = require("../configs/passport_config"); // Do not remove this import
 const rules = require("../middlewares/validation-rules");
 
 // Middlewares
-router.use(express.urlencoded({extended : false}));
+router.use(express.urlencoded({ extended: false }));
 router.use(express.json());
 
 // User Registration Route
 router.post("/signup", rules.signupform, (req, res) => {
   const validationErr = validationResult(req);
   if (!validationErr.isEmpty()) {
-    res.status(400).json(
-        {message : "Invalid Data", errors : validationErr.array()});
+    res
+      .status(400)
+      .json({ message: "Invalid Data", errors: validationErr.array() });
   } else {
     user_apis.register(req, res);
   }
 });
 
 // Google Authentication Routes
-router.get("/google", passport.authenticate("google", {
-  scope : [ "profile", "email" ],
-}));
+router.get(
+  "/google",
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+  }),
+);
 
 router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
   if (req.user) {
     res.redirect(process.env.HOME_PAGE);
   } else {
-    res.status(401).json({success : false});
+    res.status(401).json({ success: false });
   }
 });
 
@@ -42,22 +45,24 @@ router.get("/github/redirect/", passport.authenticate("github"), (req, res) => {
   if (req.user) {
     res.redirect(process.env.HOME_PAGE);
   } else {
-    res.status(401).json({success : false});
+    res.status(401).json({ success: false });
   }
 });
 
 // Email Verification Route
-router.get("/verify", (req, res) => { user_apis.verify_mail(req, res); });
+router.get("/verify", (req, res) => {
+  user_apis.verify_mail(req, res);
+});
 
 // Get User Route
 router.get("/user", (req, res) => {
   if (!req.user) {
-    res.status(200).json({success : false, username : null});
+    res.status(200).json({ success: false, username: null });
   } else {
     res.status(200).json({
-      success : true,
-      username : req.user.firstname,
-      isactive : req.user.isactive,
+      success: true,
+      username: req.user.firstname,
+      isactive: req.user.isactive,
     });
   }
 });
@@ -70,20 +75,20 @@ router.post("/login", (req, res, next) => {
     }
     if (!user) {
       return res.status(401).json({
-        success : false,
-        isactive : false,
-        message : info.message,
-        username : null,
+        success: false,
+        isactive: false,
+        message: info.message,
+        username: null,
       });
     }
     req.login(user, (error) => {
       if (error) {
-        res.status(406).json({success : false});
+        res.status(406).json({ success: false });
       } else {
         res.status(200).json({
-          success : true,
-          username : user.firstname,
-          isactive : user.isactive,
+          success: true,
+          username: user.firstname,
+          isactive: user.isactive,
         });
       }
     });
@@ -94,7 +99,7 @@ router.post("/login", (req, res, next) => {
 router.get("/logout", (req, res) => {
   req.logout();
   res.session = null;
-  res.status(200).json({logout : true});
+  res.status(200).json({ logout: true });
 });
 
 module.exports = router;

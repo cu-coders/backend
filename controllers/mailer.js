@@ -11,21 +11,20 @@ const winston = require("winston");
 
 const transporter = nodemailer.createTransport({
   // Use the appropriate email service settings here
-  host : "smtppro.zoho.in",
-  secure : true,
-  port : 465,
-  auth : {
-    user : process.env.EMAIL_SENDER,
-    pass : process.env.EMAIL_PASSWORD,
+  host: "smtppro.zoho.in",
+  secure: true,
+  port: 465,
+  auth: {
+    user: process.env.EMAIL_SENDER,
+    pass: process.env.EMAIL_PASSWORD,
   },
 });
 
 const logger = winston.createLogger({
-  level : "error", // Set the log level as needed
-  format : winston.format.json(),
-  transports : [
-    new winston.transports.File(
-        {filename : "email_error.log"}), // Log email errors to a file
+  level: "error", // Set the log level as needed
+  format: winston.format.json(),
+  transports: [
+    new winston.transports.File({ filename: "email_error.log" }), // Log email errors to a file
   ],
 });
 
