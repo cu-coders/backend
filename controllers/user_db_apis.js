@@ -5,10 +5,12 @@ const bcrypt = require("bcrypt");
 const winston = require("winston");
 
 const logger = winston.createLogger({
-  level: "error", // Set the log level as needed
-  format: winston.format.json(),
-  transports: [
-    new winston.transports.File({ filename: "registration_error.log" }), // Log registration-related errors to a file
+  level : "error", // Set the log level as needed
+  format : winston.format.json(),
+  transports : [
+    new winston.transports.File({
+      filename : "registration_error.log"
+    }), // Log registration-related errors to a file
   ],
 });
 
@@ -22,17 +24,17 @@ exports.register = async (req, res) => {
     // Validate the input data (e.g., check if required fields are provided)
     if (!email || !firstname || !lastname || !password) {
       return res.status(400).json({
-        success: false,
-        message: "Incomplete or invalid data provided.",
+        success : false,
+        message : "Incomplete or invalid data provided.",
       });
     }
 
     // Check if the email is already registered
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({email});
     if (existingUser) {
       return res.status(400).json({
-        success: false,
-        message: "An account with this email already exists.",
+        success : false,
+        message : "An account with this email already exists.",
       });
     }
 
@@ -46,11 +48,11 @@ exports.register = async (req, res) => {
       firstname,
       lastname,
       email,
-      password: hashedPassword,
-      mailtoken: null,
-      isactive: false,
-      auth_type: "email",
-      third_partyID: null,
+      password : hashedPassword,
+      mailtoken : null,
+      isactive : false,
+      auth_type : "email",
+      third_partyID : null,
     });
 
     // Send the verification email to the user's email address
@@ -58,33 +60,45 @@ exports.register = async (req, res) => {
 
     if (isEmailSent) {
       await user.save();
-      return res.status(200).json({ success: true, message: "Registered, please check your email for verification." });
+      return res.status(200).json({
+        success : true,
+        message : "Registered, please check your email for verification."
+      });
     } else {
-      return res.status(500).json({ success: false, message: "Failed to send the verification email." });
+      return res.status(500).json({
+        success : false,
+        message : "Failed to send the verification email."
+      });
     }
   } catch (error) {
     // Use the logger to log the error
     logger.error("Error during user registration:", error);
-    return res.status(500).json({ success: false, message: "Something went wrong." });
+    return res.status(500).json(
+        {success : false, message : "Something went wrong."});
   }
 };
 
 exports.verifyEmail = async (req, res) => {
   try {
     const mailtoken = sanitize(req.query.token);
-    const user = await User.findOne({ mailtoken });
+    const user = await User.findOne({mailtoken});
 
     if (user && mailtoken) {
       user.mailtoken = null;
       user.isactive = true;
       await user.save();
-      return res.status(200).json({ success: true, message: "Email verified successfully." });
+      return res.status(200).json(
+          {success : true, message : "Email verified successfully."});
     } else {
-      return res.status(400).json({ success: false, message: "Invalid or expired verification token." });
+      return res.status(400).json({
+        success : false,
+        message : "Invalid or expired verification token."
+      });
     }
   } catch (error) {
     // Use the logger to log the error
     logger.error("Error during email verification:", error);
-    return res.status(500).json({ success: false, message: "Something went wrong." });
+    return res.status(500).json(
+        {success : false, message : "Something went wrong."});
   }
 };

@@ -5,10 +5,11 @@ const mailer = require("./mailer");
 const winston = require("winston");
 
 const logger = winston.createLogger({
-  level: "error", // Set the log level as needed
-  format: winston.format.json(),
-  transports: [
-    new winston.transports.File({ filename: "error.log" }), // Log errors to a file
+  level : "error", // Set the log level as needed
+  format : winston.format.json(),
+  transports : [
+    new winston.transports.File(
+        {filename : "error.log"}), // Log errors to a file
   ],
 });
 
@@ -22,8 +23,8 @@ exports.insertMessage = async (req, res) => {
     // Validate the input data (e.g., check if required fields are provided)
     if (!email || !fullname || !subject || !messageContent) {
       return res.status(400).json({
-        success: false,
-        message: "Incomplete or invalid data provided.",
+        success : false,
+        message : "Incomplete or invalid data provided.",
       });
     }
 
@@ -31,23 +32,25 @@ exports.insertMessage = async (req, res) => {
       email,
       fullname,
       subject,
-      message: messageContent,
+      message : messageContent,
     });
 
     await mailer.sendAck(message.email, message.subject, message.fullname);
     await message.save();
 
     return res.status(201).json({
-      success: true,
-      message: "Your message has been sent successfully. We will contact you soon!",
+      success : true,
+      message :
+          "Your message has been sent successfully. We will contact you soon!",
     });
   } catch (error) {
     // Use the logger to log the error
     logger.error("Error while inserting message:", error);
 
     return res.status(500).json({
-      success: false,
-      message: "An error occurred while processing your request. Please try again later.",
+      success : false,
+      message :
+          "An error occurred while processing your request. Please try again later.",
     });
   }
 };

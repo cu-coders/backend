@@ -6,10 +6,11 @@ const mailer = require("./mailer");
 const winston = require("winston");
 
 const logger = winston.createLogger({
-  level: "error", // Set the log level as needed
-  format: winston.format.json(),
-  transports: [
-    new winston.transports.File({ filename: "error.log" }), // Log errors to a file
+  level : "error", // Set the log level as needed
+  format : winston.format.json(),
+  transports : [
+    new winston.transports.File(
+        {filename : "error.log"}), // Log errors to a file
   ],
 });
 
@@ -17,17 +18,17 @@ exports.addResources = async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({
-        success: false,
-        message: "No file provided for upload.",
+        success : false,
+        message : "No file provided for upload.",
       });
     }
 
     const uploadResult = await cloudinary.v2.uploader.upload(req.file.path, {
-      folder: `addResources/${req.body.domain}`,
-      use_filename: true,
-      resource_type: "auto",
+      folder : `addResources/${req.body.domain}`,
+      use_filename : true,
+      resource_type : "auto",
     });
-    const { secure_url, public_id } = uploadResult;
+    const {secure_url, public_id} = uploadResult;
     const name = sanitize(req.body.name);
     const email = sanitize(req.body.email);
     const description = sanitize(req.body.description);
@@ -36,8 +37,8 @@ exports.addResources = async (req, res) => {
     // Validate the input data (e.g., check if required fields are provided)
     if (!name || !email || !description || !number) {
       return res.status(400).json({
-        success: false,
-        message: "Incomplete or invalid data provided.",
+        success : false,
+        message : "Incomplete or invalid data provided.",
       });
     }
 
@@ -46,16 +47,16 @@ exports.addResources = async (req, res) => {
       email,
       description,
       number,
-      resource: secure_url,
-      resourceId: public_id,
+      resource : secure_url,
+      resourceId : public_id,
     });
 
     await mailer.resourceAck(email, name);
     await newResource.save();
 
     return res.status(201).json({
-      success: true,
-      message: "Resource submitted successfully!",
+      success : true,
+      message : "Resource submitted successfully!",
     });
   } catch (error) {
     // Use the logger to log the error
@@ -67,8 +68,8 @@ exports.addResources = async (req, res) => {
     }
 
     return res.status(500).json({
-      success: false,
-      message: "An error occurred while processing your request.",
+      success : false,
+      message : "An error occurred while processing your request.",
     });
   }
 };

@@ -4,10 +4,11 @@ const Event = require("../models/events");
 const winston = require("winston");
 
 const logger = winston.createLogger({
-  level: "error", // Set the log level as needed
-  format: winston.format.json(),
-  transports: [
-    new winston.transports.File({ filename: "error.log" }), // Log errors to a file
+  level : "error", // Set the log level as needed
+  format : winston.format.json(),
+  transports : [
+    new winston.transports.File(
+        {filename : "error.log"}), // Log errors to a file
   ],
 });
 
@@ -27,16 +28,16 @@ exports.insert_event = async (req, imageURL, public_id) => {
     }
 
     const event = new Event({
-      imageSrc: imageURL,
-      imageId: public_id,
+      imageSrc : imageURL,
+      imageId : public_id,
       author,
       category,
       title,
       subtitle,
       description,
       url,
-      date_start: new Date(tempData.date_start).getTime(),
-      date_end: new Date(tempData.date_end).getTime(),
+      date_start : new Date(tempData.date_start).getTime(),
+      date_end : new Date(tempData.date_end).getTime(),
     });
 
     await event.save();
@@ -50,9 +51,9 @@ exports.insert_event = async (req, imageURL, public_id) => {
 exports.read_ongoing_events = async () => {
   try {
     const data = await Event.find({
-      $and: [
-        { date_start: { $lte: Date.now() } },
-        { date_end: { $gte: Date.now() } },
+      $and : [
+        {date_start : {$lte : Date.now()}},
+        {date_end : {$gte : Date.now()}},
       ],
     });
     return data;
@@ -65,7 +66,7 @@ exports.read_ongoing_events = async () => {
 
 exports.read_upcoming_events = async () => {
   try {
-    const data = await Event.find({ date_start: { $gt: Date.now() } });
+    const data = await Event.find({date_start : {$gt : Date.now()}});
     return data;
   } catch (error) {
     // Use the logger to log the error
@@ -76,7 +77,7 @@ exports.read_upcoming_events = async () => {
 
 exports.read_past_events = async () => {
   try {
-    const data = await Event.find({ date_end: { $lt: Date.now() } });
+    const data = await Event.find({date_end : {$lt : Date.now()}});
     return data;
   } catch (error) {
     // Use the logger to log the error

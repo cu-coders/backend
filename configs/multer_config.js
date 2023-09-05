@@ -30,16 +30,16 @@ const docFilter = (req, file, callback) => {
 
 exports.uploadImage = multer({
   storage,
-  fileFilter: imageFilter,
-  limits: {
-    fileSize: 1024 * 1024 * 5, // Max size 5 MB
+  fileFilter : imageFilter,
+  limits : {
+    fileSize : 1024 * 1024 * 5, // Max size 5 MB
   },
 });
 
 exports.uploadDoc = multer({
   storage,
-  fileFilter: docFilter,
-  limits: {
-    fileSize: 1024 * 1024 * 20, // Max size 20 MB
+  fileFilter : docFilter,
+  limits : {
+    fileSize : 1024 * 1024 * 20, // Max size 20 MB
   },
 });
