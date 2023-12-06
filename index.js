@@ -28,13 +28,16 @@ const passport = require("passport");
 // const csrfProtection = csrf({ cookie: true });
 const app = express();
 const PORT = process.env.PORT || 3001;
-// Demo database: Connect to a actual database before deployment
+mongoose.set('strictQuery', false); // Add this line to address the deprecation warning
+
 mongoose
   .connect(process.env.DATABASE_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    dbName: "myFirstDatabase"
   })
   .then(() => {
+    console.log('Connected to MongoDB');
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
     });
@@ -45,6 +48,7 @@ const whitelist = [
   "https://cuchapter.tech",
   "https://main.cuchapter.tech",
   "http://localhost:3000",
+  "http://localhost:3001",
   "https://home.cuchapter.tech",
 ];
 const corsOptions = {
@@ -67,7 +71,7 @@ app.use(
 );
 
 Sentry.init({
-  dsn: "https://2c70291e84f247b197eda70578fe9f96@o1258362.ingest.sentry.io/4504220930605056",
+  dsn: process.env.SENTRY_DSN,
 
   // Set tracesSampleRate to 1.0 to capture 100%
   // of transactions for performance monitoring.
