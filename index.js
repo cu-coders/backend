@@ -30,7 +30,6 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 mongoose.set('strictQuery', false); // Add this line to address the deprecation warning
 
-console.log(process.env.DATABASE_URL)
 mongoose
   .connect(process.env.DATABASE_URL, {
     useNewUrlParser: true,
