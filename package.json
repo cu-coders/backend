@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "env-cmd": "^10.1.0",
-    "jest": "^27.5.1",
+    "jest": "^30.4.2",
     "supertest": "^6.2.2"
   }
 }
